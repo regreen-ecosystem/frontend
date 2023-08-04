@@ -1,0 +1,10 @@
+#register {
+  font-family: Roboto,Helvetica,Arial,sans-serif;
+}
+label{
+  font-size: 20px;
+  font-weight: 400px;
+}
+label input,label p,label a{
+  font-size: 16px;
+}

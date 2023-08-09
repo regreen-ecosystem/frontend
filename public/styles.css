@@ -1,0 +1,219 @@
+*{
+    scroll-behavior: smooth;
+}
+body{
+    margin: 0;
+}
+
+/* Header CSS */
+.header{
+    display: flex;
+    align-items: center;
+    height: 16vh;
+    padding: 35px 2vw 0 1.5vw;
+    top: 0;
+    margin: 0 0 2% 0;
+    box-shadow:0px 6px 0px 0px rgb(212, 212, 214);
+    
+}
+
+.header .logo{
+    height: 16vh;
+    padding-right: 5vw;
+}
+
+.header-links{
+    position: relative;
+    font-size: 2rem;
+    width: 45vw;
+    display: flex;
+    justify-content: space-between;
+    left: 10vw;
+}
+.links{
+    color: darkolivegreen;
+}
+
+footer{
+    position: relative;
+    text-align: center;
+    background-color: rgb(190, 202, 150);
+    width: 100%;
+    height: 50px;
+    z-index: 10;
+}
+
+footer p{
+    display: inline-block;
+    color: black;
+    position: relative;
+}
+
+.options{
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    left: 12vw;
+    width: 20vw;
+}
+
+.person{
+    position: relative;
+    height: 10vh;
+    padding: 6px;
+    border-radius: 50%;
+}
+
+.fa.fa-gear,.fa.fa-bell{
+    font-size: 30px;
+    padding: 7px;
+}
+
+/* Home CSS */
+
+.search, .notifs{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 1% 2.1%;
+}
+
+.img-container{
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.btn{
+    background-color: #008200;
+    height: 5vh;
+    border-radius: 10px;
+    color: whitesmoke;
+    cursor: pointer;
+}
+
+input{
+    width: 95%;
+    margin: 1% 2%;
+    height: 3vw;
+    border-radius: 10px;
+}
+
+input::placeholder{
+    padding-left: 1%;
+    font-size: medium;
+}
+
+input i{
+        position: absolute;
+        right: 10%;
+}
+
+.notifs{
+    width:95%;
+}
+
+.notifs > div{
+    height: 15vh;
+    width: 32%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-size: 2rem;
+}
+
+.data{
+    width: 95%;
+    height: 50vh;
+    margin: 1.5% 2.1%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* For mobile devices changing links to dropdown menu*/
+  
+  .dropbtn,.dropdown-content {
+    display: none;
+  }
+
+ @media screen and (max-width: 780px) {
+    .header-links{
+        display: none;
+    }
+    .header{
+        justify-content: space-around;
+    }
+    .options{
+        left: 0;
+        width: 30%;
+    }
+    .dropdown {
+        position: absolute;
+        top: 21%;
+        right: 0;
+        display: block;
+        background-color: #bff7a7;
+        width: 30%;
+        text-align: center;
+        transition: all 0.5s ease-out;
+        border: 1px solid rgb(113, 218, 87);
+      }
+    .dropbtn {
+        display: block;
+        position: relative;
+        cursor: pointer;
+        background-color: #04AA6D;
+        color: white;
+        padding: 16px;
+        font-size: 16px;
+      }
+      .links{
+        display: block;
+        color: black;
+        padding: 8px 0;
+        width: 100%;
+        transition: all 0.5s ease;
+        margin: 0;
+        z-index: 2;
+      }
+      .notifs > div{
+        height: 10vh;
+        width: 32%;
+        font-size: 1rem;
+    }
+  }
+
+  @media screen and (max-width: 520px) {
+  .fa.fa-gear,.fa.fa-bell{
+    font-size: 1rem;
+    padding: 3px;
+    }
+    .img-container{
+    font-size: .6rem;
+    }
+    .person{
+        padding: 2px;
+    }
+    .dropbtn{
+        padding: 8px;
+    }
+    .header{
+        justify-content: space-between;
+    }
+    .search h2{
+        font-size: 1rem;
+    }
+    input::placeholder{
+        font-size: .7rem;
+        padding: 0 0 0 2%;
+    }
+  }
+  
+  @media screen and (max-width: 350px) {
+    .options{
+        right: 10%;
+    }
+  }

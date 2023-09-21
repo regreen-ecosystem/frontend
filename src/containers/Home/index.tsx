@@ -9,20 +9,20 @@ const Home: React.FC = () => {
   const columnDefs: Array<ColumnDetails> = [
     {
       label: 'Company Name',
-      type: ColumnType.TEXT,
+      type: ColumnType.NAME,
       minWidth: 80,
       field: 'companyName',
       searchable: true,
     },
     {
       label: 'Address',
-      type: ColumnType.TEXT,
+      type: ColumnType.DETAILS,
       minWidth: 80,
       field: 'address',
     },
     {
       label: 'Category',
-      type: ColumnType.TEXT,
+      type: ColumnType.DETAILS,
       minWidth: 80,
       field: 'category',
     },
@@ -52,7 +52,7 @@ const Home: React.FC = () => {
     },
     {
       label: 'Attachments',
-      type: ColumnType.ACCORDIAN,
+      type: ColumnType.BUTTON,
       minWidth: 80,
       field: 'attachments',
     },
@@ -67,9 +67,13 @@ const Home: React.FC = () => {
     lastUpdated: 'Test',
     credits: 'Test',
     attachments: 'Test',
+    email: 'TestMail',
+    address1: 'TestBelow',
+    companyName1: 'Test88',
+    category1: 'Type-1',
   };
 
-  const data: any[] = [
+  const data: (typeof rowData)[] = [
     rowData,
     {
       companyName: 'Test1',
@@ -80,6 +84,10 @@ const Home: React.FC = () => {
       lastUpdated: 'Test2',
       credits: 'Test',
       attachments: 'Test',
+      email: 'TestMail',
+      address1: 'TestBelow',
+      companyName1: 'Test',
+      category1: 'Type-1',
     },
     rowData,
     rowData,
@@ -120,6 +128,7 @@ const Home: React.FC = () => {
         filter={true}
         columns={columnDefs}
         data={data}
+        select={true}
       />
     </>
   );

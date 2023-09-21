@@ -21,7 +21,7 @@ export default interface CustomTableProps {
 
 export enum ColumnType {
   TEXT = 'TEXT',
-  HEADER = 'HEADER',
+  DETAILS = 'DETAILS',
   NAME = 'NAME',
   ACCORDIAN = 'ACCORDIAN',
   BUTTON = 'BUTTON',

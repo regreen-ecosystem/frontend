@@ -2,11 +2,18 @@ import React from 'react';
 import { createBrowserRouter } from 'react-router-dom';
 import Login from '../containers/Login';
 import Home from '../containers/Home';
+import Root from '../containers/Root';
 
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <Home />,
+    element: <Root />,
+    children: [
+      {
+        path: '/pibo',
+        element: <Home />,
+      },
+    ],
   },
   {
     path: '/login',

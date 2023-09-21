@@ -2,6 +2,7 @@ import React, { useMemo } from 'react';
 import CustomTableProps from './types/CustomTableProps';
 import { makeStyles } from 'tss-react/mui';
 import {
+  Checkbox,
   Table,
   TableBody,
   TableCell,
@@ -13,7 +14,7 @@ import {
 } from '@mui/material';
 import SearchBar from './SearchBar';
 import FilterButton from './FilterButton';
-import { ReactComponent as User } from '../../assets/images/user.svg';
+import CustomCell from './CustomCell';
 
 const useStyles = makeStyles()((theme) => ({
   root: {
@@ -130,6 +131,12 @@ const CustomTable: React.FC<CustomTableProps> = ({
           <Table stickyHeader>
             <TableHead className={classes.tableHeader}>
               <TableRow>
+                {select ? (
+                  <TableCell
+                    padding='checkbox'
+                    style={{ backgroundColor: 'transparent' }}
+                  ></TableCell>
+                ) : null}
                 {columns?.map((column) => (
                   <th
                     key={column.label}
@@ -146,18 +153,19 @@ const CustomTable: React.FC<CustomTableProps> = ({
               {visibleData.map((row, index) => {
                 return (
                   <TableRow hover={select} key={index + row.companyName}>
-                    {columns?.map((column) => {
+                    {select ? (
+                      <TableCell padding='checkbox'>
+                        <Checkbox color='primary' />
+                      </TableCell>
+                    ) : null}
+
+                    {columns.map((column) => {
                       return (
-                        <TableCell key={column.field}>
-                          {column.field === 'companyName' ? (
-                            <>
-                              <User />
-                              {row[column.field]}
-                            </>
-                          ) : (
-                            row[column.field] + index
-                          )}
-                        </TableCell>
+                        <CustomCell
+                          row={row}
+                          column={column}
+                          key={column.field}
+                        />
                       );
                     })}
                   </TableRow>
@@ -167,7 +175,7 @@ const CustomTable: React.FC<CustomTableProps> = ({
           </Table>
         </TableContainer>
         <TablePagination
-          rowsPerPageOptions={[10, 20, 30]}
+          rowsPerPageOptions={[5, 10, 20, 30]}
           component='div'
           count={filterData.length}
           rowsPerPage={rowsPerPage}

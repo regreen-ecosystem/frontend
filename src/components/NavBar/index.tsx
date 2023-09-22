@@ -66,8 +66,8 @@ const useStyles = makeStyles()((theme) => ({
   },
 }));
 
-const pages = ['Dashbaord', 'PIBOs', 'PWPs', 'Pending', 'Matching'];
-const routes = ['/', '/pibo', '/pwp', '/pending', '/matching'];
+const pages = ['Dashbaord', 'PIBOs', 'PWPs', 'Pending', 'Matched'];
+const routes = ['/', '/pibo', '/pwp', '/pending', '/matched'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 const ResponsiveNavBar: React.FC = () => {

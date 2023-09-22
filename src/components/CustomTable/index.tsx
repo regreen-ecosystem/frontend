@@ -61,6 +61,12 @@ const useStyles = makeStyles()((theme) => ({
   tableContainer: {
     // borderBottom: '1px solid rgba(224, 224, 224, 1)',
   },
+  checkboxContainer: {
+    'color': theme.palette.primary.dark,
+    '&.Mui-checked': {
+      color: theme.palette.primary.dark,
+    },
+  },
 }));
 
 const CustomTable: React.FC<CustomTableProps> = ({
@@ -74,7 +80,7 @@ const CustomTable: React.FC<CustomTableProps> = ({
 }) => {
   const { classes } = useStyles();
   const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const [searchValue, setSearchValue] = React.useState('');
 
   const searchableColumns = columns?.filter((column) => column.searchable);
@@ -155,7 +161,7 @@ const CustomTable: React.FC<CustomTableProps> = ({
                   <TableRow hover={select} key={index + row.companyName}>
                     {select ? (
                       <TableCell padding='checkbox'>
-                        <Checkbox color='primary' />
+                        <Checkbox className={classes.checkboxContainer} />
                       </TableCell>
                     ) : null}
 

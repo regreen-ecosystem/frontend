@@ -24,12 +24,12 @@ const useStyles = makeStyles()((theme) => ({
     color: theme.palette.text.disabled,
   },
   buttonView: {
-    borderColor: theme.palette.primary.dark,
     color: theme.palette.text.primary,
-    border: '1.5px solid',
+    border: '1.5px solid ' + theme.palette.primary.dark,
     fontWeight: 'normal',
-    borderRadius: '16px',
+    borderRadius: '12px',
     minWidth: '100px',
+    padding: '0.2rem 0.5rem',
   },
 }));
 

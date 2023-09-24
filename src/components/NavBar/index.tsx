@@ -11,14 +11,15 @@ import React from 'react';
 import { ReactComponent as Logo } from '../../assets/images/regreen-ecosystem-logo.svg';
 import { makeStyles } from 'tss-react/mui';
 import { NavLink } from 'react-router-dom';
-import { ReactComponent as User } from '../../assets/images/user.svg';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
 
 const useStyles = makeStyles()((theme) => ({
   root: {
-    backgroundColor: 'white',
+    backgroundColor: 'transparent',
     maxHeight: '12vh',
     boxShadow: 'none',
+    zIndex: 4,
   },
   logo: {
     maxHeight: '12vh',
@@ -48,21 +49,21 @@ const useStyles = makeStyles()((theme) => ({
     borderRadius: '10px',
     padding: '0.7rem',
     gap: '0.3rem',
+    color: theme.palette.common.white,
   },
   buttonText: {
     display: 'flex',
     flexDirection: 'column',
+    alignItems: 'flex-start',
   },
   buttonHeading: {
     fontSize: '0.8rem',
-    color: theme.palette.text.primary,
   },
   buttonTitle: {
     fontSize: '0.6rem',
-    color: theme.palette.text.secondary,
   },
   down: {
-    fill: theme.palette.text.primary,
+    fill: theme.palette.common.white,
   },
 }));
 
@@ -106,7 +107,7 @@ const ResponsiveNavBar: React.FC = () => {
             <Tooltip title='Settings'>
               <Button>
                 <div className={classes.buttonContainer}>
-                  <User />
+                  <AccountCircleOutlinedIcon />
                   <div className={classes.buttonText}>
                     <Typography className={classes.buttonHeading}>
                       {'Alexander'}

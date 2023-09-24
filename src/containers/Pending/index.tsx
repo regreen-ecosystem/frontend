@@ -4,6 +4,7 @@ import {
   ColumnDetails,
   ColumnType,
 } from '../../components/CustomTable/types/CustomTableProps';
+import { Typography } from '@mui/material';
 
 const columnDefs: Array<ColumnDetails> = [
   {
@@ -94,8 +95,11 @@ const data: (typeof rowData)[] = [
 const Pending: React.FC = () => {
   return (
     <>
+      <Typography variant='h6' style={{ marginLeft: '6%', fontWeight: 400 }}>
+        {'Pending'}
+      </Typography>
       <CustomTable
-        title='Test'
+        title='Pending'
         search={true}
         filter={true}
         columns={columnDefs}

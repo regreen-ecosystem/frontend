@@ -67,6 +67,10 @@ const useStyles = makeStyles()((theme) => ({
       color: theme.palette.primary.dark,
     },
   },
+  title: {
+    fontWeight: 400,
+    color: theme.palette.text.disabled,
+  },
 }));
 
 const CustomTable: React.FC<CustomTableProps> = ({
@@ -84,6 +88,7 @@ const CustomTable: React.FC<CustomTableProps> = ({
   const [searchValue, setSearchValue] = React.useState('');
 
   const searchableColumns = columns?.filter((column) => column.searchable);
+  const filterableColumns = columns?.filter((column) => column.filterable);
 
   const handleChangePage = (event: unknown, newPage: number) => {
     setPage(newPage);
@@ -115,7 +120,7 @@ const CustomTable: React.FC<CustomTableProps> = ({
   return (
     <div className={classes.root}>
       <div className={classes.header}>
-        <Typography variant='h6' style={{ fontWeight: 400 }}>
+        <Typography variant='h6' className={classes.title}>
           {data.length + ' ' + title}
         </Typography>
         <div className={classes.headerActions}>

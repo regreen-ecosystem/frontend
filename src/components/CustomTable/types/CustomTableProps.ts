@@ -7,6 +7,7 @@ export interface ColumnDetails {
   searchable?: boolean;
   sortable?: boolean;
   field: string;
+  filterable?: boolean;
 }
 
 export default interface CustomTableProps {

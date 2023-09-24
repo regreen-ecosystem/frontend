@@ -4,6 +4,7 @@ import {
   ColumnDetails,
   ColumnType,
 } from '../../components/CustomTable/types/CustomTableProps';
+import { Typography } from '@mui/material';
 
 const columnDefs: Array<ColumnDetails> = [
   {
@@ -102,8 +103,11 @@ const data: (typeof rowData)[] = [
 const Matched: React.FC = () => {
   return (
     <>
+      <Typography variant='h6' style={{ marginLeft: '6%', fontWeight: 400 }}>
+        {'Matched'}
+      </Typography>
       <CustomTable
-        title='Test'
+        title='Matched'
         search={true}
         filter={true}
         columns={columnDefs}

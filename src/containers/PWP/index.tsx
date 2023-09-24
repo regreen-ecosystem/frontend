@@ -4,6 +4,7 @@ import {
   ColumnDetails,
   ColumnType,
 } from '../../components/CustomTable/types/CustomTableProps';
+import { Typography } from '@mui/material';
 
 const PWP: React.FC = () => {
   const columnDefs: Array<ColumnDetails> = [
@@ -122,8 +123,11 @@ const PWP: React.FC = () => {
 
   return (
     <>
+      <Typography variant='h6' style={{ marginLeft: '6%', fontWeight: 400 }}>
+        {'Plastic Waste Processors'}
+      </Typography>
       <CustomTable
-        title='Test'
+        title='PWPs'
         search={true}
         filter={true}
         columns={columnDefs}

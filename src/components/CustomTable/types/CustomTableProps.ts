@@ -8,6 +8,7 @@ export interface ColumnDetails {
   sortable?: boolean;
   field: string;
   filterable?: boolean;
+  defaultSort?: boolean;
 }
 
 export default interface CustomTableProps {
@@ -24,6 +25,10 @@ export enum ColumnType {
   TEXT = 'TEXT',
   DETAILS = 'DETAILS',
   NAME = 'NAME',
-  ACCORDIAN = 'ACCORDIAN',
   BUTTON = 'BUTTON',
+  DATE = 'DATE',
+  NUMBER = 'NUMBER',
+  ACCORDIAN = 'ACCORDIAN',
+  // TODO: Custom Tile Remaining
+  STATUS = 'STATUS',
 }

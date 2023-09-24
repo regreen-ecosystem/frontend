@@ -9,7 +9,7 @@ let theme = createTheme({
       light: '#F5F6FC',
     },
     text: {
-      primary: '#111111',
+      primary: '#252525',
       secondary: '#494949',
       disabled: '#666666',
     },
@@ -19,6 +19,6 @@ let theme = createTheme({
   },
 });
 
-theme = responsiveFontSizes(theme);
+theme = responsiveFontSizes(theme, { factor: 1.1 });
 
 export default theme;

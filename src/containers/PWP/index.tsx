@@ -123,7 +123,10 @@ const PWP: React.FC = () => {
 
   return (
     <>
-      <Typography variant='h6' style={{ marginLeft: '6%', fontWeight: 400 }}>
+      <Typography
+        variant='h5'
+        style={{ marginLeft: '6%', fontWeight: 400, marginTop: '4vh' }}
+      >
         {'Plastic Waste Processors'}
       </Typography>
       <CustomTable

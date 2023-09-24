@@ -10,6 +10,7 @@ import {
   TableHead,
   TablePagination,
   TableRow,
+  TableSortLabel,
   Typography,
 } from '@mui/material';
 import SearchBar from './SearchBar';
@@ -20,9 +21,11 @@ const useStyles = makeStyles()((theme) => ({
   root: {
     margin: '10px 4%',
     color: theme.palette.text.secondary,
-    backgroundColor: theme.palette.primary.main,
+    backgroundColor: theme.palette.common.white,
     padding: '1rem',
     borderRadius: '0.5rem',
+    boxShadow: '0px 20px 80px 0px rgba(35, 35, 35, 0.15)',
+    marginTop: '1rem',
   },
   header: {
     display: 'flex',
@@ -40,11 +43,12 @@ const useStyles = makeStyles()((theme) => ({
   body: {},
   tableHeader: {
     'color': theme.palette.text.primary,
-    'fontSize': '0.8rem',
+    'fontSize': '0.7rem',
     'textTransform': 'uppercase',
     '& th': {
-      fontWeight: 'normal',
-      borderBottom: `1px solid ${theme.palette.primary.light}`,
+      fontWeight: '500',
+      paddingBottom: '0.5rem',
+      borderBottom: `1px solid ${theme.palette.grey[500]}`,
     },
   },
   tablePagination: {},
@@ -68,10 +72,50 @@ const useStyles = makeStyles()((theme) => ({
     },
   },
   title: {
-    fontWeight: 400,
-    color: theme.palette.text.disabled,
+    fontWeight: 300,
+    color: theme.palette.grey[600],
+    fontSize: theme.typography.h6.fontSize,
   },
 }));
+
+function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
+  if (b[orderBy] < a[orderBy]) {
+    return -1;
+  }
+  if (b[orderBy] > a[orderBy]) {
+    return 1;
+  }
+  return 0;
+}
+
+type Order = 'asc' | 'desc';
+
+function getComparator<Key extends keyof any>(
+  order: Order,
+  orderBy: Key
+): (
+  a: { [key in Key]: number | string | Date },
+  b: { [key in Key]: number | string | Date }
+) => number {
+  return order === 'desc'
+    ? (a, b) => descendingComparator(a, b, orderBy)
+    : (a, b) => -descendingComparator(a, b, orderBy);
+}
+
+function stableSort<T>(
+  array: readonly T[],
+  comparator: (a: T, b: T) => number
+) {
+  const stabilizedThis = array.map((el, index) => [el, index] as [T, number]);
+  stabilizedThis.sort((a, b) => {
+    const order = comparator(a[0], b[0]);
+    if (order !== 0) {
+      return order;
+    }
+    return a[1] - b[1];
+  });
+  return stabilizedThis.map((el) => el[0]);
+}
 
 const CustomTable: React.FC<CustomTableProps> = ({
   columns,
@@ -84,11 +128,17 @@ const CustomTable: React.FC<CustomTableProps> = ({
 }) => {
   const { classes } = useStyles();
   const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(5);
+  const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const [searchValue, setSearchValue] = React.useState('');
 
-  const searchableColumns = columns?.filter((column) => column.searchable);
-  const filterableColumns = columns?.filter((column) => column.filterable);
+  const searchableColumns = columns.filter((column) => column.searchable);
+  const filterableColumns = columns.filter((column) => column.filterable);
+  const defaultSortIndex = columns.indexOf(
+    columns.find((column) => column.defaultSort) ?? columns[0]
+  );
+
+  const [order, setOrder] = React.useState<Order>('asc');
+  const [orderBy, setOrderBy] = React.useState<number>(defaultSortIndex);
 
   const handleChangePage = (event: unknown, newPage: number) => {
     setPage(newPage);
@@ -101,6 +151,12 @@ const CustomTable: React.FC<CustomTableProps> = ({
     setPage(0);
   };
 
+  const handleRequestSort = (property: number) => {
+    const isAsc = orderBy === property && order === 'asc';
+    setOrder(isAsc ? 'desc' : 'asc');
+    setOrderBy(property);
+  };
+
   const filterData = useMemo(() => {
     setPage(0);
     return data.filter((row) => {
@@ -111,16 +167,19 @@ const CustomTable: React.FC<CustomTableProps> = ({
   }, [searchValue]);
 
   const visibleData = useMemo(() => {
-    return filterData.slice(
-      page * rowsPerPage,
-      page * rowsPerPage + rowsPerPage
-    );
-  }, [filterData, page, rowsPerPage]);
+    return stableSort(
+      filterData,
+      getComparator(order, columns[orderBy].field)
+    ).slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
+  }, [filterData, page, rowsPerPage, order, orderBy]);
+
+  const emptyRows =
+    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - data.length) : 0;
 
   return (
     <div className={classes.root}>
       <div className={classes.header}>
-        <Typography variant='h6' className={classes.title}>
+        <Typography className={classes.title}>
           {data.length + ' ' + title}
         </Typography>
         <div className={classes.headerActions}>
@@ -148,22 +207,34 @@ const CustomTable: React.FC<CustomTableProps> = ({
                     style={{ backgroundColor: 'transparent' }}
                   ></TableCell>
                 ) : null}
-                {columns?.map((column) => (
-                  <th
+                {columns?.map((column, index) => (
+                  <TableCell
                     key={column.label}
                     style={{
                       minWidth: column.minWidth,
                     }}
                   >
-                    {column.label}
-                  </th>
+                    {column.sortable ? (
+                      <TableSortLabel
+                        active={orderBy === index}
+                        direction={orderBy === index ? order : 'asc'}
+                        onClick={() => {
+                          handleRequestSort(index);
+                        }}
+                      >
+                        {column.label}
+                      </TableSortLabel>
+                    ) : (
+                      column.label
+                    )}
+                  </TableCell>
                 ))}
               </TableRow>
             </TableHead>
             <TableBody className={classes.tableBody}>
               {visibleData.map((row, index) => {
                 return (
-                  <TableRow hover={select} key={index + row.companyName}>
+                  <TableRow hover={select} key={`${row}-${index.toString()}`}>
                     {select ? (
                       <TableCell padding='checkbox'>
                         <Checkbox className={classes.checkboxContainer} />
@@ -182,6 +253,12 @@ const CustomTable: React.FC<CustomTableProps> = ({
                   </TableRow>
                 );
               })}
+              {emptyRows > 0 ? (
+                // add emptyRows number of rows here
+                <TableRow style={{ height: 54 * emptyRows }}>
+                  <TableCell colSpan={6} />
+                </TableRow>
+              ) : null}
             </TableBody>
           </Table>
         </TableContainer>

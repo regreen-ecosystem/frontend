@@ -37,10 +37,11 @@ const useStyles = makeStyles()((theme) => ({
   activeNav: {
     textDecoration: 'underline !important',
     textDecorationColor: theme.palette.text.primary + '!important',
-    textDecorationThickness: '2px !important',
+    textDecorationThickness: '3px !important',
     textUnderlineOffset: '10px',
+    fontSize: theme.typography.h6.fontSize,
   },
-  pendingNav: {},
+  pendingNav: { fontSize: theme.typography.h6.fontSize },
   buttonContainer: {
     display: 'flex',
     flexDirection: 'row',
@@ -64,6 +65,9 @@ const useStyles = makeStyles()((theme) => ({
   },
   down: {
     fill: theme.palette.common.white,
+  },
+  nav: {
+    fontSize: theme.typography.h6.fontSize,
   },
 }));
 
@@ -96,7 +100,7 @@ const ResponsiveNavBar: React.FC = () => {
                     ? classes.activeNav
                     : isPending
                     ? classes.pendingNav
-                    : ''
+                    : classes.nav
                 }
               >
                 {page}

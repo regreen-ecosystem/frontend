@@ -28,7 +28,7 @@ const columnDefs: Array<ColumnDetails> = [
   },
   {
     label: 'Contact',
-    type: ColumnType.TEXT,
+    type: ColumnType.NUMBER,
     minWidth: 80,
     field: 'contact',
   },
@@ -40,19 +40,23 @@ const columnDefs: Array<ColumnDetails> = [
   },
   {
     label: 'Last Updated',
-    type: ColumnType.TEXT,
+    type: ColumnType.DATE,
     minWidth: 80,
     field: 'lastUpdated',
+    sortable: true,
+    defaultSort: true,
   },
   {
     label: 'Credits',
-    type: ColumnType.TEXT,
+    type: ColumnType.NUMBER,
     minWidth: 80,
     field: 'credits',
+    sortable: true,
+    defaultSort: false,
   },
   {
     label: 'Attachments',
-    type: ColumnType.BUTTON,
+    type: ColumnType.ACCORDIAN,
     minWidth: 80,
     field: 'attachments',
   },
@@ -62,10 +66,10 @@ const rowData = {
   companyName: 'Test',
   address: 'Test',
   category: 'Test',
-  contact: 'Test',
+  contact: 9911111111,
   uniqueID: 'Test',
-  lastUpdated: 'Test',
-  credits: 'Test',
+  lastUpdated: new Date('2022-03-25'),
+  credits: 280,
   attachments: 'Test',
   email: 'TestMail',
   address1: 'TestBelow',
@@ -79,10 +83,10 @@ const data: (typeof rowData)[] = [
     companyName: 'Test1',
     address: 'Test',
     category: 'Test',
-    contact: 'Test',
+    contact: 9330000001,
     uniqueID: 'Test',
-    lastUpdated: 'Test2',
-    credits: 'Test',
+    lastUpdated: new Date('2023-03-25'),
+    credits: 130,
     attachments: 'Test',
     email: 'TestMail',
     address1: 'TestBelow',
@@ -123,7 +127,10 @@ const data: (typeof rowData)[] = [
 const PIBO: React.FC = () => {
   return (
     <>
-      <Typography variant='h6' style={{ marginLeft: '6%', fontWeight: 400 }}>
+      <Typography
+        variant='h5'
+        style={{ marginLeft: '6%', fontWeight: 400, marginTop: '4vh' }}
+      >
         {'Producers & Brand Owners'}
       </Typography>
       <CustomTable

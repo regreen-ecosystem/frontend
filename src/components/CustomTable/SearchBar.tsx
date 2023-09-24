@@ -6,9 +6,10 @@ import { Search } from '@mui/icons-material';
 
 const useStyles = makeStyles()((theme) => ({
   root: {
+    'width': '250px',
     '& .MuiOutlinedInput-root': {
       '& fieldset': {
-        borderColor: theme.palette.primary.light,
+        borderColor: theme.palette.grey[500],
         borderWidth: '2px',
         borderRadius: '0.5rem',
       },
@@ -21,6 +22,9 @@ const useStyles = makeStyles()((theme) => ({
       '& .MuiOutlinedInput-input': {
         color: theme.palette.text.disabled,
       },
+    },
+    ' input': {
+      fontSize: theme.typography.body1.fontSize,
     },
   },
 }));
@@ -40,11 +44,12 @@ const SearchBar: React.FC<SearchBarProps> = ({ search, setSearch }) => {
       InputProps={{
         startAdornment: (
           <InputAdornment position='start'>
-            <Search />
+            <Search fontSize='small' />
           </InputAdornment>
         ),
       }}
       placeholder='Search'
+      margin='none'
     />
   );
 };

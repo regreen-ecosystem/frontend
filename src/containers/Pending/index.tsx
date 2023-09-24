@@ -95,7 +95,10 @@ const data: (typeof rowData)[] = [
 const Pending: React.FC = () => {
   return (
     <>
-      <Typography variant='h6' style={{ marginLeft: '6%', fontWeight: 400 }}>
+      <Typography
+        variant='h5'
+        style={{ marginLeft: '6%', fontWeight: 400, marginTop: '4vh' }}
+      >
         {'Pending'}
       </Typography>
       <CustomTable

@@ -7,12 +7,17 @@ import Pending from '../containers/Pending';
 import Matched from '../containers/Matched';
 import PIBO from '../containers/PIBO';
 import PWP from '../containers/PWP';
+import Dashboard from '../containers/Dashboard';
 
 const router = createBrowserRouter([
   {
     path: '/',
     element: <Root />,
     children: [
+      {
+        path: '/',
+        element: <Dashboard />,
+      },
       {
         path: '/pibo',
         element: <PIBO />,

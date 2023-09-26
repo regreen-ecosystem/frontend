@@ -8,7 +8,7 @@ const useStyles = makeStyles()((theme) => ({
     width: '100%',
     backgroundColor: theme.palette.secondary.main,
     display: 'flex',
-    minHeight: '40vh',
+    minHeight: '45vh',
     position: 'absolute',
     top: '0px',
     zIndex: -1,

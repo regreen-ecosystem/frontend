@@ -27,7 +27,8 @@ const useStyles = makeStyles()((theme) => ({
     aspectRatio: '5/3',
     outline: '1.75vw solid #ECEFF3',
     borderRadius: '5px',
-    padding: '2vw',
+    margin: '2vw 2vw 4vw 2vw',
+    padding: '1vw',
     boxShadow: '0px 20px 80px 0px rgba(35, 35, 35, 0.15)',
     backgroundColor: theme.palette.common.white,
   },
@@ -37,7 +38,8 @@ const useStyles = makeStyles()((theme) => ({
     objectFit: 'initial',
     outline: '1.75vw solid #ECEFF3',
     borderRadius: '5px',
-    padding: '2vw',
+    margin: '2vw 2vw 4vw 2vw',
+    padding: '1vw',
     boxShadow: '0px 20px 80px 0px rgba(35, 35, 35, 0.15)',
     backgroundColor: theme.palette.common.white,
   },
@@ -137,7 +139,7 @@ const Dashboard: React.FC = () => {
           </Typography>
         </div>
       </div>
-      <div className={classes.root} style={{ marginTop: '3vw' }}>
+      <div className={classes.root}>
         <div className={classes.box1}>
           <div>
             <Typography className={classes.title} style={{ margin: 0 }}>

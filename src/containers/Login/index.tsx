@@ -20,7 +20,7 @@ const useStyles = makeStyles()((theme) => ({
     flexDirection: 'column',
     justifyContent: 'center',
     alignContent: 'center',
-    padding: '3rem 0px',
+    padding: '4rem 0px',
     backgroundColor: theme.palette.primary.light,
     borderRadius: '20px',
     boxShadow: '0px 20px 80px 0px rgba(35, 35, 35, 0.15)',
@@ -59,7 +59,6 @@ const useStyles = makeStyles()((theme) => ({
     justifyContent: 'center',
     alignItems: 'center',
     marginBottom: '2rem',
-    // wordWrap: 'no-wrap',
   },
   decoratedTitle: {
     color: theme.palette.secondary.main,
@@ -69,14 +68,13 @@ const useStyles = makeStyles()((theme) => ({
   link: {
     color: theme.palette.secondary.main,
     marginLeft: '0.2rem',
-    textDecoration: 'none',
+    textDecorationColor: theme.palette.secondary.main,
   },
   forgotLink: {
     color: theme.palette.text.primary,
     textAlign: 'right',
     alignSelf: 'flex-end',
     marginTop: '0.5rem',
-    // textDecoration: 'none',
   },
 }));
 
@@ -126,30 +124,6 @@ const Login: React.FC = () => {
             Sign Up
           </Link>
         </Typography>
-        {/* <div
-          className={classes.box}
-          style={{ justifyContent: 'space-between', marginBottom: '1rem' }}
-        >
-          <div className={classes.box}>
-            <Checkbox size='small' />
-            <Typography variant='body1' style={{ fontWeight: 200 }}>
-              Remember me
-            </Typography>
-          </div>
-          <Link href='/forgot-password'>forgot password?</Link>
-        </div> */}
-        {/* <Button variant='contained' style={{ marginBottom: '0.8rem' }}>
-          Sign In
-        </Button>
-        <Button variant='outlined' style={{ marginBottom: '0.8rem' }}>
-          Sign In with Google
-        </Button>
-        <Typography
-          variant='body1'
-          style={{ fontWeight: 200, textAlign: 'center' }}
-        >
-          Don&#39;t have an account? <Link href='/signup'>Sign Up</Link>
-        </Typography> */}
       </div>
     </div>
   );

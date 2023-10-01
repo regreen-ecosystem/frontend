@@ -9,28 +9,30 @@ const useStyles = makeStyles()((theme) => ({
     flexDirection: 'column',
     padding: '0 2rem',
     alignContent: 'center',
-    justifyContent: 'center',
-    width: '50vw',
+    justifyContent: 'flex-start',
+    width: '40vw',
     height: '100vh',
     backgroundColor: theme.palette.common.white,
     flexWrap: 'wrap',
+    paddingTop: '5rem',
   },
   container: {
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'center',
     alignContent: 'center',
-    padding: '4rem 0px',
+    // padding: '4rem 0px',
     backgroundColor: theme.palette.primary.light,
     borderRadius: '20px',
     boxShadow: '0px 20px 80px 0px rgba(35, 35, 35, 0.15)',
-    width: '60%',
+    width: '26vw',
     flexWrap: 'wrap',
+    aspectRatio: '8/9',
   },
   heading: {
     color: theme.palette.text.primary,
     fontSize: theme.typography.body1.fontSize,
-    fontWeight: '300',
+    fontWeight: '400',
   },
   title: {
     color: theme.palette.primary.main,
@@ -65,16 +67,12 @@ const useStyles = makeStyles()((theme) => ({
     fontWeight: '500',
     display: 'inline',
   },
-  link: {
-    color: theme.palette.secondary.main,
-    marginLeft: '0.2rem',
-    textDecorationColor: theme.palette.secondary.main,
-  },
   forgotLink: {
     color: theme.palette.text.primary,
     textAlign: 'right',
     alignSelf: 'flex-end',
     marginTop: '0.5rem',
+    textDecoration: 'none',
   },
 }));
 
@@ -85,21 +83,21 @@ const Login: React.FC = () => {
     <div className={classes.root}>
       <Logo className={classes.logo} />
       <div className={classes.titleContainer}>
-        <Typography variant='h5'>
+        <Typography variant='h6' style={{ fontWeight: '400' }}>
           {'Welcome Back to '}
-          <Typography variant='h5' className={classes.decoratedTitle}>
+          <Typography variant='h6' className={classes.decoratedTitle}>
             {'Regreen Ecosystem'}
           </Typography>
         </Typography>
       </div>
       <div className={classes.container}>
-        <Typography className={classes.title}>Log In</Typography>
+        <Typography className={classes.title}>Login</Typography>
         <Typography className={classes.heading}>Email</Typography>
         <TextField
           id='outlined-basic'
           variant='outlined'
           size='small'
-          style={{ marginBottom: '0.5rem', width: '80%' }}
+          style={{ marginBottom: '0.7rem', width: '80%' }}
           placeholder='Email'
         />
         <Typography className={classes.heading}>Password</Typography>
@@ -114,16 +112,7 @@ const Login: React.FC = () => {
         <Link href='/forgot-password' className={classes.forgotLink}>
           Forgot Password?
         </Link>
-        <Button className={classes.button}>{'Log In'}</Button>
-        <Typography
-          variant='body1'
-          style={{ fontWeight: 200, textAlign: 'center' }}
-        >
-          Don&#39;t have an account?{' '}
-          <Link href='/signup' className={classes.link}>
-            Sign Up
-          </Link>
-        </Typography>
+        <Button className={classes.button}>{'Login'}</Button>
       </div>
     </div>
   );

@@ -14,8 +14,9 @@ import {
   Typography,
 } from '@mui/material';
 import SearchBar from './SearchBar';
-import FilterButton from './FilterButton';
 import CustomCell from './CustomCell';
+import CustomButton from '../CustomButton';
+import TuneIcon from '@mui/icons-material/Tune';
 
 const useStyles = makeStyles()((theme) => ({
   root: {
@@ -42,13 +43,16 @@ const useStyles = makeStyles()((theme) => ({
   },
   body: {},
   tableHeader: {
-    'color': theme.palette.text.primary,
-    'fontSize': '0.7rem',
     'textTransform': 'uppercase',
-    '& th': {
+    '& *': {
       fontWeight: '500',
-      paddingBottom: '0.5rem',
-      borderBottom: `1px solid ${theme.palette.grey[500]}`,
+      paddingBottom: '0.2rem',
+      textAlign: 'center',
+      color: theme.palette.grey[500] + '!important',
+      fontSize: '12px',
+    },
+    '& svg': {
+      fontSize: '1rem',
     },
   },
   tablePagination: {},
@@ -75,6 +79,10 @@ const useStyles = makeStyles()((theme) => ({
     fontWeight: 300,
     color: theme.palette.grey[600],
     fontSize: theme.typography.h6.fontSize,
+  },
+  icon: {
+    fontSize: 'large',
+    color: theme.palette.grey[500],
   },
 }));
 
@@ -123,7 +131,7 @@ const CustomTable: React.FC<CustomTableProps> = ({
   title,
   search,
   filter,
-  headerContent,
+  children,
   select,
 }) => {
   const { classes } = useStyles();
@@ -186,13 +194,17 @@ const CustomTable: React.FC<CustomTableProps> = ({
           {search ? (
             <SearchBar search={searchValue} setSearch={setSearchValue} />
           ) : null}
-          {headerContent}
+          {children ?? null}
           {filter ? (
-            <FilterButton
+            <CustomButton
               onClick={() => {
-                console.log('OMG');
+                console.log('Filtered');
               }}
-            />
+              minWidth='100px'
+              title='Filter'
+            >
+              <TuneIcon className={classes.icon} />
+            </CustomButton>
           ) : null}
         </div>
       </div>

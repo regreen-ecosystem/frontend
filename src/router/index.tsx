@@ -1,37 +1,36 @@
 import React from 'react';
 import { createBrowserRouter } from 'react-router-dom';
 import Login from '../containers/Login';
-import Home from '../containers/Home';
-import Root from '../containers/Root';
-import Pending from '../containers/Pending';
-import Matched from '../containers/Matched';
-import PIBO from '../containers/PIBO';
-import PWP from '../containers/PWP';
-import Dashboard from '../containers/Dashboard';
+import Root from '../containers/Admin/Root';
+import Pending from '../containers/Admin/Pending';
+import Matched from '../containers/Admin/Matched';
+import PIBO from '../containers/Admin/PIBO';
+import PWP from '../containers/Admin/PWP';
+import Dashboard from '../containers/Admin/Dashboard';
 
 const router = createBrowserRouter([
   {
-    path: '/',
+    path: '/admin',
     element: <Root />,
     children: [
       {
-        path: '/',
+        path: '/admin/',
         element: <Dashboard />,
       },
       {
-        path: '/pibo',
+        path: '/admin/pibo',
         element: <PIBO />,
       },
       {
-        path: '/pwp',
+        path: '/admin/pwp',
         element: <PWP />,
       },
       {
-        path: '/pending',
+        path: '/admin/pending',
         element: <Pending />,
       },
       {
-        path: '/matched',
+        path: '/admin/matched',
         element: <Matched />,
       },
     ],
@@ -39,6 +38,14 @@ const router = createBrowserRouter([
   {
     path: '/login',
     element: <Login />,
+  },
+  {
+    path: 'pibo',
+    element: <></>,
+  },
+  {
+    path: 'pwp',
+    element: <></>,
   },
 ]);
 

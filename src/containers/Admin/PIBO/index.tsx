@@ -1,10 +1,11 @@
 import React from 'react';
-import CustomTable from '../../components/CustomTable';
+import CustomTable from '../../../components/CustomTable';
 import {
   ColumnDetails,
   ColumnType,
-} from '../../components/CustomTable/types/CustomTableProps';
+} from '../../../components/CustomTable/types/CustomTableProps';
 import { Typography } from '@mui/material';
+import RegistrationBar from '../../../components/RegistrationBar';
 
 const columnDefs: Array<ColumnDetails> = [
   {
@@ -15,10 +16,22 @@ const columnDefs: Array<ColumnDetails> = [
     searchable: true,
   },
   {
+    label: 'Address',
+    type: ColumnType.DETAILS,
+    minWidth: 80,
+    field: 'address',
+  },
+  {
     label: 'Category',
     type: ColumnType.DETAILS,
     minWidth: 80,
     field: 'category',
+  },
+  {
+    label: 'Contact',
+    type: ColumnType.NUMBER,
+    minWidth: 80,
+    field: 'contact',
   },
   {
     label: 'Unique ID',
@@ -27,49 +40,59 @@ const columnDefs: Array<ColumnDetails> = [
     field: 'uniqueID',
   },
   {
-    label: 'Credits',
-    type: ColumnType.NUMBER,
+    label: 'Last Updated',
+    type: ColumnType.DATE,
     minWidth: 80,
-    field: 'credits',
+    field: 'lastUpdated',
     sortable: true,
     defaultSort: true,
   },
+  // {
+  //   label: 'Credits',
+  //   type: ColumnType.NUMBER,
+  //   minWidth: 80,
+  //   field: 'credits',
+  //   sortable: true,
+  //   defaultSort: false,
+  // },
   {
-    label: 'Total PWPs',
-    type: ColumnType.TEXT,
+    label: 'Recent Transactions',
+    type: ColumnType.ACCORDIAN,
     minWidth: 80,
-    field: 'totalPWPs',
-  },
-  {
-    label: 'PWPs List',
-    type: ColumnType.BUTTON,
-    minWidth: 80,
-    field: 'pwpList',
+    field: 'attachments',
   },
 ];
 
 const rowData = {
   companyName: 'Test',
+  address: 'Test',
   category: 'Test',
+  contact: 9911111111,
   uniqueID: 'Test',
-  credits: 800,
+  lastUpdated: new Date('2022-03-25'),
+  credits: 280,
+  attachments: 'See',
+  email: 'TestMail',
+  address1: 'TestBelow',
   companyName1: 'Test88',
   category1: 'Type-1',
-  totalPWPs: '4',
-  pwpList: 'View',
 };
 
 const data: (typeof rowData)[] = [
   rowData,
   {
     companyName: 'Test1',
+    address: 'Test',
     category: 'Test',
+    contact: 9330000001,
     uniqueID: 'Test',
-    credits: 260,
+    lastUpdated: new Date('2023-03-25'),
+    credits: 130,
+    attachments: 'Test',
+    email: 'TestMail',
+    address1: 'TestBelow',
     companyName1: 'Test',
     category1: 'Type-1',
-    totalPWPs: '6',
-    pwpList: 'View',
   },
   rowData,
   rowData,
@@ -102,17 +125,23 @@ const data: (typeof rowData)[] = [
   rowData,
 ];
 
-const Matched: React.FC = () => {
+const PIBO: React.FC = () => {
   return (
     <>
       <Typography
         variant='h5'
         style={{ marginLeft: '6%', fontWeight: 400, marginTop: '4vh' }}
       >
-        {'Matched'}
+        {'Producers & Brand Owners'}
       </Typography>
+      <RegistrationBar
+        onClick={() => {
+          'Created new PIBO';
+        }}
+        content={4}
+      />
       <CustomTable
-        title='Matched'
+        title='PIBOs'
         search={true}
         filter={true}
         columns={columnDefs}
@@ -122,4 +151,4 @@ const Matched: React.FC = () => {
   );
 };
 
-export default Matched;
+export default PIBO;

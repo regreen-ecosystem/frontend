@@ -1,5 +1,5 @@
 import React from 'react';
-import ResponsiveNavBar from '../../components/NavBar';
+import ResponsiveNavBar from '../../../components/NavBar';
 import { Outlet } from 'react-router-dom';
 import { makeStyles } from 'tss-react/mui';
 

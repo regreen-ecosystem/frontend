@@ -17,7 +17,7 @@ export default interface CustomTableProps {
   title: string;
   search?: boolean;
   filter?: boolean;
-  headerContent?: React.ReactNode;
+  children?: React.ReactNode;
   select?: boolean;
 }
 

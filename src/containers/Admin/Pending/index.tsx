@@ -1,10 +1,13 @@
 import React from 'react';
-import CustomTable from '../../components/CustomTable';
+import CustomTable from '../../../components/CustomTable';
 import {
   ColumnDetails,
   ColumnType,
-} from '../../components/CustomTable/types/CustomTableProps';
+} from '../../../components/CustomTable/types/CustomTableProps';
 import { Typography } from '@mui/material';
+import CustomButton from '../../../components/CustomButton';
+import AddIcon from '@mui/icons-material/Add';
+import { makeStyles } from 'tss-react/mui';
 
 const columnDefs: Array<ColumnDetails> = [
   {
@@ -94,7 +97,15 @@ const data: (typeof rowData)[] = [
   rowData,
 ];
 
+const useStyles = makeStyles()((theme) => ({
+  icon: {
+    fontSize: 'large',
+    color: theme.palette.grey[500],
+  },
+}));
+
 const Pending: React.FC = () => {
+  const { classes } = useStyles();
   return (
     <>
       <Typography
@@ -109,7 +120,15 @@ const Pending: React.FC = () => {
         filter={true}
         columns={columnDefs}
         data={data}
-      />
+      >
+        <CustomButton
+          title='Add Requests'
+          minWidth='90px'
+          onClick={() => console.log('Add PWP')}
+        >
+          <AddIcon className={classes.icon} />
+        </CustomButton>
+      </CustomTable>
     </>
   );
 };

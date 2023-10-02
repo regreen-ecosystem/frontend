@@ -38,6 +38,12 @@ const columnDefs: Array<ColumnDetails> = [
     defaultSort: true,
   },
   {
+    label: 'Status',
+    type: ColumnType.STATUS,
+    minWidth: 80,
+    field: 'status',
+  },
+  {
     label: 'Action',
     type: ColumnType.BUTTON,
     minWidth: 80,
@@ -53,6 +59,7 @@ const rowData = {
   companyName1: 'Test88',
   category1: 'Type-1',
   action: 'Find a Match',
+  status: 'I',
 };
 
 const data: (typeof rowData)[] = [
@@ -65,6 +72,7 @@ const data: (typeof rowData)[] = [
     companyName1: 'Test',
     category1: 'Type-1',
     action: 'Find a Match',
+    status: 'R',
   },
   rowData,
   rowData,
@@ -96,6 +104,13 @@ const data: (typeof rowData)[] = [
   rowData,
   rowData,
 ];
+
+enum PendingStatus {
+  R = 'Requested',
+  I = 'In Progress',
+  C = 'Completed',
+  X = 'Cancelled',
+}
 
 const useStyles = makeStyles()((theme) => ({
   icon: {
@@ -120,6 +135,7 @@ const Pending: React.FC = () => {
         filter={true}
         columns={columnDefs}
         data={data}
+        statusEnum={PendingStatus}
       >
         <CustomButton
           title='Add Requests'

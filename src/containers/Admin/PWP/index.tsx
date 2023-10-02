@@ -59,6 +59,12 @@ const columnDefs: Array<ColumnDetails> = [
   //   defaultSort: false,
   // },
   {
+    label: 'Status',
+    type: ColumnType.STATUS,
+    minWidth: 80,
+    field: 'status',
+  },
+  {
     label: 'Transactions',
     type: ColumnType.ACCORDIAN,
     minWidth: 80,
@@ -79,6 +85,7 @@ const rowData = {
   address1: 'TestBelow',
   companyName1: 'Test88',
   category1: 'Type-1',
+  status: 'A',
 };
 
 const data: (typeof rowData)[] = [
@@ -96,6 +103,7 @@ const data: (typeof rowData)[] = [
     address1: 'TestBelow',
     companyName1: 'Test',
     category1: 'Type-1',
+    status: 'Y',
   },
   rowData,
   rowData,
@@ -135,6 +143,12 @@ const useStyles = makeStyles()((theme) => ({
   },
 }));
 
+enum PWPStatus {
+  Y = 'Yet to be Added',
+  A = 'Added',
+  P = 'Verification Pending',
+}
+
 const PWP: React.FC = () => {
   const { classes } = useStyles();
   return (
@@ -157,6 +171,7 @@ const PWP: React.FC = () => {
         filter={true}
         columns={columnDefs}
         data={data}
+        statusEnum={PWPStatus}
       >
         <CustomButton
           title='Add Credits'

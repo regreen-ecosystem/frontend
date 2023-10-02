@@ -9,6 +9,7 @@ export interface ColumnDetails {
   field: string;
   filterable?: boolean;
   defaultSort?: boolean;
+  field2?: string;
 }
 
 export default interface CustomTableProps {
@@ -19,6 +20,7 @@ export default interface CustomTableProps {
   filter?: boolean;
   children?: React.ReactNode;
   select?: boolean;
+  statusEnum?: { [key: string]: string };
 }
 
 export enum ColumnType {

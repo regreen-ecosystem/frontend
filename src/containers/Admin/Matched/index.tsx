@@ -41,6 +41,12 @@ const columnDefs: Array<ColumnDetails> = [
     field: 'totalPWPs',
   },
   {
+    label: 'Status',
+    type: ColumnType.STATUS,
+    minWidth: 80,
+    field: 'status',
+  },
+  {
     label: 'PWPs List',
     type: ColumnType.BUTTON,
     minWidth: 80,
@@ -57,6 +63,7 @@ const rowData = {
   category1: 'Type-1',
   totalPWPs: '4',
   pwpList: 'View',
+  status: 'C',
 };
 
 const data: (typeof rowData)[] = [
@@ -70,6 +77,7 @@ const data: (typeof rowData)[] = [
     category1: 'Type-1',
     totalPWPs: '6',
     pwpList: 'View',
+    status: 'R',
   },
   rowData,
   rowData,
@@ -102,6 +110,11 @@ const data: (typeof rowData)[] = [
   rowData,
 ];
 
+enum MatchedStatus {
+  R = 'To be Registered',
+  C = 'Certificate Issued',
+}
+
 const Matched: React.FC = () => {
   return (
     <>
@@ -117,6 +130,7 @@ const Matched: React.FC = () => {
         filter={true}
         columns={columnDefs}
         data={data}
+        statusEnum={MatchedStatus}
       />
     </>
   );

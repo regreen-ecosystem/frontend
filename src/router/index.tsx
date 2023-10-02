@@ -10,27 +10,27 @@ import Dashboard from '../containers/Admin/Dashboard';
 
 const router = createBrowserRouter([
   {
-    path: '/admin',
+    path: '/',
     element: <Root />,
     children: [
       {
-        path: '/admin/',
+        path: '/',
         element: <Dashboard />,
       },
       {
-        path: '/admin/pibo',
+        path: '/pibo',
         element: <PIBO />,
       },
       {
-        path: '/admin/pwp',
+        path: '/pwp',
         element: <PWP />,
       },
       {
-        path: '/admin/pending',
+        path: '/pending',
         element: <Pending />,
       },
       {
-        path: '/admin/matched',
+        path: '/matched',
         element: <Matched />,
       },
     ],
@@ -38,14 +38,6 @@ const router = createBrowserRouter([
   {
     path: '/login',
     element: <Login />,
-  },
-  {
-    path: 'pibo',
-    element: <></>,
-  },
-  {
-    path: 'pwp',
-    element: <></>,
   },
 ]);
 

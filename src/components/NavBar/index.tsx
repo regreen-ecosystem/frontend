@@ -3,6 +3,9 @@ import {
   Box,
   Button,
   Container,
+  Menu,
+  MenuItem,
+  MenuList,
   Toolbar,
   Tooltip,
   Typography,
@@ -13,6 +16,8 @@ import { makeStyles } from 'tss-react/mui';
 import { NavLink } from 'react-router-dom';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
+import AddCircleOutlineOutlinedIcon from '@mui/icons-material/AddCircleOutlineOutlined';
+import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
 
 const useStyles = makeStyles()((theme) => ({
   root: {
@@ -69,20 +74,35 @@ const useStyles = makeStyles()((theme) => ({
   nav: {
     fontSize: theme.typography.h6.fontSize,
   },
+  icon: {
+    fontSize: 'large',
+    color: theme.palette.primary.main,
+    marginRight: '0.5rem',
+  },
+  menuText: {
+    fontSize: theme.typography.body1.fontSize,
+    color: theme.palette.text.primary,
+    fontWeight: 500,
+  },
+  popover: {
+    borderRadius: '10px',
+  },
 }));
 
-const pages = ['Dashbaord', 'PIBOs', 'PWPs', 'Pending', 'Matched'];
-const routes = [
-  '/admin/',
-  '/admin/pibo',
-  '/admin/pwp',
-  '/admin/pending',
-  '/admin/matched',
-];
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
+const pages = ['Dashboard', 'PIBOs', 'PWPs', 'Pending', 'Matched'];
+const routes = ['/', '/pibo', '/pwp', '/pending', '/matched'];
 
 const ResponsiveNavBar: React.FC = () => {
   const { classes } = useStyles();
+
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const open = Boolean(anchorEl);
+  const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
 
   return (
     <AppBar position='static' className={classes.root}>
@@ -115,7 +135,7 @@ const ResponsiveNavBar: React.FC = () => {
           </Box>
           <Box>
             <Tooltip title='Settings'>
-              <Button>
+              <Button onClick={handleMenu}>
                 <div className={classes.buttonContainer}>
                   <AccountCircleOutlinedIcon />
                   <div className={classes.buttonText}>
@@ -131,6 +151,31 @@ const ResponsiveNavBar: React.FC = () => {
               </Button>
             </Tooltip>
           </Box>
+          <Menu
+            anchorEl={anchorEl}
+            open={open}
+            onClose={handleClose}
+            PopoverClasses={{ paper: classes.popover }}
+            anchorOrigin={{
+              vertical: 'bottom',
+              horizontal: 'center',
+            }}
+            transformOrigin={{
+              vertical: 'top',
+              horizontal: 'center',
+            }}
+          >
+            <MenuItem onClick={handleClose}>
+              <AddCircleOutlineOutlinedIcon className={classes.icon} />
+              <Typography className={classes.menuText}>
+                {'Add Manager'}
+              </Typography>
+            </MenuItem>
+            <MenuItem onClick={handleClose}>
+              <SettingsOutlinedIcon className={classes.icon} />
+              <Typography className={classes.menuText}>{'Settings'}</Typography>
+            </MenuItem>
+          </Menu>
         </Toolbar>
       </Container>
     </AppBar>

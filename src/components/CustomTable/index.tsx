@@ -44,15 +44,15 @@ const useStyles = makeStyles()((theme) => ({
   body: {},
   tableHeader: {
     'textTransform': 'uppercase',
-    '& *': {
-      fontWeight: '500',
-      paddingBottom: '0.2rem',
-      textAlign: 'center',
-      color: theme.palette.grey[500] + '!important',
-      fontSize: '12px',
+    'th , span': {
+      'fontWeight': '500',
+      'paddingBottom': '0.2rem',
+      'text-align': 'center !important',
+      'color': theme.palette.grey[500] + ' !important',
+      'fontSize': '0.8rem',
     },
-    '& svg': {
-      fontSize: '1rem',
+    'svg': {
+      color: theme.palette.grey[500] + ' !important',
     },
   },
   tablePagination: {},
@@ -133,6 +133,7 @@ const CustomTable: React.FC<CustomTableProps> = ({
   filter,
   children,
   select,
+  statusEnum,
 }) => {
   const { classes } = useStyles();
   const [page, setPage] = React.useState(0);
@@ -259,6 +260,7 @@ const CustomTable: React.FC<CustomTableProps> = ({
                           row={row}
                           column={column}
                           key={column.field}
+                          statusEnum={statusEnum}
                         />
                       );
                     })}

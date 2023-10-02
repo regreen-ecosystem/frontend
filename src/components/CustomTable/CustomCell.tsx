@@ -70,7 +70,8 @@ const CustomCell: React.FC<{
   row: any;
   column: ColumnDetails;
   onClick?: () => void;
-}> = ({ row, column, onClick }) => {
+  statusEnum?: { [key: string]: string };
+}> = ({ row, column, onClick, statusEnum }) => {
   const { classes } = useStyles();
   return (
     <TableCell key={column.field} className={classes.cell}>
@@ -113,6 +114,9 @@ const CustomCell: React.FC<{
               return;
             }}
           />
+        ) : null}
+        {column.type === ColumnType.STATUS && statusEnum ? (
+          <StatusView status={statusEnum[row[column.field]]} />
         ) : null}
       </>
     </TableCell>
@@ -167,6 +171,11 @@ const ButtonView: React.FC<{ onClick?: () => void; title: string }> = ({
 const NumberView: React.FC<{ number: number }> = ({ number }) => {
   const { classes } = useStyles();
   return <Typography className={classes.text}>{number}</Typography>;
+};
+
+const StatusView: React.FC<{ status: string }> = ({ status }) => {
+  const { classes } = useStyles();
+  return <Typography className={classes.above}>{status}</Typography>;
 };
 
 export default CustomCell;

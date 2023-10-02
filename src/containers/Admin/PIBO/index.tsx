@@ -56,6 +56,12 @@ const columnDefs: Array<ColumnDetails> = [
   //   defaultSort: false,
   // },
   {
+    label: 'Status',
+    type: ColumnType.STATUS,
+    minWidth: 80,
+    field: 'status',
+  },
+  {
     label: 'Recent Transactions',
     type: ColumnType.ACCORDIAN,
     minWidth: 80,
@@ -76,6 +82,7 @@ const rowData = {
   address1: 'TestBelow',
   companyName1: 'Test88',
   category1: 'Type-1',
+  status: 'Y',
 };
 
 const data: (typeof rowData)[] = [
@@ -93,6 +100,7 @@ const data: (typeof rowData)[] = [
     address1: 'TestBelow',
     companyName1: 'Test',
     category1: 'Type-1',
+    status: 'P',
   },
   rowData,
   rowData,
@@ -124,6 +132,12 @@ const data: (typeof rowData)[] = [
   rowData,
   rowData,
 ];
+
+enum PIBOstatus {
+  Y = 'Yet to be Added',
+  P = 'Verification Pending',
+  A = 'Approved',
+}
 
 const PIBO: React.FC = () => {
   return (
@@ -146,6 +160,7 @@ const PIBO: React.FC = () => {
         filter={true}
         columns={columnDefs}
         data={data}
+        statusEnum={PIBOstatus}
       />
     </>
   );

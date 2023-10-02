@@ -13,12 +13,14 @@ const columnDefs: Array<ColumnDetails> = [
     minWidth: 80,
     field: 'companyName',
     searchable: true,
+    field2: 'email',
   },
   {
     label: 'Category',
     type: ColumnType.DETAILS,
     minWidth: 80,
     field: 'category',
+    field2: 'type',
   },
   {
     label: 'Unique ID',
@@ -59,11 +61,11 @@ const rowData = {
   category: 'Test',
   uniqueID: 'Test',
   credits: 800,
-  companyName1: 'Test88',
-  category1: 'Type-1',
+  email: 'Test88',
   totalPWPs: '4',
   pwpList: 'View',
   status: 'C',
+  type: 'Type-1',
 };
 
 const data: (typeof rowData)[] = [
@@ -73,11 +75,11 @@ const data: (typeof rowData)[] = [
     category: 'Test',
     uniqueID: 'Test',
     credits: 260,
-    companyName1: 'Test',
-    category1: 'Type-1',
+    email: 'Test',
     totalPWPs: '6',
     pwpList: 'View',
     status: 'R',
+    type: 'Type-I',
   },
   rowData,
   rowData,
@@ -131,6 +133,7 @@ const Matched: React.FC = () => {
         columns={columnDefs}
         data={data}
         statusEnum={MatchedStatus}
+        editMenu={true}
       />
     </>
   );

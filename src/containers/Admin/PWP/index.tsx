@@ -17,18 +17,21 @@ const columnDefs: Array<ColumnDetails> = [
     minWidth: 80,
     field: 'companyName',
     searchable: true,
+    field2: 'email',
   },
   {
     label: 'Address',
     type: ColumnType.DETAILS,
     minWidth: 80,
-    field: 'address',
+    field: 'state',
+    field2: 'pincode',
   },
   {
     label: 'Category',
     type: ColumnType.DETAILS,
     minWidth: 80,
     field: 'category',
+    field2: 'type',
   },
   {
     label: 'Contact',
@@ -74,7 +77,7 @@ const columnDefs: Array<ColumnDetails> = [
 
 const rowData = {
   companyName: 'Test',
-  address: 'Test',
+  state: 'Test',
   category: 'Test',
   contact: 'Test',
   uniqueID: 'Test',
@@ -82,9 +85,8 @@ const rowData = {
   credits: 150,
   transactions: 'See',
   email: 'TestMail',
-  address1: 'TestBelow',
-  companyName1: 'Test88',
-  category1: 'Type-1',
+  pincode: 'TestPin',
+  type: 'Type-1',
   status: 'A',
 };
 
@@ -92,17 +94,16 @@ const data: (typeof rowData)[] = [
   rowData,
   {
     companyName: 'Test1',
-    address: 'Test',
+    state: 'Test',
     category: 'Test',
     contact: 'Test',
     uniqueID: 'Test',
     lastUpdated: new Date('2023-03-25'),
     credits: 360,
     transactions: 'Test',
-    email: 'TestMail',
-    address1: 'TestBelow',
-    companyName1: 'Test',
-    category1: 'Type-1',
+    email: 'TestMail23',
+    pincode: 'TestBelow',
+    type: 'Type-2',
     status: 'Y',
   },
   rowData,
@@ -172,6 +173,8 @@ const PWP: React.FC = () => {
         columns={columnDefs}
         data={data}
         statusEnum={PWPStatus}
+        editMenu={true}
+        deleteMenu={true}
       >
         <CustomButton
           title='Add Credits'

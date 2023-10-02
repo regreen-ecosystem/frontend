@@ -84,7 +84,7 @@ const CustomCell: React.FC<{
                 {row[column.field]}
               </Typography>
               <Typography variant='body2' className={classes.below}>
-                {row[column.field + '1']}
+                {row[column.field2 as keyof typeof row]}
               </Typography>
             </div>
           </div>
@@ -95,7 +95,7 @@ const CustomCell: React.FC<{
         {column.type === ColumnType.DETAILS ? (
           <DetailsView
             main={row[column.field]}
-            secondary={row[column.field + '1']}
+            secondary={row[column.field2 as keyof typeof row]}
           />
         ) : null}
         {column.type === ColumnType.BUTTON ? (

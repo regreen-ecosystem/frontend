@@ -14,18 +14,21 @@ const columnDefs: Array<ColumnDetails> = [
     minWidth: 80,
     field: 'companyName',
     searchable: true,
+    field2: 'email',
   },
   {
     label: 'Address',
     type: ColumnType.DETAILS,
     minWidth: 80,
-    field: 'address',
+    field: 'state',
+    field2: 'pincode',
   },
   {
     label: 'Category',
     type: ColumnType.DETAILS,
     minWidth: 80,
     field: 'category',
+    field2: 'type',
   },
   {
     label: 'Contact',
@@ -71,7 +74,7 @@ const columnDefs: Array<ColumnDetails> = [
 
 const rowData = {
   companyName: 'Test',
-  address: 'Test',
+  state: 'Test',
   category: 'Test',
   contact: 9911111111,
   uniqueID: 'Test',
@@ -79,9 +82,8 @@ const rowData = {
   credits: 280,
   attachments: 'See',
   email: 'TestMail',
-  address1: 'TestBelow',
-  companyName1: 'Test88',
-  category1: 'Type-1',
+  pincode: 'TestBelow',
+  type: 'Type-1',
   status: 'Y',
 };
 
@@ -89,17 +91,16 @@ const data: (typeof rowData)[] = [
   rowData,
   {
     companyName: 'Test1',
-    address: 'Test',
+    state: 'Test',
     category: 'Test',
     contact: 9330000001,
     uniqueID: 'Test',
     lastUpdated: new Date('2023-03-25'),
     credits: 130,
     attachments: 'Test',
-    email: 'TestMail',
-    address1: 'TestBelow',
-    companyName1: 'Test',
-    category1: 'Type-1',
+    email: 'TestMail@23.com',
+    pincode: 'TestBelow',
+    type: 'Type-1',
     status: 'P',
   },
   rowData,
@@ -161,6 +162,8 @@ const PIBO: React.FC = () => {
         columns={columnDefs}
         data={data}
         statusEnum={PIBOstatus}
+        editMenu={true}
+        deleteMenu={true}
       />
     </>
   );

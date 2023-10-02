@@ -21,6 +21,8 @@ export default interface CustomTableProps {
   children?: React.ReactNode;
   select?: boolean;
   statusEnum?: { [key: string]: string };
+  editMenu?: boolean;
+  deleteMenu?: boolean;
 }
 
 export enum ColumnType {
@@ -31,6 +33,5 @@ export enum ColumnType {
   DATE = 'DATE',
   NUMBER = 'NUMBER',
   ACCORDIAN = 'ACCORDIAN',
-  // TODO: Custom Tile Remaining
   STATUS = 'STATUS',
 }

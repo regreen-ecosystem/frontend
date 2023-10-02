@@ -16,12 +16,14 @@ const columnDefs: Array<ColumnDetails> = [
     minWidth: 80,
     field: 'companyName',
     searchable: true,
+    field2: 'email',
   },
   {
     label: 'Category',
     type: ColumnType.DETAILS,
     minWidth: 80,
     field: 'category',
+    field2: 'type',
   },
   {
     label: 'Unique ID',
@@ -56,10 +58,11 @@ const rowData = {
   category: 'Test',
   uniqueID: 'Test',
   credits: 80,
-  companyName1: 'Test88',
+  email: 'Test88@gg.com',
   category1: 'Type-1',
   action: 'Find a Match',
   status: 'I',
+  type: 'Type-1',
 };
 
 const data: (typeof rowData)[] = [
@@ -69,10 +72,11 @@ const data: (typeof rowData)[] = [
     category: 'Test',
     uniqueID: 'Test',
     credits: 20,
-    companyName1: 'Test',
+    email: 'Test@g.com',
     category1: 'Type-1',
     action: 'Find a Match',
     status: 'R',
+    type: 'Type-I',
   },
   rowData,
   rowData,
@@ -136,6 +140,7 @@ const Pending: React.FC = () => {
         columns={columnDefs}
         data={data}
         statusEnum={PendingStatus}
+        editMenu={true}
       >
         <CustomButton
           title='Add Requests'

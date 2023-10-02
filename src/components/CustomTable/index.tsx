@@ -3,6 +3,9 @@ import CustomTableProps from './types/CustomTableProps';
 import { makeStyles } from 'tss-react/mui';
 import {
   Checkbox,
+  IconButton,
+  Menu,
+  MenuItem,
   Table,
   TableBody,
   TableCell,
@@ -17,6 +20,9 @@ import SearchBar from './SearchBar';
 import CustomCell from './CustomCell';
 import CustomButton from '../CustomButton';
 import TuneIcon from '@mui/icons-material/Tune';
+import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
+import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
+import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
 
 const useStyles = makeStyles()((theme) => ({
   root: {
@@ -84,6 +90,16 @@ const useStyles = makeStyles()((theme) => ({
     fontSize: 'large',
     color: theme.palette.grey[500],
   },
+  menuIcon: {
+    fontSize: 'large',
+    marginRight: '0.5rem',
+    color: theme.palette.text.primary,
+  },
+  menuText: {
+    fontSize: theme.typography.body1.fontSize,
+    color: theme.palette.text.primary,
+    fontWeight: 500,
+  },
 }));
 
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
@@ -134,6 +150,8 @@ const CustomTable: React.FC<CustomTableProps> = ({
   children,
   select,
   statusEnum,
+  editMenu,
+  deleteMenu,
 }) => {
   const { classes } = useStyles();
   const [page, setPage] = React.useState(0);
@@ -145,6 +163,15 @@ const CustomTable: React.FC<CustomTableProps> = ({
   const defaultSortIndex = columns.indexOf(
     columns.find((column) => column.defaultSort) ?? columns[0]
   );
+
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const open = Boolean(anchorEl);
+  const handleMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleMenuClose = () => {
+    setAnchorEl(null);
+  };
 
   const [order, setOrder] = React.useState<Order>('asc');
   const [orderBy, setOrderBy] = React.useState<number>(defaultSortIndex);
@@ -242,6 +269,12 @@ const CustomTable: React.FC<CustomTableProps> = ({
                     )}
                   </TableCell>
                 ))}
+                {editMenu || deleteMenu ? (
+                  <TableCell
+                    padding='checkbox'
+                    style={{ backgroundColor: 'transparent' }}
+                  ></TableCell>
+                ) : null}
               </TableRow>
             </TableHead>
             <TableBody className={classes.tableBody}>
@@ -264,6 +297,14 @@ const CustomTable: React.FC<CustomTableProps> = ({
                         />
                       );
                     })}
+
+                    {editMenu || deleteMenu ? (
+                      <TableCell padding='checkbox'>
+                        <IconButton onClick={handleMenuOpen}>
+                          <MoreHorizIcon />
+                        </IconButton>
+                      </TableCell>
+                    ) : null}
                   </TableRow>
                 );
               })}
@@ -289,6 +330,20 @@ const CustomTable: React.FC<CustomTableProps> = ({
           showLastButton
           labelRowsPerPage='Entries per page:'
         />
+        <Menu open={open} anchorEl={anchorEl} onClose={handleMenuClose}>
+          {editMenu ? (
+            <MenuItem onClick={handleMenuClose}>
+              <EditOutlinedIcon className={classes.menuIcon} />
+              <Typography className={classes.menuText}>{'Edit'}</Typography>
+            </MenuItem>
+          ) : null}
+          {deleteMenu ? (
+            <MenuItem onClick={handleMenuClose}>
+              <DeleteOutlinedIcon className={classes.menuIcon} />
+              <Typography className={classes.menuText}>{'Delete'}</Typography>
+            </MenuItem>
+          ) : null}
+        </Menu>
       </div>
     </div>
   );

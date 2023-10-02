@@ -3,6 +3,7 @@ import React from 'react';
 import { makeStyles } from 'tss-react/mui';
 import AddIcon from '@mui/icons-material/Add';
 import DescriptionOutlinedIcon from '@mui/icons-material/DescriptionOutlined';
+import { Form, Link, redirect } from 'react-router-dom';
 
 const useStyles = makeStyles()((theme) => ({
   root: {
@@ -59,10 +60,9 @@ const useStyles = makeStyles()((theme) => ({
   },
 }));
 
-const RegistrationBar: React.FC<{ onClick: () => void; content: number }> = ({
-  onClick,
-  content,
-}) => {
+const RegistrationBar: React.FC<{
+  content: number;
+}> = ({ content }) => {
   const { classes } = useStyles();
   return (
     <div className={classes.root}>
@@ -78,15 +78,17 @@ const RegistrationBar: React.FC<{ onClick: () => void; content: number }> = ({
           <DescriptionOutlinedIcon className={classes.iconA} />
         </Badge>
         <Divider orientation='vertical' flexItem className={classes.divider} />
-        <Button className={classes.button} onClick={onClick}>
-          <AddIcon className={classes.icon} />
-          <Typography
-            className={classes.text}
-            style={{ margin: 'auto 1rem auto 5px' }}
-          >
-            {'Add New'}
-          </Typography>
-        </Button>
+        <Form action='add'>
+          <Button className={classes.button} type='submit'>
+            <AddIcon className={classes.icon} />
+            <Typography
+              className={classes.text}
+              style={{ margin: 'auto 1rem auto 5px' }}
+            >
+              {'Add New'}
+            </Typography>
+          </Button>
+        </Form>
       </div>
     </div>
   );

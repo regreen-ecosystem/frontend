@@ -73,6 +73,7 @@ const columnDefs: Array<ColumnDetails> = [
 ];
 
 const rowData = {
+  id: 1,
   companyName: 'Test',
   state: 'Test',
   category: 'Test',
@@ -90,6 +91,7 @@ const rowData = {
 const data: (typeof rowData)[] = [
   rowData,
   {
+    id: 0,
     companyName: 'Test1',
     state: 'Test',
     category: 'Test',
@@ -134,7 +136,7 @@ const data: (typeof rowData)[] = [
   rowData,
 ];
 
-enum PIBOstatus {
+export enum PIBOstatus {
   Y = 'Yet to be Added',
   P = 'Verification Pending',
   A = 'Approved',
@@ -149,12 +151,7 @@ const PIBO: React.FC = () => {
       >
         {'Producers & Brand Owners'}
       </Typography>
-      <RegistrationBar
-        onClick={() => {
-          'Created new PIBO';
-        }}
-        content={4}
-      />
+      <RegistrationBar content={4} />
       <CustomTable
         title='PIBOs'
         search={true}

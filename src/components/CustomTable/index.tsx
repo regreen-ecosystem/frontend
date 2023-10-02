@@ -2,6 +2,7 @@ import React, { useMemo } from 'react';
 import CustomTableProps from './types/CustomTableProps';
 import { makeStyles } from 'tss-react/mui';
 import {
+  Button,
   Checkbox,
   IconButton,
   Menu,
@@ -23,6 +24,7 @@ import TuneIcon from '@mui/icons-material/Tune';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
+import { Form } from 'react-router-dom';
 
 const useStyles = makeStyles()((theme) => ({
   root: {
@@ -157,9 +159,9 @@ const CustomTable: React.FC<CustomTableProps> = ({
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const [searchValue, setSearchValue] = React.useState('');
+  const [menuId, setMenuId] = React.useState<number>(0);
 
   const searchableColumns = columns.filter((column) => column.searchable);
-  const filterableColumns = columns.filter((column) => column.filterable);
   const defaultSortIndex = columns.indexOf(
     columns.find((column) => column.defaultSort) ?? columns[0]
   );
@@ -167,6 +169,7 @@ const CustomTable: React.FC<CustomTableProps> = ({
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const handleMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
+    console.log(event);
     setAnchorEl(event.currentTarget);
   };
   const handleMenuClose = () => {
@@ -300,7 +303,13 @@ const CustomTable: React.FC<CustomTableProps> = ({
 
                     {editMenu || deleteMenu ? (
                       <TableCell padding='checkbox'>
-                        <IconButton onClick={handleMenuOpen}>
+                        <IconButton
+                          onClick={(e) => {
+                            setMenuId(row['id'] as number);
+                            console.log(menuId);
+                            handleMenuOpen(e);
+                          }}
+                        >
                           <MoreHorizIcon />
                         </IconButton>
                       </TableCell>
@@ -330,19 +339,22 @@ const CustomTable: React.FC<CustomTableProps> = ({
           showLastButton
           labelRowsPerPage='Entries per page:'
         />
+
         <Menu open={open} anchorEl={anchorEl} onClose={handleMenuClose}>
-          {editMenu ? (
-            <MenuItem onClick={handleMenuClose}>
-              <EditOutlinedIcon className={classes.menuIcon} />
-              <Typography className={classes.menuText}>{'Edit'}</Typography>
-            </MenuItem>
-          ) : null}
-          {deleteMenu ? (
-            <MenuItem onClick={handleMenuClose}>
-              <DeleteOutlinedIcon className={classes.menuIcon} />
-              <Typography className={classes.menuText}>{'Delete'}</Typography>
-            </MenuItem>
-          ) : null}
+          <Form action={`${menuId}/edit`}>
+            {editMenu ? (
+              <Button type='submit' onClick={handleMenuClose}>
+                <EditOutlinedIcon className={classes.menuIcon} />
+                <Typography className={classes.menuText}>{'Edit'}</Typography>
+              </Button>
+            ) : null}
+            {deleteMenu ? (
+              <MenuItem onClick={handleMenuClose}>
+                <DeleteOutlinedIcon className={classes.menuIcon} />
+                <Typography className={classes.menuText}>{'Delete'}</Typography>
+              </MenuItem>
+            ) : null}
+          </Form>
         </Menu>
       </div>
     </div>

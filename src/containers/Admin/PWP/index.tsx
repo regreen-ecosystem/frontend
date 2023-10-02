@@ -76,6 +76,7 @@ const columnDefs: Array<ColumnDetails> = [
 ];
 
 const rowData = {
+  id: '1',
   companyName: 'Test',
   state: 'Test',
   category: 'Test',
@@ -93,6 +94,7 @@ const rowData = {
 const data: (typeof rowData)[] = [
   rowData,
   {
+    id: '0',
     companyName: 'Test1',
     state: 'Test',
     category: 'Test',
@@ -144,7 +146,7 @@ const useStyles = makeStyles()((theme) => ({
   },
 }));
 
-enum PWPStatus {
+export enum PWPstatus {
   Y = 'Yet to be Added',
   A = 'Added',
   P = 'Verification Pending',
@@ -160,19 +162,14 @@ const PWP: React.FC = () => {
       >
         {'Plastic Waste Processors'}
       </Typography>
-      <RegistrationBar
-        onClick={() => {
-          'Created new PWP';
-        }}
-        content={5}
-      />
+      <RegistrationBar content={5} />
       <CustomTable
         title='PWPs'
         search={true}
         filter={true}
         columns={columnDefs}
         data={data}
-        statusEnum={PWPStatus}
+        statusEnum={PWPstatus}
         editMenu={true}
         deleteMenu={true}
       >

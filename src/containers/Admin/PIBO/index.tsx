@@ -6,6 +6,7 @@ import {
 } from '../../../components/CustomTable/types/CustomTableProps';
 import { Typography } from '@mui/material';
 import RegistrationBar from '../../../components/RegistrationBar';
+import { useLoaderData } from 'react-router-dom';
 
 const columnDefs: Array<ColumnDetails> = [
   {
@@ -72,70 +73,6 @@ const columnDefs: Array<ColumnDetails> = [
   },
 ];
 
-const rowData = {
-  id: 1,
-  companyName: 'Test',
-  state: 'Test',
-  category: 'Test',
-  contact: 9911111111,
-  uniqueID: 'Test',
-  lastUpdated: new Date('2022-03-25'),
-  credits: 280,
-  attachments: 'See',
-  email: 'TestMail',
-  pincode: 'TestBelow',
-  type: 'Type-1',
-  status: 'Y',
-};
-
-const data: (typeof rowData)[] = [
-  rowData,
-  {
-    id: 0,
-    companyName: 'Test1',
-    state: 'Test',
-    category: 'Test',
-    contact: 9330000001,
-    uniqueID: 'Test',
-    lastUpdated: new Date('2023-03-25'),
-    credits: 130,
-    attachments: 'Test',
-    email: 'TestMail@23.com',
-    pincode: 'TestBelow',
-    type: 'Type-1',
-    status: 'P',
-  },
-  rowData,
-  rowData,
-  rowData,
-  rowData,
-  rowData,
-  rowData,
-  rowData,
-  rowData,
-  rowData,
-  rowData,
-  rowData,
-  rowData,
-  rowData,
-  rowData,
-  rowData,
-  rowData,
-  rowData,
-  rowData,
-  rowData,
-  rowData,
-  rowData,
-  rowData,
-  rowData,
-  rowData,
-  rowData,
-  rowData,
-  rowData,
-  rowData,
-  rowData,
-];
-
 export enum PIBOstatus {
   Y = 'Yet to be Added',
   P = 'Verification Pending',
@@ -143,6 +80,9 @@ export enum PIBOstatus {
 }
 
 const PIBO: React.FC = () => {
+  const request = useLoaderData();
+  const data = (request as any).data;
+
   return (
     <>
       <Typography

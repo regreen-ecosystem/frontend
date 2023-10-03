@@ -9,6 +9,7 @@ import CustomButton from '../../../components/CustomButton';
 import AddIcon from '@mui/icons-material/Add';
 import { makeStyles } from 'tss-react/mui';
 import RegistrationBar from '../../../components/RegistrationBar';
+import { useLoaderData } from 'react-router-dom';
 
 const columnDefs: Array<ColumnDetails> = [
   {
@@ -75,70 +76,6 @@ const columnDefs: Array<ColumnDetails> = [
   },
 ];
 
-const rowData = {
-  id: '1',
-  companyName: 'Test',
-  state: 'Test',
-  category: 'Test',
-  contact: 'Test',
-  uniqueID: 'Test',
-  lastUpdated: new Date('2023-03-25'),
-  credits: 150,
-  transactions: 'See',
-  email: 'TestMail',
-  pincode: 'TestPin',
-  type: 'Type-1',
-  status: 'A',
-};
-
-const data: (typeof rowData)[] = [
-  rowData,
-  {
-    id: '0',
-    companyName: 'Test1',
-    state: 'Test',
-    category: 'Test',
-    contact: 'Test',
-    uniqueID: 'Test',
-    lastUpdated: new Date('2023-03-25'),
-    credits: 360,
-    transactions: 'Test',
-    email: 'TestMail23',
-    pincode: 'TestBelow',
-    type: 'Type-2',
-    status: 'Y',
-  },
-  rowData,
-  rowData,
-  rowData,
-  rowData,
-  rowData,
-  rowData,
-  rowData,
-  rowData,
-  rowData,
-  rowData,
-  rowData,
-  rowData,
-  rowData,
-  rowData,
-  rowData,
-  rowData,
-  rowData,
-  rowData,
-  rowData,
-  rowData,
-  rowData,
-  rowData,
-  rowData,
-  rowData,
-  rowData,
-  rowData,
-  rowData,
-  rowData,
-  rowData,
-];
-
 const useStyles = makeStyles()((theme) => ({
   icon: {
     fontSize: 'large',
@@ -154,6 +91,9 @@ export enum PWPstatus {
 
 const PWP: React.FC = () => {
   const { classes } = useStyles();
+  const request = useLoaderData();
+  const data = (request as any).data;
+
   return (
     <>
       <Typography

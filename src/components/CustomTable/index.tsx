@@ -341,20 +341,22 @@ const CustomTable: React.FC<CustomTableProps> = ({
         />
 
         <Menu open={open} anchorEl={anchorEl} onClose={handleMenuClose}>
-          <Form action={`${menuId}/edit`}>
-            {editMenu ? (
+          {editMenu ? (
+            <Form action={`${menuId}/edit`}>
               <Button type='submit' onClick={handleMenuClose}>
                 <EditOutlinedIcon className={classes.menuIcon} />
                 <Typography className={classes.menuText}>{'Edit'}</Typography>
               </Button>
-            ) : null}
-            {deleteMenu ? (
-              <MenuItem onClick={handleMenuClose}>
+            </Form>
+          ) : null}
+          {deleteMenu ? (
+            <Form action={`${menuId}/delete`}>
+              <Button onClick={handleMenuClose} type='submit'>
                 <DeleteOutlinedIcon className={classes.menuIcon} />
                 <Typography className={classes.menuText}>{'Delete'}</Typography>
-              </MenuItem>
-            ) : null}
-          </Form>
+              </Button>
+            </Form>
+          ) : null}
         </Menu>
       </div>
     </div>

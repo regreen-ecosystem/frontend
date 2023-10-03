@@ -2,6 +2,7 @@ import { Button, Link, TextField, Typography } from '@mui/material';
 import React from 'react';
 import { makeStyles } from 'tss-react/mui';
 import { ReactComponent as Logo } from '../../assets/images/logo.svg';
+import { Form } from 'react-router-dom';
 
 const useStyles = makeStyles()((theme) => ({
   root: {
@@ -90,7 +91,7 @@ const Login: React.FC = () => {
           </Typography>
         </Typography>
       </div>
-      <div className={classes.container}>
+      <Form method='POST' className={classes.container}>
         <Typography className={classes.title}>Login</Typography>
         <Typography className={classes.heading}>Email</Typography>
         <TextField
@@ -99,6 +100,8 @@ const Login: React.FC = () => {
           size='small'
           style={{ marginBottom: '0.7rem', width: '80%' }}
           placeholder='Email'
+          type='email'
+          name='email'
         />
         <Typography className={classes.heading}>Password</Typography>
         <TextField
@@ -107,13 +110,16 @@ const Login: React.FC = () => {
           size='small'
           placeholder='Password'
           type='password'
+          name='password'
           style={{ width: '80%' }}
         />
         <Link href='/forgot-password' className={classes.forgotLink}>
           Forgot Password?
         </Link>
-        <Button className={classes.button}>{'Login'}</Button>
-      </div>
+        <Button className={classes.button} type='submit'>
+          {'Login'}
+        </Button>
+      </Form>
     </div>
   );
 };

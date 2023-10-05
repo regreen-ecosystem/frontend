@@ -14,13 +14,18 @@ const useStyles = makeStyles()((theme) => ({
     margin: '1vw 4vw 0 4vw',
   },
   boxes: {
-    backgroundColor: '#ECEFF3',
-    width: '11vw',
-    aspectRatio: '3/2',
-    justifyContent: 'space-between',
-    // marginRight: '3vw',
-    borderRadius: '25px',
-    padding: '2vw',
+    'backgroundColor': '#ECEFF3',
+    'width': '16vw',
+    'aspectRatio': '4/3',
+    'display': 'flex',
+    'flexDirection': 'column',
+    'borderRadius': '25px',
+    'boxShadow': '0px 20px 80px 0px rgba(35, 35, 35, 0.15)',
+    'minHeight': '100%',
+    'placeContent': 'center',
+    '> *': {
+      marginLeft: '1.8vw !important',
+    },
   },
   box1: {
     width: '40vw',
@@ -29,7 +34,7 @@ const useStyles = makeStyles()((theme) => ({
     borderRadius: '5px',
     margin: '2vw 2vw 4vw 2vw',
     padding: '1vw',
-    boxShadow: '0px 20px 80px 0px rgba(35, 35, 35, 0.15)',
+    boxShadow: '0px 20px 40px 20px rgba(35, 35, 35, 0.15)',
     backgroundColor: theme.palette.common.white,
   },
   box2: {
@@ -40,7 +45,7 @@ const useStyles = makeStyles()((theme) => ({
     borderRadius: '5px',
     margin: '2vw 2vw 4vw 2vw',
     padding: '1vw',
-    boxShadow: '0px 20px 80px 0px rgba(35, 35, 35, 0.15)',
+    boxShadow: '0px 30px 40px 20px rgba(35, 35, 35, 0.15)',
     backgroundColor: theme.palette.common.white,
   },
   num: {

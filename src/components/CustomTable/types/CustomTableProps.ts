@@ -9,6 +9,9 @@ export interface ColumnDetails {
   field: string;
   filterable?: boolean;
   defaultSort?: boolean;
+  field2?: string;
+  title?: string;
+  action?: string;
 }
 
 export default interface CustomTableProps {
@@ -17,8 +20,11 @@ export default interface CustomTableProps {
   title: string;
   search?: boolean;
   filter?: boolean;
-  headerContent?: React.ReactNode;
+  children?: React.ReactNode;
   select?: boolean;
+  statusEnum?: { [key: string]: string };
+  editMenu?: boolean;
+  deleteMenu?: boolean;
 }
 
 export enum ColumnType {
@@ -29,6 +35,5 @@ export enum ColumnType {
   DATE = 'DATE',
   NUMBER = 'NUMBER',
   ACCORDIAN = 'ACCORDIAN',
-  // TODO: Custom Tile Remaining
   STATUS = 'STATUS',
 }

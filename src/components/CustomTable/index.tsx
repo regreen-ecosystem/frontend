@@ -2,7 +2,10 @@ import React, { useMemo } from 'react';
 import CustomTableProps from './types/CustomTableProps';
 import { makeStyles } from 'tss-react/mui';
 import {
+  Button,
   Checkbox,
+  IconButton,
+  Menu,
   Table,
   TableBody,
   TableCell,
@@ -14,8 +17,13 @@ import {
   Typography,
 } from '@mui/material';
 import SearchBar from './SearchBar';
-import FilterButton from './FilterButton';
 import CustomCell from './CustomCell';
+import CustomButton from '../CustomButton';
+import TuneIcon from '@mui/icons-material/Tune';
+import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
+import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
+import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
+import { Form } from 'react-router-dom';
 
 const useStyles = makeStyles()((theme) => ({
   root: {
@@ -42,13 +50,16 @@ const useStyles = makeStyles()((theme) => ({
   },
   body: {},
   tableHeader: {
-    'color': theme.palette.text.primary,
-    'fontSize': '0.7rem',
     'textTransform': 'uppercase',
-    '& th': {
-      fontWeight: '500',
-      paddingBottom: '0.5rem',
-      borderBottom: `1px solid ${theme.palette.grey[500]}`,
+    'th , span': {
+      'fontWeight': '500',
+      'paddingBottom': '0.2rem',
+      'text-align': 'center !important',
+      'color': theme.palette.grey[500] + ' !important',
+      'fontSize': '0.8rem',
+    },
+    'svg': {
+      color: theme.palette.grey[500] + ' !important',
     },
   },
   tablePagination: {},
@@ -75,6 +86,20 @@ const useStyles = makeStyles()((theme) => ({
     fontWeight: 300,
     color: theme.palette.grey[600],
     fontSize: theme.typography.h6.fontSize,
+  },
+  icon: {
+    fontSize: 'large',
+    color: theme.palette.grey[500],
+  },
+  menuIcon: {
+    fontSize: 'large',
+    marginRight: '0.5rem',
+    color: theme.palette.text.primary,
+  },
+  menuText: {
+    fontSize: theme.typography.body1.fontSize,
+    color: theme.palette.text.primary,
+    fontWeight: 500,
   },
 }));
 
@@ -123,19 +148,32 @@ const CustomTable: React.FC<CustomTableProps> = ({
   title,
   search,
   filter,
-  headerContent,
+  children,
   select,
+  statusEnum,
+  editMenu,
+  deleteMenu,
 }) => {
   const { classes } = useStyles();
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const [searchValue, setSearchValue] = React.useState('');
+  const [menuId, setMenuId] = React.useState<number>(0);
 
   const searchableColumns = columns.filter((column) => column.searchable);
-  const filterableColumns = columns.filter((column) => column.filterable);
   const defaultSortIndex = columns.indexOf(
     columns.find((column) => column.defaultSort) ?? columns[0]
   );
+
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const open = Boolean(anchorEl);
+  const handleMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
+    console.log(event);
+    setAnchorEl(event.currentTarget);
+  };
+  const handleMenuClose = () => {
+    setAnchorEl(null);
+  };
 
   const [order, setOrder] = React.useState<Order>('asc');
   const [orderBy, setOrderBy] = React.useState<number>(defaultSortIndex);
@@ -186,13 +224,17 @@ const CustomTable: React.FC<CustomTableProps> = ({
           {search ? (
             <SearchBar search={searchValue} setSearch={setSearchValue} />
           ) : null}
-          {headerContent}
+          {children ?? null}
           {filter ? (
-            <FilterButton
+            <CustomButton
               onClick={() => {
-                console.log('OMG');
+                console.log('Filtered');
               }}
-            />
+              minWidth='100px'
+              title='Filter'
+            >
+              <TuneIcon className={classes.icon} />
+            </CustomButton>
           ) : null}
         </div>
       </div>
@@ -229,6 +271,12 @@ const CustomTable: React.FC<CustomTableProps> = ({
                     )}
                   </TableCell>
                 ))}
+                {editMenu || deleteMenu ? (
+                  <TableCell
+                    padding='checkbox'
+                    style={{ backgroundColor: 'transparent' }}
+                  ></TableCell>
+                ) : null}
               </TableRow>
             </TableHead>
             <TableBody className={classes.tableBody}>
@@ -237,7 +285,11 @@ const CustomTable: React.FC<CustomTableProps> = ({
                   <TableRow hover={select} key={`${row}-${index.toString()}`}>
                     {select ? (
                       <TableCell padding='checkbox'>
-                        <Checkbox className={classes.checkboxContainer} />
+                        <Checkbox
+                          className={classes.checkboxContainer}
+                          name='id'
+                          value={row['id'] as number}
+                        />
                       </TableCell>
                     ) : null}
 
@@ -247,9 +299,25 @@ const CustomTable: React.FC<CustomTableProps> = ({
                           row={row}
                           column={column}
                           key={column.field}
+                          statusEnum={statusEnum}
+                          id={row['id'] as string}
                         />
                       );
                     })}
+
+                    {editMenu || deleteMenu ? (
+                      <TableCell padding='checkbox'>
+                        <IconButton
+                          onClick={(e) => {
+                            setMenuId(row['id'] as number);
+                            console.log(menuId);
+                            handleMenuOpen(e);
+                          }}
+                        >
+                          <MoreHorizIcon />
+                        </IconButton>
+                      </TableCell>
+                    ) : null}
                   </TableRow>
                 );
               })}
@@ -275,6 +343,25 @@ const CustomTable: React.FC<CustomTableProps> = ({
           showLastButton
           labelRowsPerPage='Entries per page:'
         />
+
+        <Menu open={open} anchorEl={anchorEl} onClose={handleMenuClose}>
+          {editMenu ? (
+            <Form action={`${menuId}/edit`}>
+              <Button type='submit' onClick={handleMenuClose}>
+                <EditOutlinedIcon className={classes.menuIcon} />
+                <Typography className={classes.menuText}>{'Edit'}</Typography>
+              </Button>
+            </Form>
+          ) : null}
+          {deleteMenu ? (
+            <Form action={`${menuId}/delete`}>
+              <Button onClick={handleMenuClose} type='submit'>
+                <DeleteOutlinedIcon className={classes.menuIcon} />
+                <Typography className={classes.menuText}>{'Delete'}</Typography>
+              </Button>
+            </Form>
+          ) : null}
+        </Menu>
       </div>
     </div>
   );

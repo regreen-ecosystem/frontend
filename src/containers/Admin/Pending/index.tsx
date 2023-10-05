@@ -1,10 +1,11 @@
 import React from 'react';
-import CustomTable from '../../components/CustomTable';
+import CustomTable from '../../../components/CustomTable';
 import {
   ColumnDetails,
   ColumnType,
-} from '../../components/CustomTable/types/CustomTableProps';
+} from '../../../components/CustomTable/types/CustomTableProps';
 import { Typography } from '@mui/material';
+import { useLoaderData } from 'react-router-dom';
 
 const columnDefs: Array<ColumnDetails> = [
   {
@@ -13,12 +14,14 @@ const columnDefs: Array<ColumnDetails> = [
     minWidth: 80,
     field: 'companyName',
     searchable: true,
+    field2: 'email',
   },
   {
     label: 'Category',
     type: ColumnType.DETAILS,
     minWidth: 80,
     field: 'category',
+    field2: 'type',
   },
   {
     label: 'Unique ID',
@@ -35,66 +38,31 @@ const columnDefs: Array<ColumnDetails> = [
     defaultSort: true,
   },
   {
-    label: 'Action',
+    label: 'Status',
+    type: ColumnType.STATUS,
+    minWidth: 80,
+    field: 'status',
+  },
+  {
+    label: 'Find a Match',
     type: ColumnType.BUTTON,
     minWidth: 80,
     field: 'action',
+    title: 'Match',
+    action: '/match',
   },
 ];
 
-const rowData = {
-  companyName: 'Test',
-  category: 'Test',
-  uniqueID: 'Test',
-  credits: 80,
-  companyName1: 'Test88',
-  category1: 'Type-1',
-  action: 'Find a Match',
-};
-
-const data: (typeof rowData)[] = [
-  rowData,
-  {
-    companyName: 'Test1',
-    category: 'Test',
-    uniqueID: 'Test',
-    credits: 20,
-    companyName1: 'Test',
-    category1: 'Type-1',
-    action: 'Find a Match',
-  },
-  rowData,
-  rowData,
-  rowData,
-  rowData,
-  rowData,
-  rowData,
-  rowData,
-  rowData,
-  rowData,
-  rowData,
-  rowData,
-  rowData,
-  rowData,
-  rowData,
-  rowData,
-  rowData,
-  rowData,
-  rowData,
-  rowData,
-  rowData,
-  rowData,
-  rowData,
-  rowData,
-  rowData,
-  rowData,
-  rowData,
-  rowData,
-  rowData,
-  rowData,
-];
+export enum PendingStatus {
+  R = 'Requested',
+  I = 'In Progress',
+  C = 'Completed',
+  X = 'Cancelled',
+}
 
 const Pending: React.FC = () => {
+  const request = useLoaderData();
+  const data = (request as any).data;
   return (
     <>
       <Typography
@@ -109,7 +77,17 @@ const Pending: React.FC = () => {
         filter={true}
         columns={columnDefs}
         data={data}
-      />
+        statusEnum={PendingStatus}
+        editMenu={true}
+      >
+        {/* <CustomButton
+          title='Add Requests'
+          minWidth='90px'
+          onClick={() => console.log('Add PWP')}
+        >
+          <AddIcon className={classes.icon} />
+        </CustomButton> */}
+      </CustomTable>
     </>
   );
 };

@@ -1,9 +1,9 @@
 import React from 'react';
-import CustomTable from '../../components/CustomTable';
+import CustomTable from '../../../components/CustomTable';
 import {
   ColumnDetails,
   ColumnType,
-} from '../../components/CustomTable/types/CustomTableProps';
+} from '../../../components/CustomTable/types/CustomTableProps';
 import { Typography } from '@mui/material';
 
 const columnDefs: Array<ColumnDetails> = [
@@ -13,12 +13,14 @@ const columnDefs: Array<ColumnDetails> = [
     minWidth: 80,
     field: 'companyName',
     searchable: true,
+    field2: 'email',
   },
   {
     label: 'Category',
     type: ColumnType.DETAILS,
     minWidth: 80,
     field: 'category',
+    field2: 'type',
   },
   {
     label: 'Unique ID',
@@ -41,6 +43,12 @@ const columnDefs: Array<ColumnDetails> = [
     field: 'totalPWPs',
   },
   {
+    label: 'Status',
+    type: ColumnType.STATUS,
+    minWidth: 80,
+    field: 'status',
+  },
+  {
     label: 'PWPs List',
     type: ColumnType.BUTTON,
     minWidth: 80,
@@ -53,10 +61,11 @@ const rowData = {
   category: 'Test',
   uniqueID: 'Test',
   credits: 800,
-  companyName1: 'Test88',
-  category1: 'Type-1',
+  email: 'Test88',
   totalPWPs: '4',
   pwpList: 'View',
+  status: 'C',
+  type: 'Type-1',
 };
 
 const data: (typeof rowData)[] = [
@@ -66,10 +75,11 @@ const data: (typeof rowData)[] = [
     category: 'Test',
     uniqueID: 'Test',
     credits: 260,
-    companyName1: 'Test',
-    category1: 'Type-1',
+    email: 'Test',
     totalPWPs: '6',
     pwpList: 'View',
+    status: 'R',
+    type: 'Type-I',
   },
   rowData,
   rowData,
@@ -101,6 +111,11 @@ const data: (typeof rowData)[] = [
   rowData,
   rowData,
 ];
+
+enum MatchedStatus {
+  R = 'To be Registered',
+  C = 'Certificate Issued',
+}
 
 const Matched: React.FC = () => {
   return (
@@ -117,6 +132,7 @@ const Matched: React.FC = () => {
         filter={true}
         columns={columnDefs}
         data={data}
+        statusEnum={MatchedStatus}
       />
     </>
   );

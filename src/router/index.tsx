@@ -34,6 +34,7 @@ import {
   updatePendingStatus,
   getMatches,
   createMatch,
+  insertRequest,
 } from '../services/pending';
 import { updateMatchedStatus } from '../services/matched';
 import RequestDetailsPage from '../containers/Admin/PIBO/RequestDetailsPage';
@@ -111,7 +112,7 @@ const router = createBrowserRouter([
       {
         path: '/pibo/:id/addRequest',
         loader: createRequest,
-        action: upsertRequest,
+        action: insertRequest,
         element: <RequestDetailsPage title='Add New Request' />,
       },
     ],

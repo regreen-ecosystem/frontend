@@ -2,70 +2,16 @@ import { redirect } from 'react-router-dom';
 import { getCookie } from 'typescript-cookie';
 import { getPIBOData } from '../pibo';
 import { getMatchForCategory } from '../credit';
+import API from '../axios';
+import { PlasticCategory } from '../../commons/enums';
 
-const rowData = {
-  id: '0',
-  piboId: '0',
-  companyName: 'Test',
-  category: 'I',
-  uniqueID: 'Test',
-  credits: 80,
-  email: 'Test88@gg.com',
-  action: 'Find a Match',
-  status: 'I',
-  type: 'Type-1',
-};
-
-const data: (typeof rowData)[] = [
-  rowData,
-  {
-    id: '1',
-    piboId: '1',
-    companyName: 'Test1',
-    category: 'II',
-    uniqueID: 'Test',
-    credits: 20,
-    email: 'Test@g.com',
-    action: 'Find a Match',
-    status: 'R',
-    type: 'Type-I',
-  },
-  rowData,
-  rowData,
-  rowData,
-  rowData,
-  rowData,
-  rowData,
-  rowData,
-  rowData,
-  rowData,
-  rowData,
-  rowData,
-  rowData,
-  rowData,
-  rowData,
-  rowData,
-  rowData,
-  rowData,
-  rowData,
-  rowData,
-  rowData,
-  rowData,
-  rowData,
-  rowData,
-  rowData,
-  rowData,
-  rowData,
-  rowData,
-  rowData,
-  rowData,
-];
-
-export const getPendingTableData = () => {
-  if (getCookie('jwt')) {
-    return { data };
+export const getPendingTableData = async () => {
+  const request = await API.get('/requests');
+  if (request.status === 200) {
+    return { data: request.data };
+  } else {
+    throw new Error('Something went wrong');
   }
-  return redirect('/login');
 };
 
 export const getPendingData = async ({ params }: { params: any }) => {
@@ -132,9 +78,8 @@ export const createRequest = async ({ params }: { params: any }) => {
       throw new Error('No PIBO found');
     }
     return {
-      category: pibo.category,
-      status: 'R',
-      credits: Array(pibo.category.length).fill(0),
+      plastic_type: pibo.details.plastic_type,
+      credits: Array(pibo.details.plastic_type.split(',').length).fill(0),
     };
   }
   return redirect('/login');
@@ -168,4 +113,30 @@ export const getMatches = async ({ params }: { params: any }) => {
     };
   }
   return redirect('/login');
+};
+
+export const insertRequest = async ({
+  params,
+  request,
+}: {
+  params: any;
+  request: any;
+}) => {
+  const requestObject = Object.fromEntries(await request.formData());
+  const pibo = { id: params.id };
+  for (const key of Object.keys(PlasticCategory)) {
+    if (requestObject[key] && requestObject[key] > 0) {
+      const body = {
+        plastic_type: key,
+        total_credits: requestObject[key],
+        pending_credits: requestObject[key],
+        pibo: pibo,
+      };
+      const response = await API.post('/requests', body);
+      if (response.status !== 200) {
+        throw new Error('Something went wrong');
+      }
+    }
+  }
+  return redirect('/pending');
 };

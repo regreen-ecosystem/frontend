@@ -17,6 +17,7 @@ export const login = async ({ request }: { request: any }) => {
     identifier: requestObject.email,
     password: requestObject.password,
   };
+  console.log(body);
   const response = await API.post('/auth/local', body);
   if (response.data.jwt) {
     setCookie('jwt', response.data.jwt);

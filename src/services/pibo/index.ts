@@ -26,6 +26,15 @@ export const getPIBOTableData = async () => {
 
 export const getPIBOData = async ({ params }: { params: any }) => {
   const response = await API.get(`/pibos/${params.id}`);
+  if (response.data.details.plastic_type[0] === ',') {
+    response.data.details.plastic_type =
+      response.data.details.plastic_type.slice(1);
+  }
+  response.data.details.plastic_type = response.data.details.plastic_type
+    .split(',')
+    .sort()
+    .join(',');
+  console.log(response.data.details.plastic_type);
   return { data: response.data };
 };
 
@@ -38,6 +47,13 @@ export const updatePIBOData = async ({
 }) => {
   const requestObject = Object.fromEntries(await request.formData());
   console.log(requestObject, params.id);
+  if (requestObject.plastic_type[0] === ',') {
+    requestObject.plastic_type = requestObject.plastic_type.slice(1);
+  }
+  requestObject.plastic_type = requestObject.plastic_type
+    .split(',')
+    .sort()
+    .join(',');
   const response = await API.put(`/pibos/${params.id}`, requestObject);
   if (response.status === 200) {
     return redirect('/pibo');

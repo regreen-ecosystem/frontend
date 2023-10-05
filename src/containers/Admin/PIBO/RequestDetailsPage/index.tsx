@@ -122,35 +122,37 @@ const RequestDetailsPage: React.FC<{ title: string }> = ({ title }) => {
                   ))}
                 </Select>
               </div>
-              {Array.isArray(data.category) ? (
-                data.category.map((category: string, index: number) => {
-                  return (
-                    <CustomTextInput
-                      title={
-                        PlasticCategory[
-                          category as keyof typeof PlasticCategory
-                        ]
-                      }
-                      key={category}
-                      minWidth='18vw'
-                      placeholder='Enter Amount'
-                      name={category}
-                      defaultValue={data.credits[index] ?? '0'}
-                      type='number'
-                    />
-                  );
-                })
+              {Array.isArray(data.plastic_type.split(',')) ? (
+                data.plastic_type
+                  .split(',')
+                  .map((category: string, index: number) => {
+                    return (
+                      <CustomTextInput
+                        title={
+                          PlasticCategory[
+                            category as keyof typeof PlasticCategory
+                          ]
+                        }
+                        key={category}
+                        minWidth='18vw'
+                        placeholder='Enter Amount'
+                        name={category}
+                        defaultValue={data.credits[index] ?? '0'}
+                        type='number'
+                      />
+                    );
+                  })
               ) : (
                 <CustomTextInput
                   title={
                     PlasticCategory[
-                      data.category as keyof typeof PlasticCategory
+                      data.plastic_type as keyof typeof PlasticCategory
                     ]
                   }
-                  key={data.category}
+                  key={data.plastic_type}
                   minWidth='18vw'
                   placeholder='Enter Amount'
-                  name={data.category}
+                  name={data.plastic_type}
                   defaultValue={data.credits ?? '0'}
                   type='number'
                 />

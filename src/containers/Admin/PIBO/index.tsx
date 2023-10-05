@@ -65,6 +65,7 @@ const columnDefs: Array<ColumnDetails> = [
     type: ColumnType.STATUS,
     minWidth: 80,
     field: 'details.status',
+    detailsId: 'details.id',
   },
   // {
   //   label: 'Recent Transactions',

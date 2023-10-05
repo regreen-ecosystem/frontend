@@ -134,7 +134,7 @@ const CustomCell: React.FC<{
             status={byString(row, column.field)}
             statusEnum={statusEnum}
             id={row.id}
-            detailsId={row.details.id}
+            detailsId={byString(row, column.detailsId as string)}
           />
         ) : null}
       </>

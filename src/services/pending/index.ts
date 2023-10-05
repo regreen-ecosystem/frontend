@@ -127,7 +127,7 @@ export const createMatch = async ({
 // Maybe Move to Credits Service
 export const createRequest = async ({ params }: { params: any }) => {
   if (getCookie('jwt')) {
-    const pibo = await getPIBOData({ params });
+    const pibo = (await getPIBOData({ params })).data;
     if (!pibo) {
       throw new Error('No PIBO found');
     }

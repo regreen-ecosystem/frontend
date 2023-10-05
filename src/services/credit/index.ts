@@ -64,9 +64,10 @@ export const createCredit = async ({ params }: { params: any }) => {
     if (!pwp) {
       throw new Error('No PIBO found');
     }
+    const categories = pwp.data.details.platic_type.split(',');
     return {
-      category: pwp.category,
-      credits: Array(pwp.category.length).fill(0),
+      category: categories,
+      credits: Array(categories.length).fill(0),
     };
   }
   return redirect('/login');

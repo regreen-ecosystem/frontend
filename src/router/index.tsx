@@ -8,16 +8,15 @@ import PIBO from '../containers/Admin/PIBO';
 import PWP from '../containers/Admin/PWP';
 import Dashboard from '../containers/Admin/Dashboard';
 import PIBODetailsPage from '../containers/Admin/PIBO/PIBODetailsPage';
-import { createPIBO, createPWP } from '../commons/types';
 import PWPDetailsPage from '../containers/Admin/PWP/PWPDetailsPage';
-import { getUserLoggedIn, login } from '../services/auth';
+import { getUserLoggedIn, login, logout } from '../services/auth';
 import {
   createPIBOData,
   deletePIBOData,
   getPIBOData,
   getPIBOTableData,
   updatePIBOData,
-  updatePIBOStatus,
+  createPIBO,
 } from '../services/pibo';
 import {
   createPWPData,
@@ -25,7 +24,7 @@ import {
   getPWPData,
   getPWPTableData,
   updatePWPData,
-  updatePWPStatus,
+  createPWP,
 } from '../services/pwp';
 import {
   createRequest,
@@ -55,13 +54,11 @@ const router = createBrowserRouter([
       {
         path: '/pibo',
         loader: getPIBOTableData,
-        action: updatePIBOStatus,
         element: <PIBO />,
       },
       {
         path: '/pwp',
         loader: getPWPTableData,
-        action: updatePWPStatus,
         element: <PWP />,
       },
       {
@@ -87,6 +84,10 @@ const router = createBrowserRouter([
     path: '/login',
     element: <Login />,
     action: login,
+  },
+  {
+    path: '/logout',
+    loader: logout,
   },
   {
     path: '/pibo',

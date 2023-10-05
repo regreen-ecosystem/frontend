@@ -1,103 +1,32 @@
 import { redirect } from 'react-router-dom';
 import { getCookie } from 'typescript-cookie';
+import API from '../axios';
 
-const rowData = {
-  id: '1',
-  companyName: 'Test',
-  state: 'Test',
-  category: 'Test',
-  contact: 'Test',
-  uniqueID: 'Test',
-  lastUpdated: new Date('2023-03-25'),
-  credits: 150,
-  transactions: 'See',
-  email: 'TestMail',
-  pincode: 'TestPin',
-  type: 'Type-1',
-  status: 'A',
+export const createPWP = () => {
+  return {
+    data: {
+      details: {
+        name: '',
+        address: '',
+        state: '',
+        pincode: '',
+        uid: '',
+        email: '',
+        status: 'Y',
+        plastic_type: '',
+      },
+    },
+  };
 };
 
-const data: (typeof rowData)[] = [
-  rowData,
-  {
-    id: '0',
-    companyName: 'Test1',
-    state: 'Test',
-    category: 'Test',
-    contact: 'Test',
-    uniqueID: 'Test',
-    lastUpdated: new Date('2023-03-25'),
-    credits: 360,
-    transactions: 'Test',
-    email: 'TestMail23',
-    pincode: 'TestBelow',
-    type: 'Type-2',
-    status: 'Y',
-  },
-  rowData,
-  rowData,
-  rowData,
-  rowData,
-  rowData,
-  rowData,
-  rowData,
-  rowData,
-  rowData,
-  rowData,
-  rowData,
-  rowData,
-  rowData,
-  rowData,
-  rowData,
-  rowData,
-  rowData,
-  rowData,
-  rowData,
-  rowData,
-  rowData,
-  rowData,
-  rowData,
-  rowData,
-  rowData,
-  rowData,
-  rowData,
-  rowData,
-  rowData,
-];
-
 export const getPWPTableData = async () => {
-  if (getCookie('jwt')) {
-    return { data };
-  }
-  redirect('/login');
+  const response = await API.get('/pwps');
+  return { data: response.data };
 };
 
 export const getPWPData = async ({ params }: { params: any }) => {
-  if (getCookie('jwt')) {
-    if (params.id === 0) {
-      return {
-        companyName: 'Test',
-        state: 'Test',
-        category: ['I', 'II'],
-        email: 'TestMail@mail.com',
-        pincode: '302010',
-        status: 'A',
-        address: 'TestAddress2',
-        cpcbId: '1234566789',
-      };
-    }
-    return {
-      companyName: 'Test',
-      state: 'Test',
-      category: ['I', 'III'],
-      email: 'TestMail@mail.com',
-      pincode: '302010',
-      status: 'A',
-      address: 'TestAddress2',
-      cpcbId: '1234566789',
-    };
-  }
-  redirect('/login');
+  const response = await API.get(`/pwps/${params.id}`);
+  return { data: response.data };
 };
 
 export const updatePWPData = async ({
@@ -108,11 +37,13 @@ export const updatePWPData = async ({
   params: any;
 }) => {
   const requestObject = Object.fromEntries(await request.formData());
-  if (getCookie('jwt')) {
-    console.log(params.id, requestObject);
+  console.log(requestObject, params.id);
+  const response = await API.put(`/pwps/${params.id}`, requestObject);
+  if (response.status === 200) {
     return redirect('/pwp');
+  } else {
+    throw new Error('Something went wrong');
   }
-  redirect('/login');
 };
 
 export const deletePWPData = async ({ params }: { params: any }) => {
@@ -120,28 +51,16 @@ export const deletePWPData = async ({ params }: { params: any }) => {
     console.log(params.id);
     return redirect('/pwp');
   }
-  redirect('/login');
+  return redirect('/login');
 };
 
 export const createPWPData = async ({ request }: { request: any }) => {
   const requestObject = Object.fromEntries(await request.formData());
-  if (getCookie('jwt')) {
-    console.log(requestObject);
+  console.log(requestObject);
+  const response = await API.post('/pwps', requestObject);
+  if (response.status === 200) {
     return redirect('/pwp');
+  } else {
+    throw new Error('Something went wrong');
   }
-  redirect('/login');
-};
-
-export const updatePWPStatus = async ({
-  params,
-  request,
-}: {
-  params: any;
-  request: any;
-}) => {
-  const requestObject = Object.fromEntries(await request.formData());
-  if (getCookie('jwt')) {
-    console.log(params.id, requestObject);
-    return null;
-  } else return redirect('/login');
 };

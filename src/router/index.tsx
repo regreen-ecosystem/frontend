@@ -17,6 +17,7 @@ import {
   getPIBOData,
   getPIBOTableData,
   updatePIBOData,
+  updatePIBOStatus,
 } from '../services/pibo';
 import {
   createPWPData,
@@ -24,7 +25,22 @@ import {
   getPWPData,
   getPWPTableData,
   updatePWPData,
+  updatePWPStatus,
 } from '../services/pwp';
+import {
+  createRequest,
+  getPendingData,
+  getPendingTableData,
+  upsertRequest,
+  updatePendingStatus,
+  getMatches,
+  createMatch,
+} from '../services/pending';
+import { updateMatchedStatus } from '../services/matched';
+import RequestDetailsPage from '../containers/Admin/PIBO/RequestDetailsPage';
+import { createCredit, upsertCredit } from '../services/credit';
+import CreditDetailsPage from '../containers/Admin/PWP/CreditDetailsPage';
+import Matching from '../containers/Admin/Matching';
 
 const router = createBrowserRouter([
   {
@@ -39,20 +55,31 @@ const router = createBrowserRouter([
       {
         path: '/pibo',
         loader: getPIBOTableData,
+        action: updatePIBOStatus,
         element: <PIBO />,
       },
       {
         path: '/pwp',
         loader: getPWPTableData,
+        action: updatePWPStatus,
         element: <PWP />,
       },
       {
         path: '/pending',
         element: <Pending />,
+        loader: getPendingTableData,
+        action: updatePendingStatus,
+      },
+      {
+        path: '/pending/:id/match',
+        element: <Matching />,
+        action: createMatch,
+        loader: getMatches,
       },
       {
         path: '/matched',
         element: <Matched />,
+        action: updateMatchedStatus,
       },
     ],
   },
@@ -80,6 +107,12 @@ const router = createBrowserRouter([
         path: '/pibo/:id/delete',
         loader: deletePIBOData,
       },
+      {
+        path: '/pibo/:id/addRequest',
+        loader: createRequest,
+        action: upsertRequest,
+        element: <RequestDetailsPage title='Add New Request' />,
+      },
     ],
   },
   {
@@ -100,6 +133,23 @@ const router = createBrowserRouter([
       {
         path: '/pwp/:id/delete',
         loader: deletePWPData,
+      },
+      {
+        path: '/pwp/:id/addCredits',
+        loader: createCredit,
+        action: upsertCredit,
+        element: <CreditDetailsPage title='Add Credit' />,
+      },
+    ],
+  },
+  {
+    path: '/pending',
+    children: [
+      {
+        path: '/pending/:id/edit',
+        element: <RequestDetailsPage title='Edit Request' />,
+        loader: getPendingData,
+        action: upsertRequest,
       },
     ],
   },

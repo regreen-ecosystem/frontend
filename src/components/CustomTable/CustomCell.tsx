@@ -1,9 +1,10 @@
 import React from 'react';
-import { Button, TableCell, Typography } from '@mui/material';
+import { Button, NativeSelect, TableCell, Typography } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 import { ColumnDetails, ColumnType } from './types/CustomTableProps';
 import { ReactComponent as User } from '../../assets/images/user.svg';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import { Form, useSubmit } from 'react-router-dom';
 
 const useStyles = makeStyles()((theme) => ({
   detailsContainer: {
@@ -64,14 +65,21 @@ const useStyles = makeStyles()((theme) => ({
     fontSize: 'medium',
     fontWeight: 200,
   },
+  statusSelect: {
+    '*': {
+      borderWidth: '0px !important',
+      fontWeight: 500,
+      color: theme.palette.text.primary,
+    },
+  },
 }));
 
 const CustomCell: React.FC<{
   row: any;
   column: ColumnDetails;
-  onClick?: () => void;
   statusEnum?: { [key: string]: string };
-}> = ({ row, column, onClick, statusEnum }) => {
+  id: string;
+}> = ({ row, column, statusEnum, id }) => {
   const { classes } = useStyles();
   return (
     <TableCell key={column.field} className={classes.cell}>
@@ -99,7 +107,11 @@ const CustomCell: React.FC<{
           />
         ) : null}
         {column.type === ColumnType.BUTTON ? (
-          <ButtonView onClick={onClick} title={row[column.field]} />
+          <ButtonView
+            title={column.title ?? row[column.field]}
+            action={column.action ?? ''}
+            id={id}
+          />
         ) : null}
         {column.type === ColumnType.DATE ? (
           <DateTimeView date={row[column.field]} />
@@ -109,14 +121,18 @@ const CustomCell: React.FC<{
         ) : null}
         {column.type === ColumnType.ACCORDIAN ? (
           <AccordianView
-            title={row[column.field]}
+            title={column.title ?? row[column.field]}
             onClick={() => {
               return;
             }}
           />
         ) : null}
         {column.type === ColumnType.STATUS && statusEnum ? (
-          <StatusView status={statusEnum[row[column.field]]} />
+          <StatusView
+            status={row[column.field]}
+            statusEnum={statusEnum}
+            id={id}
+          />
         ) : null}
       </>
     </TableCell>
@@ -156,15 +172,18 @@ const DateTimeView: React.FC<{ date: Date }> = ({ date }) => {
   return <Typography className={classes.text}>{date.toISOString()}</Typography>;
 };
 
-const ButtonView: React.FC<{ onClick?: () => void; title: string }> = ({
-  onClick,
+const ButtonView: React.FC<{ title: string; action: string; id: string }> = ({
   title,
+  action,
+  id,
 }) => {
   const { classes } = useStyles();
   return (
-    <Button className={classes.buttonView} onClick={onClick}>
-      {title}
-    </Button>
+    <Form action={id + action}>
+      <Button className={classes.buttonView} type='submit'>
+        {title}
+      </Button>
+    </Form>
   );
 };
 
@@ -173,9 +192,35 @@ const NumberView: React.FC<{ number: number }> = ({ number }) => {
   return <Typography className={classes.text}>{number}</Typography>;
 };
 
-const StatusView: React.FC<{ status: string }> = ({ status }) => {
+const StatusView: React.FC<{
+  status: string;
+  statusEnum: { [key: string]: string };
+  id: string;
+}> = ({ status, statusEnum, id }) => {
+  const submit = useSubmit();
   const { classes } = useStyles();
-  return <Typography className={classes.above}>{status}</Typography>;
+  return (
+    <Form method='POST' id={'status-form'}>
+      <NativeSelect
+        className={classes.statusSelect}
+        defaultValue={status}
+        key={id}
+        name='status'
+        onChange={(event) => {
+          submit(event.currentTarget.form);
+        }}
+      >
+        {Object.keys(statusEnum).map((key) => {
+          return (
+            <option key={key} value={key}>
+              {statusEnum[key]}
+            </option>
+          );
+        })}
+      </NativeSelect>
+      <input name='id' value={id} readOnly hidden />
+    </Form>
+  );
 };
 
 export default CustomCell;

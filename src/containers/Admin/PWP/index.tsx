@@ -5,9 +5,6 @@ import {
   ColumnType,
 } from '../../../components/CustomTable/types/CustomTableProps';
 import { Typography } from '@mui/material';
-import CustomButton from '../../../components/CustomButton';
-import AddIcon from '@mui/icons-material/Add';
-import { makeStyles } from 'tss-react/mui';
 import RegistrationBar from '../../../components/RegistrationBar';
 import { useLoaderData } from 'react-router-dom';
 
@@ -68,20 +65,21 @@ const columnDefs: Array<ColumnDetails> = [
     minWidth: 80,
     field: 'status',
   },
+  // {
+  //   label: 'Transactions',
+  //   type: ColumnType.ACCORDIAN,
+  //   minWidth: 80,
+  //   field: 'transactions',
+  // },
   {
-    label: 'Transactions',
-    type: ColumnType.ACCORDIAN,
+    label: 'Add Credit',
+    type: ColumnType.BUTTON,
     minWidth: 80,
-    field: 'transactions',
+    field: 'addCredit',
+    title: 'Add',
+    action: '/addCredits',
   },
 ];
-
-const useStyles = makeStyles()((theme) => ({
-  icon: {
-    fontSize: 'large',
-    color: theme.palette.grey[500],
-  },
-}));
 
 export enum PWPstatus {
   Y = 'Yet to be Added',
@@ -90,7 +88,6 @@ export enum PWPstatus {
 }
 
 const PWP: React.FC = () => {
-  const { classes } = useStyles();
   const request = useLoaderData();
   const data = (request as any).data;
 
@@ -113,13 +110,13 @@ const PWP: React.FC = () => {
         editMenu={true}
         deleteMenu={true}
       >
-        <CustomButton
+        {/* <CustomButton
           title='Add Credits'
           minWidth='90px'
           onClick={() => console.log('Add PWP')}
         >
           <AddIcon className={classes.icon} />
-        </CustomButton>
+        </CustomButton> */}
       </CustomTable>
     </>
   );

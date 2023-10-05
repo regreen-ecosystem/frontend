@@ -24,13 +24,13 @@ const columnDefs: Array<ColumnDetails> = [
     field: 'state',
     field2: 'pincode',
   },
-  {
-    label: 'Category',
-    type: ColumnType.DETAILS,
-    minWidth: 80,
-    field: 'category',
-    field2: 'type',
-  },
+  // {
+  //   label: 'Category',
+  //   type: ColumnType.DETAILS,
+  //   minWidth: 80,
+  //   field: 'category',
+  //   field2: 'type',
+  // },
   {
     label: 'Contact',
     type: ColumnType.NUMBER,
@@ -65,11 +65,19 @@ const columnDefs: Array<ColumnDetails> = [
     minWidth: 80,
     field: 'status',
   },
+  // {
+  //   label: 'Recent Transactions',
+  //   type: ColumnType.ACCORDIAN,
+  //   minWidth: 80,
+  //   field: 'attachments',
+  // },
   {
-    label: 'Recent Transactions',
-    type: ColumnType.ACCORDIAN,
+    label: 'Add Request',
+    type: ColumnType.BUTTON,
     minWidth: 80,
-    field: 'attachments',
+    field: 'action',
+    title: 'Add',
+    action: '/addRequest',
   },
 ];
 

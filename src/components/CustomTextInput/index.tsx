@@ -31,6 +31,7 @@ const CustomTextInput: React.FC<{
   multiline?: boolean;
   rows?: number;
   defaultValue?: string;
+  type?: string;
 }> = ({
   title,
   minWidth,
@@ -39,6 +40,7 @@ const CustomTextInput: React.FC<{
   multiline,
   rows,
   defaultValue,
+  type,
 }) => {
   const { classes } = useStyles({ minWidth: minWidth });
   return (
@@ -53,7 +55,7 @@ const CustomTextInput: React.FC<{
         multiline={multiline}
         rows={rows}
         defaultValue={defaultValue}
-        type='text'
+        type={type ?? 'text'}
       />
     </div>
   );

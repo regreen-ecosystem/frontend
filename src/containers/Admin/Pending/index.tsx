@@ -5,9 +5,7 @@ import {
   ColumnType,
 } from '../../../components/CustomTable/types/CustomTableProps';
 import { Typography } from '@mui/material';
-import CustomButton from '../../../components/CustomButton';
-import AddIcon from '@mui/icons-material/Add';
-import { makeStyles } from 'tss-react/mui';
+import { useLoaderData } from 'react-router-dom';
 
 const columnDefs: Array<ColumnDetails> = [
   {
@@ -46,85 +44,25 @@ const columnDefs: Array<ColumnDetails> = [
     field: 'status',
   },
   {
-    label: 'Action',
+    label: 'Find a Match',
     type: ColumnType.BUTTON,
     minWidth: 80,
     field: 'action',
+    title: 'Match',
+    action: '/match',
   },
 ];
 
-const rowData = {
-  companyName: 'Test',
-  category: 'Test',
-  uniqueID: 'Test',
-  credits: 80,
-  email: 'Test88@gg.com',
-  category1: 'Type-1',
-  action: 'Find a Match',
-  status: 'I',
-  type: 'Type-1',
-};
-
-const data: (typeof rowData)[] = [
-  rowData,
-  {
-    companyName: 'Test1',
-    category: 'Test',
-    uniqueID: 'Test',
-    credits: 20,
-    email: 'Test@g.com',
-    category1: 'Type-1',
-    action: 'Find a Match',
-    status: 'R',
-    type: 'Type-I',
-  },
-  rowData,
-  rowData,
-  rowData,
-  rowData,
-  rowData,
-  rowData,
-  rowData,
-  rowData,
-  rowData,
-  rowData,
-  rowData,
-  rowData,
-  rowData,
-  rowData,
-  rowData,
-  rowData,
-  rowData,
-  rowData,
-  rowData,
-  rowData,
-  rowData,
-  rowData,
-  rowData,
-  rowData,
-  rowData,
-  rowData,
-  rowData,
-  rowData,
-  rowData,
-];
-
-enum PendingStatus {
+export enum PendingStatus {
   R = 'Requested',
   I = 'In Progress',
   C = 'Completed',
   X = 'Cancelled',
 }
 
-const useStyles = makeStyles()((theme) => ({
-  icon: {
-    fontSize: 'large',
-    color: theme.palette.grey[500],
-  },
-}));
-
 const Pending: React.FC = () => {
-  const { classes } = useStyles();
+  const request = useLoaderData();
+  const data = (request as any).data;
   return (
     <>
       <Typography
@@ -142,13 +80,13 @@ const Pending: React.FC = () => {
         statusEnum={PendingStatus}
         editMenu={true}
       >
-        <CustomButton
+        {/* <CustomButton
           title='Add Requests'
           minWidth='90px'
           onClick={() => console.log('Add PWP')}
         >
           <AddIcon className={classes.icon} />
-        </CustomButton>
+        </CustomButton> */}
       </CustomTable>
     </>
   );

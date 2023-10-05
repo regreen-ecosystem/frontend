@@ -6,7 +6,6 @@ import {
   Checkbox,
   IconButton,
   Menu,
-  MenuItem,
   Table,
   TableBody,
   TableCell,
@@ -286,7 +285,11 @@ const CustomTable: React.FC<CustomTableProps> = ({
                   <TableRow hover={select} key={`${row}-${index.toString()}`}>
                     {select ? (
                       <TableCell padding='checkbox'>
-                        <Checkbox className={classes.checkboxContainer} />
+                        <Checkbox
+                          className={classes.checkboxContainer}
+                          name='id'
+                          value={row['id'] as number}
+                        />
                       </TableCell>
                     ) : null}
 
@@ -297,6 +300,7 @@ const CustomTable: React.FC<CustomTableProps> = ({
                           column={column}
                           key={column.field}
                           statusEnum={statusEnum}
+                          id={row['id'] as string}
                         />
                       );
                     })}

@@ -133,7 +133,6 @@ const Matched: React.FC = () => {
         columns={columnDefs}
         data={data}
         statusEnum={MatchedStatus}
-        editMenu={true}
       />
     </>
   );

@@ -67,7 +67,7 @@ const data: (typeof rowData)[] = [
 
 export const getPWPTableData = async () => {
   if (getCookie('jwt')) {
-    return data;
+    return { data };
   }
   redirect('/login');
 };
@@ -89,7 +89,7 @@ export const getPWPData = async ({ params }: { params: any }) => {
     return {
       companyName: 'Test',
       state: 'Test',
-      category: ['I', 'II'],
+      category: ['I', 'III'],
       email: 'TestMail@mail.com',
       pincode: '302010',
       status: 'A',
@@ -110,7 +110,7 @@ export const updatePWPData = async ({
   const requestObject = Object.fromEntries(await request.formData());
   if (getCookie('jwt')) {
     console.log(params.id, requestObject);
-    return true;
+    return redirect('/pwp');
   }
   redirect('/login');
 };
@@ -118,7 +118,7 @@ export const updatePWPData = async ({
 export const deletePWPData = async ({ params }: { params: any }) => {
   if (getCookie('jwt')) {
     console.log(params.id);
-    return true;
+    return redirect('/pwp');
   }
   redirect('/login');
 };
@@ -127,7 +127,21 @@ export const createPWPData = async ({ request }: { request: any }) => {
   const requestObject = Object.fromEntries(await request.formData());
   if (getCookie('jwt')) {
     console.log(requestObject);
-    return true;
+    return redirect('/pwp');
   }
   redirect('/login');
+};
+
+export const updatePWPStatus = async ({
+  params,
+  request,
+}: {
+  params: any;
+  request: any;
+}) => {
+  const requestObject = Object.fromEntries(await request.formData());
+  if (getCookie('jwt')) {
+    console.log(params.id, requestObject);
+    return null;
+  } else return redirect('/login');
 };

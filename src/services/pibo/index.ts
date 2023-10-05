@@ -3,7 +3,7 @@ import { getCookie } from 'typescript-cookie';
 
 const rowData = {
   id: 1,
-  companyName: 'Test',
+  companyName: 'Test1',
   state: 'Test',
   category: 'Test',
   contact: 9911111111,
@@ -21,7 +21,7 @@ const data: (typeof rowData)[] = [
   rowData,
   {
     id: 0,
-    companyName: 'Test1',
+    companyName: 'Test0',
     state: 'Test',
     category: 'Test',
     contact: 9330000001,
@@ -78,7 +78,7 @@ export const getPIBOData = async ({ params }: { params: any }) => {
       return {
         companyName: 'Test',
         state: 'Test',
-        category: ['I', 'II'],
+        category: ['I', 'II', 'IV'],
         email: 'TestMail@mail.com',
         pincode: '302010',
         status: 'A',
@@ -89,7 +89,7 @@ export const getPIBOData = async ({ params }: { params: any }) => {
     return {
       companyName: 'Test',
       state: 'Test',
-      category: ['I', 'II'],
+      category: ['I', 'III'],
       email: 'TestMail@mail.com',
       pincode: '302010',
       status: 'A',
@@ -130,4 +130,18 @@ export const createPIBOData = async ({ request }: { request: any }) => {
     return redirect('/pibo');
   }
   redirect('/login');
+};
+
+export const updatePIBOStatus = async ({
+  params,
+  request,
+}: {
+  params: any;
+  request: any;
+}) => {
+  const requestObject = Object.fromEntries(await request.formData());
+  if (getCookie('jwt')) {
+    console.log(params.id, requestObject);
+    return null;
+  } else return redirect('/login');
 };

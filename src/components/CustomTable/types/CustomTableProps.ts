@@ -10,6 +10,8 @@ export interface ColumnDetails {
   filterable?: boolean;
   defaultSort?: boolean;
   field2?: string;
+  title?: string;
+  action?: string;
 }
 
 export default interface CustomTableProps {

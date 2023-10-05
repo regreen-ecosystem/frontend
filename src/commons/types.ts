@@ -1,5 +1,3 @@
-import { redirect } from 'react-router-dom';
-
 export interface PIBOData {
   companyName: string;
   address: string;

@@ -88,7 +88,7 @@ const useStyles = makeStyles()((theme) => ({
 const RequestDetailsPage: React.FC<{ title: string }> = ({ title }) => {
   const { classes } = useStyles();
   const navigate = useNavigate();
-  const data = useLoaderData() as any;
+  const data = (useLoaderData() as any).data;
 
   return (
     <>
@@ -137,7 +137,7 @@ const RequestDetailsPage: React.FC<{ title: string }> = ({ title }) => {
                         minWidth='18vw'
                         placeholder='Enter Amount'
                         name={category}
-                        defaultValue={data.credits[index] ?? '0'}
+                        defaultValue={data.total_credits[index] ?? '0'}
                         type='number'
                       />
                     );
@@ -153,7 +153,7 @@ const RequestDetailsPage: React.FC<{ title: string }> = ({ title }) => {
                   minWidth='18vw'
                   placeholder='Enter Amount'
                   name={data.plastic_type}
-                  defaultValue={data.credits ?? '0'}
+                  defaultValue={data.total_credits ?? '0'}
                   type='number'
                 />
               )}

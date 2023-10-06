@@ -147,7 +147,6 @@ const DetailsView: React.FC<{ main: string; secondary: string }> = ({
   secondary,
 }) => {
   const { classes } = useStyles();
-  console.log(main, secondary);
   return (
     <div className={classes.detailsContainer}>
       <Typography className={classes.above}>{main}</Typography>

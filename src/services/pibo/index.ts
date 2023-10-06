@@ -34,7 +34,6 @@ export const getPIBOData = async ({ params }: { params: any }) => {
     .split(',')
     .sort()
     .join(',');
-  console.log(response.data.details.plastic_type);
   return { data: response.data };
 };
 
@@ -46,7 +45,6 @@ export const updatePIBOData = async ({
   params: any;
 }) => {
   const requestObject = Object.fromEntries(await request.formData());
-  console.log(requestObject, params.id);
   if (requestObject.plastic_type[0] === ',') {
     requestObject.plastic_type = requestObject.plastic_type.slice(1);
   }
@@ -72,6 +70,13 @@ export const deletePIBOData = async ({ params }: { params: any }) => {
 
 export const createPIBOData = async ({ request }: { request: any }) => {
   const requestObject = Object.fromEntries(await request.formData());
+  if (requestObject.plastic_type[0] === ',') {
+    requestObject.plastic_type = requestObject.plastic_type.slice(1);
+  }
+  requestObject.plastic_type = requestObject.plastic_type
+    .split(',')
+    .sort()
+    .join(',');
   const response = await API.post('/pibos', requestObject);
   if (response.status === 200) {
     return redirect('/pibo');

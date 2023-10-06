@@ -1,61 +1,23 @@
 import { getCookie } from 'typescript-cookie';
 import { redirect } from 'react-router-dom';
 import { getPWPData } from '../pwp';
-
-const data = [
-  {
-    id: 0,
-    category: 'I',
-    credit: 80,
-    type: 'Type-1',
-    companyName: 'Test1',
-    email: 'testMail1',
-  },
-  {
-    id: 1,
-    category: 'II',
-    credit: 30,
-    type: 'Type-1',
-    companyName: 'Test2',
-    email: 'testMail2',
-  },
-  {
-    id: 2,
-    category: 'III',
-    credit: 20,
-    type: 'Type-1',
-    companyName: 'Test3',
-    email: 'testMail3',
-  },
-  {
-    id: 3,
-    category: 'IV',
-    credit: 10,
-    type: 'Type-1',
-    companyName: 'Test4',
-    email: 'testMail4',
-  },
-  {
-    id: 4,
-    category: 'I',
-    credit: 50,
-    type: 'Type-1',
-    companyName: 'Test5',
-    email: 'testMail5',
-  },
-];
+import API from '../axios';
+import { PlasticCategory } from '../../commons/enums';
 
 export const getCreditTableData = async () => {
-  if (getCookie('jwt')) return { data: data };
-  return redirect('/login');
+  const response = await API.get('/assets');
+  if (response.status === 200) {
+    return { data: response.data };
+  }
+  throw new Error('Something went wrong');
 };
 
 export const getCreditData = async ({ params }: { params: any }) => {
-  if (getCookie('jwt')) {
-    const ind = Number(params.id);
-    return { data: data[ind] };
+  const response = await API.get(`/assets/${params.id}`);
+  if (response.status === 200) {
+    return { data: response.data };
   }
-  return redirect('/login');
+  throw new Error('Something went wrong');
 };
 
 export const createCredit = async ({ params }: { params: any }) => {
@@ -64,7 +26,8 @@ export const createCredit = async ({ params }: { params: any }) => {
     if (!pwp) {
       throw new Error('No PIBO found');
     }
-    const categories = pwp.data.details.platic_type.split(',');
+    console.log(pwp);
+    const categories = pwp.data.details.plastic_type.split(',');
     return {
       category: categories,
       credits: Array(categories.length).fill(0),
@@ -73,7 +36,7 @@ export const createCredit = async ({ params }: { params: any }) => {
   return redirect('/login');
 };
 
-export const upsertCredit = async ({
+export const updateCredit = async ({
   params,
   request,
 }: {
@@ -81,15 +44,41 @@ export const upsertCredit = async ({
   request: any;
 }) => {
   const requestObject = Object.fromEntries(await request.formData());
-  if (getCookie('jwt')) {
-    console.log(params.id, requestObject);
-    return null;
-  } else return redirect('/login');
+};
+
+export const insertCredit = async ({
+  params,
+  request,
+}: {
+  params: any;
+  request: any;
+}) => {
+  const requestObject = Object.fromEntries(await request.formData());
+  const pwp = { id: params.id };
+  for (const key of Object.keys(PlasticCategory)) {
+    if (requestObject[key] && requestObject[key] > 0) {
+      const body = {
+        plastic_type: key,
+        total_credits: requestObject[key],
+        pending_credits: requestObject[key],
+        pwp: pwp,
+      };
+      const response = await API.post('/assets', body);
+      if (response.status !== 200) {
+        throw new Error('Something went wrong');
+      }
+    }
+  }
+  return redirect('/pending');
 };
 
 export const getMatchForCategory = async (category: string) => {
-  if (getCookie('jwt')) {
-    return data.filter((row) => row.category === category);
+  const response = await API.get(`/assets`);
+  if (response.status !== 200) {
+    throw new Error('Something went wrong');
   }
-  return redirect('/login');
+  const data = (response.data as Array<any>).filter((asset) => {
+    return asset.plastic_type === category && asset.total_credits > 0;
+  });
+  return { data: data };
 };

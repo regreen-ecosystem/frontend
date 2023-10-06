@@ -28,17 +28,17 @@ import {
 } from '../services/pwp';
 import {
   createRequest,
+  getMatches,
   getPendingData,
   getPendingTableData,
-  upsertRequest,
-  updatePendingStatus,
-  getMatches,
-  createMatch,
+  // getMatches,
+  // createMatch,
   insertRequest,
+  updateRequest,
 } from '../services/pending';
-import { updateMatchedStatus } from '../services/matched';
+import { getMatchedData, updateMatchedStatus } from '../services/matched';
 import RequestDetailsPage from '../containers/Admin/PIBO/RequestDetailsPage';
-import { createCredit, upsertCredit } from '../services/credit';
+import { createCredit, updateCredit } from '../services/credit';
 import CreditDetailsPage from '../containers/Admin/PWP/CreditDetailsPage';
 import Matching from '../containers/Admin/Matching';
 
@@ -66,18 +66,18 @@ const router = createBrowserRouter([
         path: '/pending',
         element: <Pending />,
         loader: getPendingTableData,
-        action: updatePendingStatus,
       },
       {
         path: '/pending/:id/match',
         element: <Matching />,
-        action: createMatch,
+        // action: createMatch,
         loader: getMatches,
       },
       {
         path: '/matched',
         element: <Matched />,
         action: updateMatchedStatus,
+        loader: getMatchedData,
       },
     ],
   },
@@ -139,7 +139,7 @@ const router = createBrowserRouter([
       {
         path: '/pwp/:id/addCredits',
         loader: createCredit,
-        action: upsertCredit,
+        action: insertRequest,
         element: <CreditDetailsPage title='Add Credit' />,
       },
     ],
@@ -151,7 +151,7 @@ const router = createBrowserRouter([
         path: '/pending/:id/edit',
         element: <RequestDetailsPage title='Edit Request' />,
         loader: getPendingData,
-        action: upsertRequest,
+        action: updateRequest,
       },
     ],
   },

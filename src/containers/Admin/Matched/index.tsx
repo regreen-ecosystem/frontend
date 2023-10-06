@@ -5,13 +5,14 @@ import {
   ColumnType,
 } from '../../../components/CustomTable/types/CustomTableProps';
 import { Typography } from '@mui/material';
+import { useLoaderData } from 'react-router-dom';
 
 const columnDefs: Array<ColumnDetails> = [
   {
     label: 'Company Name',
     type: ColumnType.NAME,
     minWidth: 80,
-    field: 'companyName',
+    field: 'pibo.details.name',
     searchable: true,
     field2: 'email',
   },
@@ -19,97 +20,43 @@ const columnDefs: Array<ColumnDetails> = [
     label: 'Category',
     type: ColumnType.DETAILS,
     minWidth: 80,
-    field: 'category',
+    field: 'plastic_type',
     field2: 'type',
   },
   {
     label: 'Unique ID',
     type: ColumnType.TEXT,
     minWidth: 80,
-    field: 'uniqueID',
+    field: 'pibo.details.uid',
   },
   {
     label: 'Credits',
     type: ColumnType.NUMBER,
     minWidth: 80,
-    field: 'credits',
+    field: 'total_credits',
     sortable: true,
     defaultSort: true,
   },
-  {
-    label: 'Total PWPs',
-    type: ColumnType.TEXT,
-    minWidth: 80,
-    field: 'totalPWPs',
-  },
+  // {
+  //   label: 'Total PWPs',
+  //   type: ColumnType.TEXT,
+  //   minWidth: 80,
+  //   field: 'totalPWPs',
+  // },
   {
     label: 'Status',
     type: ColumnType.STATUS,
     minWidth: 80,
     field: 'status',
+    detailsId: 'pibo.details.id',
   },
   {
     label: 'PWPs List',
     type: ColumnType.BUTTON,
     minWidth: 80,
     field: 'pwpList',
+    title: 'View',
   },
-];
-
-const rowData = {
-  companyName: 'Test',
-  category: 'Test',
-  uniqueID: 'Test',
-  credits: 800,
-  email: 'Test88',
-  totalPWPs: '4',
-  pwpList: 'View',
-  status: 'C',
-  type: 'Type-1',
-};
-
-const data: (typeof rowData)[] = [
-  rowData,
-  {
-    companyName: 'Test1',
-    category: 'Test',
-    uniqueID: 'Test',
-    credits: 260,
-    email: 'Test',
-    totalPWPs: '6',
-    pwpList: 'View',
-    status: 'R',
-    type: 'Type-I',
-  },
-  rowData,
-  rowData,
-  rowData,
-  rowData,
-  rowData,
-  rowData,
-  rowData,
-  rowData,
-  rowData,
-  rowData,
-  rowData,
-  rowData,
-  rowData,
-  rowData,
-  rowData,
-  rowData,
-  rowData,
-  rowData,
-  rowData,
-  rowData,
-  rowData,
-  rowData,
-  rowData,
-  rowData,
-  rowData,
-  rowData,
-  rowData,
-  rowData,
-  rowData,
 ];
 
 enum MatchedStatus {
@@ -118,6 +65,7 @@ enum MatchedStatus {
 }
 
 const Matched: React.FC = () => {
+  const data = (useLoaderData() as any).data;
   return (
     <>
       <Typography

@@ -12,7 +12,7 @@ const API = () => {
   });
 
   instance.interceptors.request.use((params) => {
-    const token = getCookie('jwtToken');
+    const token = getCookie('jwt');
     if (token) params.headers.Authorization = token ? `Bearer ${token}` : '';
     return params;
   });

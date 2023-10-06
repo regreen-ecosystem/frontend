@@ -1,47 +1,31 @@
 export interface PIBOData {
-  companyName: string;
-  address: string;
-  state: string;
-  pincode: string;
-  cpcbId: string;
-  email: string;
-  status: string;
-  category: Array<string>;
+  id: number;
+  details: {
+    name: string;
+    address: string;
+    state: string;
+    pincode: string;
+    uid: string;
+    email: string;
+    status: string;
+    plastic_type: string;
+    id: number;
+    phone_number: string;
+  };
 }
 
 export interface PWPData {
-  companyName: string;
-  address: string;
-  state: string;
-  pincode: string;
-  cpcbId: string;
-  email: string;
-  status: string;
-  category: Array<string>;
+  id: number;
+  details: {
+    name: string;
+    address: string;
+    state: string;
+    pincode: string;
+    uid: string;
+    email: string;
+    status: string;
+    plastic_type: string;
+    id: number;
+    phone_number: string;
+  };
 }
-
-export const createPIBO = () => {
-  return {
-    companyName: '',
-    address: '',
-    state: '',
-    pincode: '',
-    cpcbId: '',
-    email: '',
-    status: '',
-    category: [],
-  };
-};
-
-export const createPWP = () => {
-  return {
-    companyName: '',
-    address: '',
-    state: '',
-    pincode: '',
-    cpcbId: '',
-    email: '',
-    status: '',
-    category: [],
-  };
-};

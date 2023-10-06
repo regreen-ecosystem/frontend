@@ -12,28 +12,28 @@ const columnDefs: Array<ColumnDetails> = [
     label: 'Company Name',
     type: ColumnType.NAME,
     minWidth: 80,
-    field: 'companyName',
+    field: 'pibo.details.name',
     searchable: true,
-    field2: 'email',
+    field2: 'pibo.details.email',
   },
   {
     label: 'Category',
     type: ColumnType.DETAILS,
     minWidth: 80,
-    field: 'category',
+    field: 'plastic_type',
     field2: 'type',
   },
   {
     label: 'Unique ID',
     type: ColumnType.TEXT,
     minWidth: 80,
-    field: 'uniqueID',
+    field: 'pibo.details.uid',
   },
   {
     label: 'Credits',
     type: ColumnType.NUMBER,
     minWidth: 80,
-    field: 'credits',
+    field: 'total_credits',
     sortable: true,
     defaultSort: true,
   },
@@ -42,6 +42,7 @@ const columnDefs: Array<ColumnDetails> = [
     type: ColumnType.STATUS,
     minWidth: 80,
     field: 'status',
+    detailsId: 'pibo.details.id',
   },
   {
     label: 'Find a Match',
@@ -63,6 +64,7 @@ export enum PendingStatus {
 const Pending: React.FC = () => {
   const request = useLoaderData();
   const data = (request as any).data;
+  console.log(data);
   return (
     <>
       <Typography

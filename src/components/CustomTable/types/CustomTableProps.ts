@@ -12,6 +12,7 @@ export interface ColumnDetails {
   field2?: string;
   title?: string;
   action?: string;
+  detailsId?: string;
 }
 
 export default interface CustomTableProps {

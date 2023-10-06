@@ -24,6 +24,7 @@ import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
 import { Form } from 'react-router-dom';
+import { byString } from '../../commons/functions';
 
 const useStyles = makeStyles()((theme) => ({
   root: {
@@ -199,7 +200,16 @@ const CustomTable: React.FC<CustomTableProps> = ({
     setPage(0);
     return data.filter((row) => {
       return searchableColumns.some((value) => {
-        return String(row[value.field]).toLowerCase().includes(searchValue);
+        if (value.field2)
+          return String(
+            byString(row, value.field) + ' ' + byString(row, value.field2)
+          )
+            .toLowerCase()
+            .includes(searchValue);
+        else
+          return String(byString(row, value.field))
+            .toLowerCase()
+            .includes(searchValue);
       });
     });
   }, [searchValue]);
@@ -300,7 +310,6 @@ const CustomTable: React.FC<CustomTableProps> = ({
                           column={column}
                           key={column.field}
                           statusEnum={statusEnum}
-                          id={row['id'] as string}
                         />
                       );
                     })}

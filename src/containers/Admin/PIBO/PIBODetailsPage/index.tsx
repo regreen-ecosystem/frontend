@@ -87,7 +87,7 @@ const PIBODetailsPage: React.FC<{ title: string }> = ({ title }) => {
   const { classes } = useStyles();
   const navigate = useNavigate();
   const data = useLoaderData();
-  const pibo: PIBOData = data as PIBOData;
+  const pibo = (data as any).data as PIBOData;
 
   return (
     <>
@@ -110,23 +110,23 @@ const PIBODetailsPage: React.FC<{ title: string }> = ({ title }) => {
                 title='Company Name:'
                 minWidth='18vw'
                 placeholder='Enter Company Name'
-                name={'companyName'}
-                defaultValue={pibo.companyName ?? ''}
+                name={'name'}
+                defaultValue={pibo.details.name ?? ''}
               />
               <CustomTextInput
                 title='Email:'
                 minWidth='18vw'
                 placeholder='Enter Email'
                 name={'email'}
-                defaultValue={pibo.email ?? ''}
+                defaultValue={pibo.details.email ?? ''}
               />
 
               <CustomTextInput
                 title='CPCB ID:'
                 minWidth='18vw'
                 placeholder='Enter ID'
-                name={'cpcbID'}
-                defaultValue={pibo.cpcbId ?? ''}
+                name={'uid'}
+                defaultValue={pibo.details.uid ?? ''}
               />
             </div>
             <div className={classes.form}>
@@ -135,14 +135,14 @@ const PIBODetailsPage: React.FC<{ title: string }> = ({ title }) => {
                 minWidth='18vw'
                 placeholder='Enter State'
                 name={'state'}
-                defaultValue={pibo.state ?? ''}
+                defaultValue={pibo.details.state ?? ''}
               />
               <CustomTextInput
                 title='Pincode:'
                 minWidth='18vw'
                 placeholder='Enter Pincode'
                 name={'pincode'}
-                defaultValue={pibo.pincode ?? ''}
+                defaultValue={pibo.details.pincode ?? ''}
               />
               <CustomTextInput
                 title='Address:'
@@ -151,16 +151,23 @@ const PIBODetailsPage: React.FC<{ title: string }> = ({ title }) => {
                 name={'address'}
                 multiline={true}
                 rows={4}
-                defaultValue={pibo.address ?? ''}
+                defaultValue={pibo.details.address ?? ''}
               />
             </div>
             <div className={classes.form}>
+              <CustomTextInput
+                title='Phone No:'
+                minWidth='18vw'
+                placeholder='Enter Phone No'
+                name={'phone_number'}
+                defaultValue={pibo.details.phone_number ?? ''}
+              />
               <div>
                 <Typography className={classes.heading}>{'Status:'}</Typography>
                 <Select
                   name='status'
                   className={classes.select}
-                  defaultValue={pibo.status ?? 'Y'}
+                  defaultValue={pibo.details.status ?? 'Y'}
                   type='text'
                 >
                   <MenuItem value={'Y'}>{PIBOstatus.Y}</MenuItem>
@@ -173,9 +180,9 @@ const PIBODetailsPage: React.FC<{ title: string }> = ({ title }) => {
                   {'Category:'}
                 </Typography>
                 <Select
-                  name='category'
+                  name='plastic_type'
                   multiple
-                  defaultValue={pibo.category ?? []}
+                  defaultValue={pibo.details.plastic_type.split(',') ?? []}
                   className={classes.select}
                   type='array'
                 >
@@ -210,6 +217,10 @@ const PIBODetailsPage: React.FC<{ title: string }> = ({ title }) => {
                 {'Save'}
               </Button>
             </div>
+            {pibo.details.id
+              ? (console.log(pibo.details.id),
+                (<input type='hidden' name='id' value={pibo.details.id} />))
+              : null}
           </Form>
         </div>
       </div>

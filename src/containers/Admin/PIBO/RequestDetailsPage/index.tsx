@@ -114,6 +114,7 @@ const RequestDetailsPage: React.FC<{ title: string }> = ({ title }) => {
                   className={classes.select}
                   defaultValue={data.status ?? 'R'}
                   type='text'
+                  readOnly={true}
                 >
                   {Object.keys(PendingStatus).map((status) => (
                     <MenuItem key={status} value={status}>
@@ -137,8 +138,9 @@ const RequestDetailsPage: React.FC<{ title: string }> = ({ title }) => {
                         minWidth='18vw'
                         placeholder='Enter Amount'
                         name={category}
-                        defaultValue={data.total_credits[index] ?? '0'}
+                        defaultValue={data.credits[index] ?? '0'}
                         type='number'
+                        disabled={data.status === 'I' || data.status === 'C'}
                       />
                     );
                   })
@@ -155,8 +157,19 @@ const RequestDetailsPage: React.FC<{ title: string }> = ({ title }) => {
                   name={data.plastic_type}
                   defaultValue={data.total_credits ?? '0'}
                   type='number'
+                  disabled={data.status === 'I' || data.status === 'C'}
                 />
               )}
+              {data.status === 'I' ? (
+                <CustomTextInput
+                  title='Enter Cost'
+                  minWidth='18vw'
+                  placeholder='Enter Price'
+                  name='selling_price'
+                  defaultValue={data.selling_price ?? '0'}
+                  type='number'
+                />
+              ) : null}
               <div className={classes.buttonContainer}>
                 <Button
                   variant='outlined'

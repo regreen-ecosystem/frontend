@@ -32,6 +32,7 @@ const CustomTextInput: React.FC<{
   rows?: number;
   defaultValue?: string;
   type?: string;
+  disabled?: boolean;
 }> = ({
   title,
   minWidth,
@@ -41,6 +42,7 @@ const CustomTextInput: React.FC<{
   rows,
   defaultValue,
   type,
+  disabled,
 }) => {
   const { classes } = useStyles({ minWidth: minWidth });
   return (
@@ -56,6 +58,7 @@ const CustomTextInput: React.FC<{
         rows={rows}
         defaultValue={defaultValue}
         type={type ?? 'text'}
+        disabled={disabled}
       />
     </div>
   );

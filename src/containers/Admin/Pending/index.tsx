@@ -33,7 +33,7 @@ const columnDefs: Array<ColumnDetails> = [
     label: 'Credits',
     type: ColumnType.NUMBER,
     minWidth: 80,
-    field: 'total_credits',
+    field: 'credits',
     sortable: true,
     defaultSort: true,
   },
@@ -64,7 +64,6 @@ export enum PendingStatus {
 const Pending: React.FC = () => {
   const request = useLoaderData();
   const data = (request as any).data;
-  console.log(data);
   return (
     <>
       <Typography
@@ -81,15 +80,10 @@ const Pending: React.FC = () => {
         data={data}
         statusEnum={PendingStatus}
         editMenu={true}
-      >
-        {/* <CustomButton
-          title='Add Requests'
-          minWidth='90px'
-          onClick={() => console.log('Add PWP')}
-        >
-          <AddIcon className={classes.icon} />
-        </CustomButton> */}
-      </CustomTable>
+        statusQuery='status'
+        statusDisabled={['R', 'X']}
+        buttonDisabled={['I', 'C', 'X']}
+      ></CustomTable>
     </>
   );
 };

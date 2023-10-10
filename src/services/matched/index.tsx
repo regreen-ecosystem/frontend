@@ -10,21 +10,14 @@ export const updateMatchedStatus = async ({
   request: any;
 }) => {
   const requestObject = Object.fromEntries(await request.formData());
-  if (getCookie('jwt')) {
-    console.log(params.id, requestObject);
-    return null;
-  } else return redirect('/login');
+  const response = await API.put(`/transactions/${params.id}`, requestObject);
+  if (response.status !== 200) throw new Error('Something went wrong!');
+  return redirect('/matched');
 };
 
 export const getMatchedData = async () => {
-  const response = await API.get('/requests');
+  const response = await API.get('/requests/matched');
   if (response.status !== 200) throw new Error('Something went wrong!');
-  const data = (response.data as Array<any>).filter(
-    (item) => item.status === 'Ready'
-  );
-  data.forEach((item) => {
-    item.status = 'R';
-  });
-  console.log(data);
-  return { data: data };
+  console.log(response.data);
+  return { data: response.data };
 };

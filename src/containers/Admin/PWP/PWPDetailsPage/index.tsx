@@ -217,10 +217,9 @@ const PWPDetailsPage: React.FC<{ title: string }> = ({ title }) => {
                 {'Save'}
               </Button>
             </div>
-            {pwp.details.id
-              ? (console.log(pwp.details.id),
-                (<input type='hidden' name='id' value={pwp.details.id} />))
-              : null}
+            {pwp.details.id ? (
+              <input type='hidden' name='id' value={pwp.details.id} />
+            ) : null}
           </Form>
         </div>
       </div>

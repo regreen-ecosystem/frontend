@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ChangeEvent, SyntheticEvent } from 'react';
 
 export interface ColumnDetails {
   label: string;
@@ -23,9 +23,18 @@ export default interface CustomTableProps {
   filter?: boolean;
   children?: React.ReactNode;
   select?: boolean;
+  onSelect?: (
+    event: ChangeEvent<HTMLInputElement>,
+    checked: boolean,
+    id: number
+  ) => void;
   statusEnum?: { [key: string]: string };
   editMenu?: boolean;
   deleteMenu?: boolean;
+  editDisabled?: Array<string>;
+  statusQuery?: string;
+  statusDisabled?: Array<string>;
+  buttonDisabled?: Array<string>;
 }
 
 export enum ColumnType {

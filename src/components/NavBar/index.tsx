@@ -10,7 +10,7 @@ import {
   Typography,
 } from '@mui/material';
 import React from 'react';
-import { ReactComponent as Logo } from '../../assets/images/regreen-ecosystem-logo.svg';
+import { ReactComponent as Logo } from '../../assets/images/company-logo.svg';
 import { makeStyles } from 'tss-react/mui';
 import { NavLink, Form } from 'react-router-dom';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';

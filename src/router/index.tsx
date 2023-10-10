@@ -27,6 +27,7 @@ import {
   createPWP,
 } from '../services/pwp';
 import {
+  createMatch,
   createRequest,
   getMatches,
   getPendingData,
@@ -38,7 +39,7 @@ import {
 } from '../services/pending';
 import { getMatchedData, updateMatchedStatus } from '../services/matched';
 import RequestDetailsPage from '../containers/Admin/PIBO/RequestDetailsPage';
-import { createCredit, updateCredit } from '../services/credit';
+import { createCredit, insertCredit, updateCredit } from '../services/credit';
 import CreditDetailsPage from '../containers/Admin/PWP/CreditDetailsPage';
 import Matching from '../containers/Admin/Matching';
 
@@ -70,7 +71,7 @@ const router = createBrowserRouter([
       {
         path: '/pending/:id/match',
         element: <Matching />,
-        // action: createMatch,
+        action: createMatch,
         loader: getMatches,
       },
       {
@@ -139,7 +140,7 @@ const router = createBrowserRouter([
       {
         path: '/pwp/:id/addCredits',
         loader: createCredit,
-        action: insertRequest,
+        action: insertCredit,
         element: <CreditDetailsPage title='Add Credit' />,
       },
     ],

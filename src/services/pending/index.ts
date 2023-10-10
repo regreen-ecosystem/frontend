@@ -17,6 +17,7 @@ export const getPendingTableData = async () => {
 export const getPendingData = async ({ params }: { params: any }) => {
   const request = await API.get(`/requests/${params.id}`);
   if (request.status === 200) {
+    request.data.credits = [request.data.credits];
     console.log(request.data);
     return { data: request.data };
   } else {
@@ -33,9 +34,7 @@ export const createRequest = async ({ params }: { params: any }) => {
     return {
       data: {
         plastic_type: pibo.details.plastic_type,
-        total_credits: Array(pibo.details.plastic_type.split(',').length).fill(
-          0
-        ),
+        credits: Array(pibo.details.plastic_type.split(',').length).fill(0),
       },
     };
   }
@@ -50,14 +49,14 @@ export const updateRequest = async ({
   request: any;
 }) => {
   const requestObject = Object.fromEntries(await request.formData());
+  console.log(requestObject);
   for (const key of Object.keys(PlasticCategory)) {
     if (requestObject[key] && requestObject[key] > 0) {
       const body = {
-        total_credits: requestObject[key],
-        pending_credits: requestObject[key],
+        credits: requestObject[key],
         status: requestObject.status,
       };
-      const response = await API.put(`/requests`, body);
+      const response = await API.put(`/requests/${params.id}`, body);
       if (response.status !== 200) {
         throw new Error('Something went wrong');
       }
@@ -65,11 +64,25 @@ export const updateRequest = async ({
     }
   }
 
-  const response = await API.put(`/requests`, requestObject);
-  if (response.status !== 200) {
-    throw new Error('Something went wrong');
+  if (requestObject.status === 'I' || requestObject.status === 'C') {
+    if (requestObject.selling_price) {
+      const response = await API.put(`/requests/${params.id}/price`, {
+        selling_price: requestObject.selling_price,
+      });
+      if (response.status !== 200) {
+        throw new Error('Something went wrong');
+      }
+      return redirect('/pending');
+    } else {
+      const response = await API.put(`/requests/${params.id}`, {
+        status: requestObject.status,
+      });
+      if (response.status !== 200) {
+        throw new Error('Something went wrong');
+      }
+      return redirect('/pending');
+    }
   }
-  return redirect('/pending');
 };
 
 export const insertRequest = async ({
@@ -85,8 +98,7 @@ export const insertRequest = async ({
     if (requestObject[key] && requestObject[key] > 0) {
       const body = {
         plastic_type: key,
-        total_credits: requestObject[key],
-        pending_credits: requestObject[key],
+        credits: requestObject[key],
         pibo: pibo,
       };
       const response = await API.post('/requests', body);
@@ -98,41 +110,44 @@ export const insertRequest = async ({
   return redirect('/pending');
 };
 
-// REMAINING
 export const getMatches = async ({ params }: { params: any }) => {
-  if (getCookie('jwt')) {
-    const request = (await getPendingData({ params })) as any;
-    if (request.status !== 200) {
-      throw new Error('Something went wrong');
-    }
-    console.log(request);
-    const creditMatches = await getMatchForCategory(request.data.plastic_type);
-    console.log(creditMatches);
-    return {
-      data: creditMatches,
-    };
+  const request = await API.get(`/requests/${params.id}`);
+  if (request.status === 200) {
+    const data = request.data;
+    const matches = await API.get(
+      `/assets/filter?plastic_type=${data.plastic_type}&credits=0`
+    );
+    console.log(matches.data);
+    return { data: matches.data, request: request.data };
+  } else {
+    throw new Error('Something went wrong');
   }
-  return redirect('/login');
 };
 
-// export const createMatch = async ({
-//   params,
-//   request,
-// }: {
-//   params: any;
-//   request: any;
-// }) => {
-//   const formData = await request.formData();
-//   const id = [];
-//   for (const [name, value] of formData) {
-//     if (name === 'id') {
-//       id.push(value);
-//     }
-//   }
-//   console.log(id);
-//   const requestObject = Object.fromEntries(formData);
-//   if (getCookie('jwt')) {
-//     console.log(params.id, requestObject);
-//     return redirect('/pending');
-//   } else return redirect('/login');
-// };
+export const createMatch = async ({
+  params,
+  request,
+}: {
+  params: any;
+  request: any;
+}) => {
+  const formData = await request.formData();
+  const id = [];
+  for (const [name, value] of formData) {
+    if (name === 'id') {
+      id.push({ id: value });
+    }
+  }
+  const requestObject = Object.fromEntries(formData);
+  const body = {
+    selling_price: requestObject.sellingCost,
+    request: { id: params.id },
+    assets: id,
+  };
+  console.log(body);
+  const response = await API.post('/transactions', body);
+  if (response.status !== 200) {
+    throw new Error('Something went wrong');
+  }
+  return redirect('/pending');
+};

@@ -217,10 +217,9 @@ const PIBODetailsPage: React.FC<{ title: string }> = ({ title }) => {
                 {'Save'}
               </Button>
             </div>
-            {pibo.details.id
-              ? (console.log(pibo.details.id),
-                (<input type='hidden' name='id' value={pibo.details.id} />))
-              : null}
+            {pibo.details.id ? (
+              <input type='hidden' name='id' value={pibo.details.id} />
+            ) : null}
           </Form>
         </div>
       </div>

@@ -97,15 +97,7 @@ const PWP: React.FC = () => {
         statusEnum={PWPstatus}
         editMenu={true}
         deleteMenu={true}
-      >
-        {/* <CustomButton
-          title='Add Credits'
-          minWidth='90px'
-          onClick={() => console.log('Add PWP')}
-        >
-          <AddIcon className={classes.icon} />
-        </CustomButton> */}
-      </CustomTable>
+      ></CustomTable>
     </>
   );
 };

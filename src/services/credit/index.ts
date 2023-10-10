@@ -26,11 +26,11 @@ export const createCredit = async ({ params }: { params: any }) => {
     if (!pwp) {
       throw new Error('No PIBO found');
     }
-    console.log(pwp);
     const categories = pwp.data.details.plastic_type.split(',');
     return {
       category: categories,
       credits: Array(categories.length).fill(0),
+      cost: Array(categories.length).fill(0),
     };
   }
   return redirect('/login');
@@ -55,13 +55,14 @@ export const insertCredit = async ({
 }) => {
   const requestObject = Object.fromEntries(await request.formData());
   const pwp = { id: params.id };
+  console.log(requestObject);
   for (const key of Object.keys(PlasticCategory)) {
     if (requestObject[key] && requestObject[key] > 0) {
       const body = {
         plastic_type: key,
-        total_credits: requestObject[key],
-        pending_credits: requestObject[key],
+        credits: requestObject[key],
         pwp: pwp,
+        cost: requestObject[`cost${key}`],
       };
       const response = await API.post('/assets', body);
       if (response.status !== 200) {

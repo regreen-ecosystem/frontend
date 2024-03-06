@@ -1,94 +1,46 @@
 import { redirect } from 'react-router-dom';
 import { getCookie } from 'typescript-cookie';
 import { getPIBOData } from '../pibo';
+import API from '../axios';
+import { PlasticCategory } from '../../commons/enums';
 import { getMatchForCategory } from '../credit';
 
-const rowData = {
-  id: '0',
-  piboId: '0',
-  companyName: 'Test',
-  category: 'I',
-  uniqueID: 'Test',
-  credits: 80,
-  email: 'Test88@gg.com',
-  action: 'Find a Match',
-  status: 'I',
-  type: 'Type-1',
-};
-
-const data: (typeof rowData)[] = [
-  rowData,
-  {
-    id: '1',
-    piboId: '1',
-    companyName: 'Test1',
-    category: 'II',
-    uniqueID: 'Test',
-    credits: 20,
-    email: 'Test@g.com',
-    action: 'Find a Match',
-    status: 'R',
-    type: 'Type-I',
-  },
-  rowData,
-  rowData,
-  rowData,
-  rowData,
-  rowData,
-  rowData,
-  rowData,
-  rowData,
-  rowData,
-  rowData,
-  rowData,
-  rowData,
-  rowData,
-  rowData,
-  rowData,
-  rowData,
-  rowData,
-  rowData,
-  rowData,
-  rowData,
-  rowData,
-  rowData,
-  rowData,
-  rowData,
-  rowData,
-  rowData,
-  rowData,
-  rowData,
-  rowData,
-];
-
-export const getPendingTableData = () => {
-  if (getCookie('jwt')) {
-    return { data };
+export const getPendingTableData = async () => {
+  const request = await API.get('/requests');
+  if (request.status === 200) {
+    return { data: request.data };
+  } else {
+    throw new Error('Something went wrong');
   }
-  return redirect('/login');
 };
 
 export const getPendingData = async ({ params }: { params: any }) => {
+  const request = await API.get(`/requests/${params.id}`);
+  if (request.status === 200) {
+    request.data.credits = [request.data.credits];
+    return { data: request.data };
+  } else {
+    throw new Error('Something went wrong');
+  }
+};
+
+export const createRequest = async ({ params }: { params: any }) => {
   if (getCookie('jwt')) {
-    if (params.id === '0') {
-      return {
-        id: '0',
-        category: 'I',
-        status: 'R',
-        credits: 90,
-      };
+    const pibo = (await getPIBOData({ params })).data;
+    if (!pibo) {
+      throw new Error('No PIBO found');
     }
     return {
-      id: '1',
-      category: 'II',
-      status: 'X',
-      credits: 30,
+      data: {
+        plastic_type: pibo.details.plastic_type,
+        credits: Array(pibo.details.plastic_type.split(',').length).fill(0),
+      },
     };
   }
   return redirect('/login');
 };
 
-export const updatePendingStatus = async ({
+export const updateRequest = async ({
   params,
   request,
 }: {
@@ -96,10 +48,77 @@ export const updatePendingStatus = async ({
   request: any;
 }) => {
   const requestObject = Object.fromEntries(await request.formData());
-  if (getCookie('jwt')) {
-    console.log(params.id, requestObject);
-    return null;
-  } else return redirect('/login');
+  for (const key of Object.keys(PlasticCategory)) {
+    if (requestObject[key] && requestObject[key] > 0) {
+      const body = {
+        credits: requestObject[key],
+        status: requestObject.status,
+      };
+      const response = await API.put(`/requests/${params.id}`, body);
+      if (response.status !== 200) {
+        throw new Error('Something went wrong');
+      }
+      return redirect('/pending');
+    }
+  }
+
+  if (requestObject.status === 'I' || requestObject.status === 'C') {
+    if (requestObject.selling_price) {
+      const response = await API.put(`/requests/${params.id}/price`, {
+        selling_price: requestObject.selling_price,
+      });
+      if (response.status !== 200) {
+        throw new Error('Something went wrong');
+      }
+      return redirect('/pending');
+    } else {
+      const response = await API.put(`/requests/${params.id}`, {
+        status: requestObject.status,
+      });
+      if (response.status !== 200) {
+        throw new Error('Something went wrong');
+      }
+      return redirect('/pending');
+    }
+  }
+};
+
+export const insertRequest = async ({
+  params,
+  request,
+}: {
+  params: any;
+  request: any;
+}) => {
+  const requestObject = Object.fromEntries(await request.formData());
+  const pibo = { id: params.id };
+  for (const key of Object.keys(PlasticCategory)) {
+    if (requestObject[key] && requestObject[key] > 0) {
+      const body = {
+        plastic_type: key,
+        credits: requestObject[key],
+        pibo: pibo,
+      };
+      const response = await API.post('/requests', body);
+      if (response.status !== 200) {
+        throw new Error('Something went wrong');
+      }
+    }
+  }
+  return redirect('/pending');
+};
+
+export const getMatches = async ({ params }: { params: any }) => {
+  const request = await API.get(`/requests/${params.id}`);
+  if (request.status === 200) {
+    const data = request.data;
+    const matches = await API.get(
+      `/assets/filter?plastic_type=${data.plastic_type}&credits=0`
+    );
+    return { data: matches.data, request: request.data };
+  } else {
+    throw new Error('Something went wrong');
+  }
 };
 
 export const createMatch = async ({
@@ -113,59 +132,18 @@ export const createMatch = async ({
   const id = [];
   for (const [name, value] of formData) {
     if (name === 'id') {
-      id.push(value);
+      id.push({ id: value });
     }
   }
-  console.log(id);
   const requestObject = Object.fromEntries(formData);
-  if (getCookie('jwt')) {
-    console.log(params.id, requestObject);
-    return redirect('/pending');
-  } else return redirect('/login');
-};
-
-// Maybe Move to Credits Service
-export const createRequest = async ({ params }: { params: any }) => {
-  if (getCookie('jwt')) {
-    const pibo = await getPIBOData({ params });
-    if (!pibo) {
-      throw new Error('No PIBO found');
-    }
-    return {
-      category: pibo.category,
-      status: 'R',
-      credits: Array(pibo.category.length).fill(0),
-    };
+  const body = {
+    selling_price: requestObject.sellingCost,
+    request: { id: params.id },
+    assets: id,
+  };
+  const response = await API.post('/transactions', body);
+  if (response.status !== 200) {
+    throw new Error('Something went wrong');
   }
-  return redirect('/login');
-};
-
-export const upsertRequest = async ({
-  params,
-  request,
-}: {
-  params: any;
-  request: any;
-}) => {
-  const requestObject = Object.fromEntries(await request.formData());
-  if (getCookie('jwt')) {
-    console.log(params.id, requestObject);
-    return redirect('/pending');
-  } else return redirect('/login');
-};
-
-export const getMatches = async ({ params }: { params: any }) => {
-  if (getCookie('jwt')) {
-    const request = (await getPendingData({ params })) as any;
-    if (!request) {
-      throw new Error('No Request found');
-    }
-    console.log(request);
-    const creditMatches = await getMatchForCategory(request.category);
-    console.log(creditMatches);
-    return {
-      data: creditMatches,
-    };
-  }
-  return redirect('/login');
+  return redirect('/pending');
 };

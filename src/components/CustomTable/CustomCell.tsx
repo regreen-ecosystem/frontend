@@ -5,6 +5,7 @@ import { ColumnDetails, ColumnType } from './types/CustomTableProps';
 import { ReactComponent as User } from '../../assets/images/user.svg';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { Form, useSubmit } from 'react-router-dom';
+import { byString } from '../../commons/functions';
 
 const useStyles = makeStyles()((theme) => ({
   detailsContainer: {
@@ -78,8 +79,17 @@ const CustomCell: React.FC<{
   row: any;
   column: ColumnDetails;
   statusEnum?: { [key: string]: string };
-  id: string;
-}> = ({ row, column, statusEnum, id }) => {
+  statusDisabled?: string[];
+  buttonDisabled?: string[];
+  statusQuery?: string;
+}> = ({
+  row,
+  column,
+  statusEnum,
+  statusDisabled,
+  buttonDisabled,
+  statusQuery,
+}) => {
   const { classes } = useStyles();
   return (
     <TableCell key={column.field} className={classes.cell}>
@@ -89,39 +99,44 @@ const CustomCell: React.FC<{
             <User scale={0.6} />
             <div className={classes.nameBody}>
               <Typography className={classes.above}>
-                {row[column.field]}
+                {byString(row, column.field)}
               </Typography>
               <Typography variant='body2' className={classes.below}>
-                {row[column.field2 as keyof typeof row]}
+                {byString(row, column.field2 as string)}
               </Typography>
             </div>
           </div>
         ) : null}
         {column.type === ColumnType.TEXT ? (
-          <Typography className={classes.text}>{row[column.field]}</Typography>
+          <Typography className={classes.text}>
+            {byString(row, column.field)}
+          </Typography>
         ) : null}
         {column.type === ColumnType.DETAILS ? (
           <DetailsView
-            main={row[column.field]}
-            secondary={row[column.field2 as keyof typeof row]}
+            main={byString(row, column.field)}
+            secondary={byString(row, column.field2 as string)}
           />
         ) : null}
         {column.type === ColumnType.BUTTON ? (
           <ButtonView
-            title={column.title ?? row[column.field]}
+            title={column.title ?? byString(row, column.field)}
             action={column.action ?? ''}
-            id={id}
+            id={row.id}
+            statusQuery={statusQuery}
+            buttonDisabled={buttonDisabled}
+            row={row}
           />
         ) : null}
         {column.type === ColumnType.DATE ? (
-          <DateTimeView date={row[column.field]} />
+          <DateTimeView date={byString(row, column.field)} />
         ) : null}
         {column.type === ColumnType.NUMBER ? (
-          <NumberView number={row[column.field]} />
+          <NumberView number={byString(row, column.field)} />
         ) : null}
         {column.type === ColumnType.ACCORDIAN ? (
           <AccordianView
-            title={column.title ?? row[column.field]}
+            title={column.title ?? byString(row, column.field)}
             onClick={() => {
               return;
             }}
@@ -129,9 +144,11 @@ const CustomCell: React.FC<{
         ) : null}
         {column.type === ColumnType.STATUS && statusEnum ? (
           <StatusView
-            status={row[column.field]}
+            status={byString(row, column.field)}
             statusEnum={statusEnum}
-            id={id}
+            id={row.id}
+            detailsId={byString(row, column.detailsId as string)}
+            statusDisabled={statusDisabled}
           />
         ) : null}
       </>
@@ -167,20 +184,35 @@ const AccordianView: React.FC<{
   );
 };
 
-const DateTimeView: React.FC<{ date: Date }> = ({ date }) => {
+const DateTimeView: React.FC<{ date: string }> = ({ date }) => {
   const { classes } = useStyles();
-  return <Typography className={classes.text}>{date.toISOString()}</Typography>;
+  const dateObject = new Date(date);
+  const ukFormat = dateObject.toLocaleDateString('en-GB', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  });
+  return <Typography className={classes.text}>{ukFormat}</Typography>;
 };
 
-const ButtonView: React.FC<{ title: string; action: string; id: string }> = ({
-  title,
-  action,
-  id,
-}) => {
+const ButtonView: React.FC<{
+  title: string;
+  action: string;
+  id: string;
+  statusQuery?: string;
+  buttonDisabled?: string[];
+  row?: any;
+}> = ({ title, action, id, statusQuery, buttonDisabled, row }) => {
   const { classes } = useStyles();
   return (
     <Form action={id + action}>
-      <Button className={classes.buttonView} type='submit'>
+      <Button
+        className={classes.buttonView}
+        type='submit'
+        disabled={buttonDisabled?.includes(
+          byString(row, statusQuery ?? 'status')
+        )}
+      >
         {title}
       </Button>
     </Form>
@@ -196,11 +228,13 @@ const StatusView: React.FC<{
   status: string;
   statusEnum: { [key: string]: string };
   id: string;
-}> = ({ status, statusEnum, id }) => {
+  detailsId: number;
+  statusDisabled?: string[];
+}> = ({ status, statusEnum, id, detailsId, statusDisabled }) => {
   const submit = useSubmit();
   const { classes } = useStyles();
   return (
-    <Form method='POST' id={'status-form'}>
+    <Form method='POST' id={'status-form'} action={`${id}/edit`}>
       <NativeSelect
         className={classes.statusSelect}
         defaultValue={status}
@@ -209,6 +243,7 @@ const StatusView: React.FC<{
         onChange={(event) => {
           submit(event.currentTarget.form);
         }}
+        disabled={statusDisabled?.includes(status)}
       >
         {Object.keys(statusEnum).map((key) => {
           return (
@@ -218,7 +253,7 @@ const StatusView: React.FC<{
           );
         })}
       </NativeSelect>
-      <input name='id' value={id} readOnly hidden />
+      <input name='id' value={detailsId} readOnly hidden />
     </Form>
   );
 };

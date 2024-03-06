@@ -24,6 +24,7 @@ import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
 import { Form } from 'react-router-dom';
+import { byString } from '../../commons/functions';
 
 const useStyles = makeStyles()((theme) => ({
   root: {
@@ -153,6 +154,11 @@ const CustomTable: React.FC<CustomTableProps> = ({
   statusEnum,
   editMenu,
   deleteMenu,
+  onSelect,
+  statusQuery,
+  editDisabled,
+  statusDisabled,
+  buttonDisabled,
 }) => {
   const { classes } = useStyles();
   const [page, setPage] = React.useState(0);
@@ -168,7 +174,6 @@ const CustomTable: React.FC<CustomTableProps> = ({
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const handleMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
-    console.log(event);
     setAnchorEl(event.currentTarget);
   };
   const handleMenuClose = () => {
@@ -199,7 +204,16 @@ const CustomTable: React.FC<CustomTableProps> = ({
     setPage(0);
     return data.filter((row) => {
       return searchableColumns.some((value) => {
-        return String(row[value.field]).toLowerCase().includes(searchValue);
+        if (value.field2)
+          return String(
+            byString(row, value.field) + ' ' + byString(row, value.field2)
+          )
+            .toLowerCase()
+            .includes(searchValue);
+        else
+          return String(byString(row, value.field))
+            .toLowerCase()
+            .includes(searchValue);
       });
     });
   }, [searchValue]);
@@ -289,6 +303,11 @@ const CustomTable: React.FC<CustomTableProps> = ({
                           className={classes.checkboxContainer}
                           name='id'
                           value={row['id'] as number}
+                          onChange={(event, checked) => {
+                            if (onSelect) {
+                              onSelect(event, checked, row['id'] as number);
+                            }
+                          }}
                         />
                       </TableCell>
                     ) : null}
@@ -300,7 +319,8 @@ const CustomTable: React.FC<CustomTableProps> = ({
                           column={column}
                           key={column.field}
                           statusEnum={statusEnum}
-                          id={row['id'] as string}
+                          statusDisabled={statusDisabled}
+                          buttonDisabled={buttonDisabled}
                         />
                       );
                     })}
@@ -310,9 +330,13 @@ const CustomTable: React.FC<CustomTableProps> = ({
                         <IconButton
                           onClick={(e) => {
                             setMenuId(row['id'] as number);
-                            console.log(menuId);
                             handleMenuOpen(e);
                           }}
+                          disabled={editDisabled?.some((status) => {
+                            return (
+                              byString(row, statusQuery ?? 'status') === status
+                            );
+                          })}
                         >
                           <MoreHorizIcon />
                         </IconButton>

@@ -13,64 +13,52 @@ const columnDefs: Array<ColumnDetails> = [
     label: 'Company Name',
     type: ColumnType.NAME,
     minWidth: 80,
-    field: 'companyName',
+    field: 'details.name',
     searchable: true,
-    field2: 'email',
+    field2: 'details.email',
   },
   {
     label: 'Address',
     type: ColumnType.DETAILS,
     minWidth: 80,
-    field: 'state',
-    field2: 'pincode',
+    field: 'details.state',
+    field2: 'details.pincode',
   },
-  {
-    label: 'Category',
-    type: ColumnType.DETAILS,
-    minWidth: 80,
-    field: 'category',
-    field2: 'type',
-  },
+  // {
+  //   label: 'Category',
+  //   type: ColumnType.DETAILS,
+  //   minWidth: 80,
+  //   field: 'category',
+  //   field2: 'type',
+  // },
   {
     label: 'Contact',
     type: ColumnType.TEXT,
     minWidth: 80,
-    field: 'contact',
+    field: 'details.phone_number',
+    searchable: true,
   },
   {
     label: 'Unique ID',
     type: ColumnType.TEXT,
     minWidth: 80,
-    field: 'uniqueID',
+    field: 'details.uid',
   },
   {
     label: 'Last Updated',
     type: ColumnType.DATE,
     minWidth: 80,
-    field: 'lastUpdated',
+    field: 'updatedAt',
     sortable: true,
     defaultSort: true,
   },
-  // {
-  //   label: 'Credits',
-  //   type: ColumnType.NUMBER,
-  //   minWidth: 80,
-  //   field: 'credits',
-  //   sortable: true,
-  //   defaultSort: false,
-  // },
   {
     label: 'Status',
     type: ColumnType.STATUS,
     minWidth: 80,
-    field: 'status',
+    field: 'details.status',
+    detailsId: 'details.id',
   },
-  // {
-  //   label: 'Transactions',
-  //   type: ColumnType.ACCORDIAN,
-  //   minWidth: 80,
-  //   field: 'transactions',
-  // },
   {
     label: 'Add Credit',
     type: ColumnType.BUTTON,
@@ -109,15 +97,7 @@ const PWP: React.FC = () => {
         statusEnum={PWPstatus}
         editMenu={true}
         deleteMenu={true}
-      >
-        {/* <CustomButton
-          title='Add Credits'
-          minWidth='90px'
-          onClick={() => console.log('Add PWP')}
-        >
-          <AddIcon className={classes.icon} />
-        </CustomButton> */}
-      </CustomTable>
+      ></CustomTable>
     </>
   );
 };

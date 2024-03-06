@@ -88,7 +88,7 @@ const useStyles = makeStyles()((theme) => ({
 const RequestDetailsPage: React.FC<{ title: string }> = ({ title }) => {
   const { classes } = useStyles();
   const navigate = useNavigate();
-  const data = useLoaderData() as any;
+  const data = (useLoaderData() as any).data;
 
   return (
     <>
@@ -114,6 +114,7 @@ const RequestDetailsPage: React.FC<{ title: string }> = ({ title }) => {
                   className={classes.select}
                   defaultValue={data.status ?? 'R'}
                   type='text'
+                  readOnly={true}
                 >
                   {Object.keys(PendingStatus).map((status) => (
                     <MenuItem key={status} value={status}>
@@ -122,39 +123,53 @@ const RequestDetailsPage: React.FC<{ title: string }> = ({ title }) => {
                   ))}
                 </Select>
               </div>
-              {Array.isArray(data.category) ? (
-                data.category.map((category: string, index: number) => {
-                  return (
-                    <CustomTextInput
-                      title={
-                        PlasticCategory[
-                          category as keyof typeof PlasticCategory
-                        ]
-                      }
-                      key={category}
-                      minWidth='18vw'
-                      placeholder='Enter Amount'
-                      name={category}
-                      defaultValue={data.credits[index] ?? '0'}
-                      type='number'
-                    />
-                  );
-                })
+              {Array.isArray(data.plastic_type.split(',')) ? (
+                data.plastic_type
+                  .split(',')
+                  .map((category: string, index: number) => {
+                    return (
+                      <CustomTextInput
+                        title={
+                          PlasticCategory[
+                            category as keyof typeof PlasticCategory
+                          ]
+                        }
+                        key={category}
+                        minWidth='18vw'
+                        placeholder='Enter Amount'
+                        name={category}
+                        defaultValue={data.credits[index] ?? '0'}
+                        type='number'
+                        disabled={data.status === 'I' || data.status === 'C'}
+                      />
+                    );
+                  })
               ) : (
                 <CustomTextInput
                   title={
                     PlasticCategory[
-                      data.category as keyof typeof PlasticCategory
+                      data.plastic_type as keyof typeof PlasticCategory
                     ]
                   }
-                  key={data.category}
+                  key={data.plastic_type}
                   minWidth='18vw'
                   placeholder='Enter Amount'
-                  name={data.category}
-                  defaultValue={data.credits ?? '0'}
+                  name={data.plastic_type}
+                  defaultValue={data.total_credits ?? '0'}
                   type='number'
+                  disabled={data.status === 'I' || data.status === 'C'}
                 />
               )}
+              {data.status === 'I' ? (
+                <CustomTextInput
+                  title='Enter Cost'
+                  minWidth='18vw'
+                  placeholder='Enter Price'
+                  name='selling_price'
+                  defaultValue={data.selling_price ?? '0'}
+                  type='number'
+                />
+              ) : null}
               <div className={classes.buttonContainer}>
                 <Button
                   variant='outlined'

@@ -76,6 +76,13 @@ const useStyles = makeStyles()((theme) => ({
       color: theme.palette.common.white,
     },
   },
+  textRow: {
+    display: 'flex',
+    flexDirection: 'row',
+    // justifyContent: 'space-between',
+    margin: '1rem 0rem',
+    gap: '1rem',
+  },
 }));
 
 const CreditDetailsPage: React.FC<{ title: string }> = ({ title }) => {
@@ -117,17 +124,32 @@ const CreditDetailsPage: React.FC<{ title: string }> = ({ title }) => {
               </div> */}
               {data.category.map((category: string, index: number) => {
                 return (
-                  <CustomTextInput
-                    title={
-                      PlasticCategory[category as keyof typeof PlasticCategory]
-                    }
-                    key={category}
-                    minWidth='18vw'
-                    placeholder='Enter Amount'
-                    name={category}
-                    defaultValue={data.credits[index] ?? '0'}
-                    type='number'
-                  />
+                  <div key={category} className={classes.textRow}>
+                    <CustomTextInput
+                      title={
+                        PlasticCategory[
+                          category as keyof typeof PlasticCategory
+                        ]
+                      }
+                      minWidth='18vw'
+                      placeholder='Enter Amount'
+                      name={category}
+                      defaultValue={data.credits[index] ?? '0'}
+                      type='number'
+                    />
+                    <CustomTextInput
+                      title={
+                        PlasticCategory[
+                          category as keyof typeof PlasticCategory
+                        ] + ' Cost'
+                      }
+                      minWidth='18vw'
+                      placeholder='Enter Cost'
+                      name={`cost${category}`}
+                      defaultValue={data.cost[index] ?? '0'}
+                      type='number'
+                    />
+                  </div>
                 );
               })}
               <div className={classes.buttonContainer}>

@@ -8,16 +8,15 @@ import PIBO from '../containers/Admin/PIBO';
 import PWP from '../containers/Admin/PWP';
 import Dashboard from '../containers/Admin/Dashboard';
 import PIBODetailsPage from '../containers/Admin/PIBO/PIBODetailsPage';
-import { createPIBO, createPWP } from '../commons/types';
 import PWPDetailsPage from '../containers/Admin/PWP/PWPDetailsPage';
-import { getUserLoggedIn, login } from '../services/auth';
+import { getUserLoggedIn, login, logout } from '../services/auth';
 import {
   createPIBOData,
   deletePIBOData,
   getPIBOData,
   getPIBOTableData,
   updatePIBOData,
-  updatePIBOStatus,
+  createPIBO,
 } from '../services/pibo';
 import {
   createPWPData,
@@ -25,22 +24,29 @@ import {
   getPWPData,
   getPWPTableData,
   updatePWPData,
-  updatePWPStatus,
+  createPWP,
 } from '../services/pwp';
 import {
+  createMatch,
   createRequest,
+  getMatches,
   getPendingData,
   getPendingTableData,
-  upsertRequest,
-  updatePendingStatus,
-  getMatches,
-  createMatch,
+  // getMatches,
+  // createMatch,
+  insertRequest,
+  updateRequest,
 } from '../services/pending';
-import { updateMatchedStatus } from '../services/matched';
+import {
+  getIndividualMatchedData,
+  getMatchedData,
+  updateMatchedStatus,
+} from '../services/matched';
 import RequestDetailsPage from '../containers/Admin/PIBO/RequestDetailsPage';
-import { createCredit, upsertCredit } from '../services/credit';
+import { createCredit, insertCredit, updateCredit } from '../services/credit';
 import CreditDetailsPage from '../containers/Admin/PWP/CreditDetailsPage';
 import Matching from '../containers/Admin/Matching';
+import MatchedDetailsPage from '../containers/Admin/Matched/MatchedDetailsPage';
 
 const router = createBrowserRouter([
   {
@@ -55,20 +61,17 @@ const router = createBrowserRouter([
       {
         path: '/pibo',
         loader: getPIBOTableData,
-        action: updatePIBOStatus,
         element: <PIBO />,
       },
       {
         path: '/pwp',
         loader: getPWPTableData,
-        action: updatePWPStatus,
         element: <PWP />,
       },
       {
         path: '/pending',
         element: <Pending />,
         loader: getPendingTableData,
-        action: updatePendingStatus,
       },
       {
         path: '/pending/:id/match',
@@ -80,6 +83,12 @@ const router = createBrowserRouter([
         path: '/matched',
         element: <Matched />,
         action: updateMatchedStatus,
+        loader: getMatchedData,
+      },
+      {
+        path: '/matched/:id/details',
+        element: <MatchedDetailsPage />,
+        loader: getIndividualMatchedData,
       },
     ],
   },
@@ -87,6 +96,10 @@ const router = createBrowserRouter([
     path: '/login',
     element: <Login />,
     action: login,
+  },
+  {
+    path: '/logout',
+    loader: logout,
   },
   {
     path: '/pibo',
@@ -110,7 +123,7 @@ const router = createBrowserRouter([
       {
         path: '/pibo/:id/addRequest',
         loader: createRequest,
-        action: upsertRequest,
+        action: insertRequest,
         element: <RequestDetailsPage title='Add New Request' />,
       },
     ],
@@ -137,7 +150,7 @@ const router = createBrowserRouter([
       {
         path: '/pwp/:id/addCredits',
         loader: createCredit,
-        action: upsertCredit,
+        action: insertCredit,
         element: <CreditDetailsPage title='Add Credit' />,
       },
     ],
@@ -149,7 +162,7 @@ const router = createBrowserRouter([
         path: '/pending/:id/edit',
         element: <RequestDetailsPage title='Edit Request' />,
         loader: getPendingData,
-        action: upsertRequest,
+        action: updateRequest,
       },
     ],
   },

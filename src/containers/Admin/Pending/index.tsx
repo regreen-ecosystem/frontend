@@ -12,22 +12,22 @@ const columnDefs: Array<ColumnDetails> = [
     label: 'Company Name',
     type: ColumnType.NAME,
     minWidth: 80,
-    field: 'companyName',
+    field: 'pibo.details.name',
     searchable: true,
-    field2: 'email',
+    field2: 'pibo.details.email',
   },
   {
     label: 'Category',
     type: ColumnType.DETAILS,
     minWidth: 80,
-    field: 'category',
+    field: 'plastic_type',
     field2: 'type',
   },
   {
     label: 'Unique ID',
     type: ColumnType.TEXT,
     minWidth: 80,
-    field: 'uniqueID',
+    field: 'pibo.details.uid',
   },
   {
     label: 'Credits',
@@ -42,6 +42,7 @@ const columnDefs: Array<ColumnDetails> = [
     type: ColumnType.STATUS,
     minWidth: 80,
     field: 'status',
+    detailsId: 'pibo.details.id',
   },
   {
     label: 'Find a Match',
@@ -79,15 +80,10 @@ const Pending: React.FC = () => {
         data={data}
         statusEnum={PendingStatus}
         editMenu={true}
-      >
-        {/* <CustomButton
-          title='Add Requests'
-          minWidth='90px'
-          onClick={() => console.log('Add PWP')}
-        >
-          <AddIcon className={classes.icon} />
-        </CustomButton> */}
-      </CustomTable>
+        statusQuery='status'
+        statusDisabled={['R', 'X']}
+        buttonDisabled={['I', 'C', 'X']}
+      ></CustomTable>
     </>
   );
 };

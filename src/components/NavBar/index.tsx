@@ -10,13 +10,15 @@ import {
   Typography,
 } from '@mui/material';
 import React from 'react';
-import { ReactComponent as Logo } from '../../assets/images/regreen-ecosystem-logo.svg';
+import { ReactComponent as Logo } from '../../assets/images/company-logo.svg';
 import { makeStyles } from 'tss-react/mui';
-import { NavLink } from 'react-router-dom';
+import { NavLink, Form } from 'react-router-dom';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
 import AddCircleOutlineOutlinedIcon from '@mui/icons-material/AddCircleOutlineOutlined';
 import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
+import ExitToAppIcon from '@mui/icons-material/ExitToApp';
+import { getCookie } from 'typescript-cookie';
 
 const useStyles = makeStyles()((theme) => ({
   root: {
@@ -139,7 +141,7 @@ const ResponsiveNavBar: React.FC = () => {
                   <AccountCircleOutlinedIcon />
                   <div className={classes.buttonText}>
                     <Typography className={classes.buttonHeading}>
-                      {'Alexander'}
+                      {getCookie('username')}
                     </Typography>
                     <Typography className={classes.buttonTitle}>
                       {'Admin'}
@@ -164,16 +166,28 @@ const ResponsiveNavBar: React.FC = () => {
               horizontal: 'center',
             }}
           >
-            <MenuItem onClick={handleClose}>
-              <AddCircleOutlineOutlinedIcon className={classes.icon} />
-              <Typography className={classes.menuText}>
-                {'Add Manager'}
-              </Typography>
-            </MenuItem>
-            <MenuItem onClick={handleClose}>
-              <SettingsOutlinedIcon className={classes.icon} />
-              <Typography className={classes.menuText}>{'Settings'}</Typography>
-            </MenuItem>
+            <Form action='/add-manager'>
+              <Button onClick={handleClose} type='button'>
+                <AddCircleOutlineOutlinedIcon className={classes.icon} />
+                <Typography className={classes.menuText}>
+                  {'Add Manager'}
+                </Typography>
+              </Button>
+            </Form>
+            <Form action='/settings'>
+              <Button onClick={handleClose} type='button'>
+                <SettingsOutlinedIcon className={classes.icon} />
+                <Typography className={classes.menuText}>
+                  {'Settings'}
+                </Typography>
+              </Button>
+            </Form>
+            <Form action='/logout'>
+              <Button onClick={handleClose} type='submit'>
+                <ExitToAppIcon className={classes.icon} />
+                <Typography className={classes.menuText}>{'Logout'}</Typography>
+              </Button>
+            </Form>
           </Menu>
         </Toolbar>
       </Container>

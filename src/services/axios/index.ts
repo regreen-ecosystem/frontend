@@ -12,7 +12,7 @@ const API = () => {
   });
 
   instance.interceptors.request.use((params) => {
-    const token = getCookie('jwtToken');
+    const token = getCookie('jwt');
     if (token) params.headers.Authorization = token ? `Bearer ${token}` : '';
     return params;
   });
@@ -20,7 +20,6 @@ const API = () => {
   instance.interceptors.response.use(
     (response) => {
       if (response.status === 401) {
-        console.log('You are not authorized');
         redirect('/login');
       }
       return response;

@@ -18,7 +18,6 @@ export const getPendingData = async ({ params }: { params: any }) => {
   const request = await API.get(`/requests/${params.id}`);
   if (request.status === 200) {
     request.data.credits = [request.data.credits];
-    console.log(request.data);
     return { data: request.data };
   } else {
     throw new Error('Something went wrong');
@@ -49,7 +48,6 @@ export const updateRequest = async ({
   request: any;
 }) => {
   const requestObject = Object.fromEntries(await request.formData());
-  console.log(requestObject);
   for (const key of Object.keys(PlasticCategory)) {
     if (requestObject[key] && requestObject[key] > 0) {
       const body = {
@@ -117,7 +115,6 @@ export const getMatches = async ({ params }: { params: any }) => {
     const matches = await API.get(
       `/assets/filter?plastic_type=${data.plastic_type}&credits=0`
     );
-    console.log(matches.data);
     return { data: matches.data, request: request.data };
   } else {
     throw new Error('Something went wrong');
@@ -144,7 +141,6 @@ export const createMatch = async ({
     request: { id: params.id },
     assets: id,
   };
-  console.log(body);
   const response = await API.post('/transactions', body);
   if (response.status !== 200) {
     throw new Error('Something went wrong');

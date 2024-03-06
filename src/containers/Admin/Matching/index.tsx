@@ -77,10 +77,6 @@ const Matching: React.FC = () => {
   const [open, setOpen] = React.useState(false);
   const handleClose = () => setOpen(false);
 
-  useEffect(() => {
-    console.log(cost);
-  }, [cost]);
-
   return (
     <>
       <Typography
@@ -114,7 +110,6 @@ const Matching: React.FC = () => {
               let newCost = 0;
               if (formData) {
                 formData.getAll('id').forEach((id) => {
-                  console.log(id);
                   const asset = data.find((row: any) => row.id === Number(id));
                   const allotedCredits = Math.min(newRemaining, asset.credits);
                   newRemaining -= allotedCredits;
@@ -179,7 +174,6 @@ const Matching: React.FC = () => {
                       e.currentTarget?.form &&
                       new FormData(e.currentTarget.form);
                     if (!submitRef?.current?.form) {
-                      console.log('Form not found');
                       setOpen(false);
                       return;
                     }

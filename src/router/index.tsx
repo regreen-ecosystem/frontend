@@ -37,11 +37,16 @@ import {
   insertRequest,
   updateRequest,
 } from '../services/pending';
-import { getMatchedData, updateMatchedStatus } from '../services/matched';
+import {
+  getIndividualMatchedData,
+  getMatchedData,
+  updateMatchedStatus,
+} from '../services/matched';
 import RequestDetailsPage from '../containers/Admin/PIBO/RequestDetailsPage';
 import { createCredit, insertCredit, updateCredit } from '../services/credit';
 import CreditDetailsPage from '../containers/Admin/PWP/CreditDetailsPage';
 import Matching from '../containers/Admin/Matching';
+import MatchedDetailsPage from '../containers/Admin/Matched/MatchedDetailsPage';
 
 const router = createBrowserRouter([
   {
@@ -79,6 +84,11 @@ const router = createBrowserRouter([
         element: <Matched />,
         action: updateMatchedStatus,
         loader: getMatchedData,
+      },
+      {
+        path: '/matched/:id/details',
+        element: <MatchedDetailsPage />,
+        loader: getIndividualMatchedData,
       },
     ],
   },

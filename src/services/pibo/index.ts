@@ -62,7 +62,6 @@ export const updatePIBOData = async ({
 
 export const deletePIBOData = async ({ params }: { params: any }) => {
   if (getCookie('jwt')) {
-    console.log(params.id);
     return redirect('/pibo');
   }
   return redirect('/login');

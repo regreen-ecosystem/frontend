@@ -33,16 +33,10 @@ const columnDefs: Array<ColumnDetails> = [
     label: 'Credits',
     type: ColumnType.NUMBER,
     minWidth: 80,
-    field: 'total_credits',
+    field: 'credits',
     sortable: true,
     defaultSort: true,
   },
-  // {
-  //   label: 'Total PWPs',
-  //   type: ColumnType.TEXT,
-  //   minWidth: 80,
-  //   field: 'totalPWPs',
-  // },
   {
     label: 'Status',
     type: ColumnType.STATUS,
@@ -51,15 +45,16 @@ const columnDefs: Array<ColumnDetails> = [
     detailsId: 'pibo.details.id',
   },
   {
-    label: 'PWPs List',
+    label: 'Details',
     type: ColumnType.BUTTON,
     minWidth: 80,
     field: 'pwpList',
     title: 'View',
+    action: '/details',
   },
 ];
 
-enum MatchedStatus {
+export enum MatchedStatus {
   R = 'To be Registered',
   C = 'Certificate Issued',
 }

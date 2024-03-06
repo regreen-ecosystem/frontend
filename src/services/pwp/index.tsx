@@ -62,7 +62,6 @@ export const updatePWPData = async ({
 
 export const deletePWPData = async ({ params }: { params: any }) => {
   if (getCookie('jwt')) {
-    console.log(params.id);
     return redirect('/pwp');
   }
   return redirect('/login');

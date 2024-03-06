@@ -55,7 +55,6 @@ export const insertCredit = async ({
 }) => {
   const requestObject = Object.fromEntries(await request.formData());
   const pwp = { id: params.id };
-  console.log(requestObject);
   for (const key of Object.keys(PlasticCategory)) {
     if (requestObject[key] && requestObject[key] > 0) {
       const body = {

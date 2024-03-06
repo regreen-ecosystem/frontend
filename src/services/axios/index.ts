@@ -20,7 +20,6 @@ const API = () => {
   instance.interceptors.response.use(
     (response) => {
       if (response.status === 401) {
-        console.log('You are not authorized');
         redirect('/login');
       }
       return response;

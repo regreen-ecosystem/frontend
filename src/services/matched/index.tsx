@@ -18,6 +18,11 @@ export const updateMatchedStatus = async ({
 export const getMatchedData = async () => {
   const response = await API.get('/requests/matched');
   if (response.status !== 200) throw new Error('Something went wrong!');
-  console.log(response.data);
+  return { data: response.data };
+};
+
+export const getIndividualMatchedData = async ({ params }: { params: any }) => {
+  const response = await API.get(`/transactions/${params.id}`);
+  if (response.status !== 200) throw new Error('Something went wrong!');
   return { data: response.data };
 };

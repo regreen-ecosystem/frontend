@@ -28,8 +28,8 @@ const options = {
       display: false,
     },
     legend: {
-        display: false,
-    }
+      display: false,
+    },
   },
   responsive: true,
   barThickness: '35',
@@ -41,9 +41,9 @@ const options = {
   scales: {
     x: {
       stacked: false,
-      grid:{
-        display:false
-      }
+      grid: {
+        display: false,
+      },
     },
     y: {
       stacked: false,
@@ -51,29 +51,34 @@ const options = {
   },
 };
 
-const labels = ['December'+"'"+"22", 'March'+"'"+"23", 'June'+"'"+"23", 'September'+"'"+"23"];
+const labels = [
+  'December' + "'" + '22',
+  'March' + "'" + '23',
+  'June' + "'" + '23',
+  'September' + "'" + '23',
+];
 
 const data1 = {
   labels,
   datasets: [
-    {  
-      data: [19000,26000,21000,18000],
+    {
+      data: [19000, 26000, 21000, 18000],
       backgroundColor: '#6CB4EE',
       stack: 'Stack 0',
     },
     {
-      data: [13000,15000,17000,14000],
+      data: [13000, 15000, 17000, 14000],
       backgroundColor: '#55DD33',
       stack: 'Stack 1',
-    }
-    ]
+    },
+  ],
 };
 
 const data = [
-  { value: 56, label: 'Category I' },
-  { value: 22, label: 'Category II' },
-  { value: 8, label: 'Category III' },
-  { value: 16, label: 'Category IV' },
+  { value: 287, label: 'Category I' },
+  { value: 376, label: 'Category II' },
+  // { value: 8, label: 'Category III' },
+  // { value: 16, label: 'Category IV' },
 ];
 
 const StyledText = styled('text')(({ theme }) => ({
@@ -81,7 +86,7 @@ const StyledText = styled('text')(({ theme }) => ({
   textAnchor: 'middle',
   dominantBaseline: 'central',
   fontSize: 25,
-  fontWeight: "bold"
+  fontWeight: 'bold',
 }));
 
 function PieCenterLabel({ children }: { children: React.ReactNode }) {
@@ -94,13 +99,19 @@ function PieCenterLabel({ children }: { children: React.ReactNode }) {
 }
 
 export function CreditExch() {
-    return <Bar options={options} data={data1} />;
+  return <Bar options={options} data={data1} />;
 }
 
 export function PlasticTypes() {
   return (
-    <PieChart series={[{ data, innerRadius: 97.5}]} 
-    sx={{"--ChartsLegend-rootOffsetX": "-10px","--ChartsLegend-itemMarkSize":"15px",'--ChartsLegend-rootSpacing': "25px"}} >
+    <PieChart
+      series={[{ data, innerRadius: 97.5 }]}
+      sx={{
+        '--ChartsLegend-rootOffsetX': '-10px',
+        '--ChartsLegend-itemMarkSize': '15px',
+        '--ChartsLegend-rootSpacing': '25px',
+      }}
+    >
       <PieCenterLabel>56</PieCenterLabel>
     </PieChart>
   );

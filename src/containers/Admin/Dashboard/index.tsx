@@ -99,12 +99,12 @@ const Dashboard: React.FC = () => {
           <PeopleAltOutlinedIcon />
           <div className={classes.textContainer}>
             <div className={classes.titleContainer}>
-              <Typography className={classes.num}>{'231'}</Typography>
+              <Typography className={classes.num}>{'17'}</Typography>
               <Typography className={classes.numTitle}>{'PIBOs'}</Typography>
             </div>
-            <Typography className={classes.head}>{'Monthly active'}</Typography>
+            <Typography className={classes.head}>{'Yearly active'}</Typography>
             <Typography className={classes.desc}>
-              {'Total registered: 456'}
+              {'Total registered: 17'}
             </Typography>
           </div>
         </div>
@@ -112,40 +112,40 @@ const Dashboard: React.FC = () => {
           <PeopleAltOutlinedIcon />
           <div className={classes.textContainer}>
             <div className={classes.titleContainer}>
-              <Typography className={classes.num}>{'115'}</Typography>
+              <Typography className={classes.num}>{'4'}</Typography>
               <Typography className={classes.numTitle}>{'PWPs'}</Typography>
             </div>
-            <Typography className={classes.head}>{'Monthly active'}</Typography>
+            <Typography className={classes.head}>{'Yearly active'}</Typography>
             <Typography className={classes.desc}>
-              {'Total registered: 257'}
+              {'Total registered: 4'}
             </Typography>
           </div>
         </div>
         <div className={classes.boxes}>
           <ShareOutlinedIcon />
-          <Typography className={classes.num}>{'164'}</Typography>
-          <Typography className={classes.head}>{'Monthly Matches'}</Typography>
-          <Typography className={classes.desc}>{'Last Month: 119'}</Typography>
+          <Typography className={classes.num}>{'0'}</Typography>
+          <Typography className={classes.head}>{'Yearly Matches'}</Typography>
+          <Typography className={classes.desc}>{'Last Year: 8'}</Typography>
         </div>
         <div className={classes.boxes}>
           <DescriptionOutlinedIcon />
-          <Typography className={classes.num}>{'15'}</Typography>
+          <Typography className={classes.num}>{'0'}</Typography>
           <Typography className={classes.head}>{'PIBO Bills'}</Typography>
           <Typography className={classes.desc}>
-            {'Bills cleared yearly: 512'}
+            {'Bills cleared yearly: 8'}
           </Typography>
         </div>
         <div className={classes.boxes} style={{ marginRight: 0 }}>
           <DescriptionOutlinedIcon />
-          <Typography className={classes.num}>{'--'}</Typography>
+          <Typography className={classes.num}>{'0'}</Typography>
           <Typography className={classes.head}>{'PWP Bills'}</Typography>
           <Typography className={classes.desc}>
-            {'Bills cleared yearly: 315'}
+            {'Bills cleared yearly: 8'}
           </Typography>
         </div>
       </div>
       <div className={classes.root}>
-        <div className={classes.box1}>
+        {/* <div className={classes.box1}>
           <div>
             <Typography className={classes.title} style={{ margin: 0 }}>
               {'Quarterly Credit Exchange'}
@@ -158,7 +158,7 @@ const Dashboard: React.FC = () => {
             </Typography>
           </div>
           <CreditExch />
-        </div>
+        </div> */}
         <div className={classes.box2}>
           <Typography
             className={classes.title}
